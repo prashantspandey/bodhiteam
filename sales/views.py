@@ -116,7 +116,12 @@ class FeedbackCreateView(View):
         feedback.priceQuoted = request.POST.get("pricequoted")
         feedback.save()
         messages.success(request, 'Feedback saved successfully')
-        return redirect('/sales/leaddata')
+        return redirect('/sales/Get_my_worked_leads')
+
+def GetMyFeedbackesLeadWise(request,lead_id):
+    feedbacks = FeedBack.objects.filter(lead=lead_id)
+
+    return render(request,'sales/AllFeedbackes.html',{'feedbackes':feedbacks})
 
 def logoutview(request):
     auth.logout(request)

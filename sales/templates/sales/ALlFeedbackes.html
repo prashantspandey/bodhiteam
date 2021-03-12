@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>all lead</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class=" {{ message.tags }} "> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h3 style="text-align: center;">Here You are check Your feedbacked leads wise</h3>
+    <a href="/sales/feedback" ><button>Create another feedback </button></a>
+    <a href="/sales/logout"><button>logout here</button></a>
+    <div class="container" id="all_leads">
+        <div class="row">
+                {% for i in feedbackes %}
+            <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Key</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>typeFeedBack</td>
+        <td>{{i.typeFeedBack}}</td>
+    </tr>
+    <tr>
+      <td>By</td>
+        <td>{{i.by}}</td>
+    </tr>
+    <tr>
+      <td>lead</td>
+        <td>{{i.lead}}</td>
+    </tr>
+    <tr>
+      <td>Time</td>
+        <td>{{i.time}}</td>
+    </tr>
+    <tr>
+      <td>Ratinf</td>
+        <td>{{i.rating}}</td>
+    </tr>
+    <tr>
+      <td>Notes</td>
+        <td>{{i.notes}}</td>
+    </tr>
+    <tr>
+      <td>NextCall</td>
+        <td>{{i.nextCall}}</td>
+    </tr>
+    <tr>
+      <td>NextCallDate</td>
+        <td>{{i.nextCallDate}}</td>
+    </tr>
+    <tr>
+      <td>Demo</td>
+        <td>{{i.demo}}</td>
+    </tr>
+    <tr>
+      <td>DemoDate</td>
+        <td>{{i.demoDate}}</td>
+    </tr>
+    <tr>
+      <td>Feedback</td>
+        <td>{{i.feedback}}</td>
+    </tr>
+    <tr>
+      <td>FurtherCall</td>
+        <td>{{i.furtherCall}}</td>
+    </tr>
+    <tr>
+      <td>priceQuoted</td>
+        <td>{{i.priceQuoted}}</td>
+    </tr>
+      </tbody>
+</table>
+                {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

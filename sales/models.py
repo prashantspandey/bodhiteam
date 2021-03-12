@@ -43,5 +43,8 @@ class FeedBack(models.Model):
     priceQuoted = models.FloatField(default=12000)
 
     def __str__(self):
-        return self.by.name + ' ' + str(lead.personName)
+        return self.by.name
+
+    # def __str__(self):
+    #     return self.by.name + ' ' + str(lead.personName)
 

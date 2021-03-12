@@ -19,8 +19,6 @@ class GetMyNewLeads(APIView):
         context = {'leads':leads_list}
         return Response(context)
 
-
-
 class GetMyNewLeadsDateWise(APIView):
     def post(self,request,*args,**kwargs):
         my_profile = self.request.user.salesexecutive
@@ -38,28 +36,33 @@ class GetMyNewLeadsDateWise(APIView):
         context = {'leads':leads_list,'date':str(main_date)}
         return Response(context)
 
-
-
 class GiveLeadFeedBack(APIView):
     def post(self,request,*args,**kwargs):
         my_profile = self.request.user.salesexecutive
         data = request.data
+        demoDate = data['demoDate']
+        feedback = data['feedback']
         lead_id = data['lead_id']
+        notes = data['notes']
         demo = data['demo']
+        typeFeedBack = data['typeFeedBack']
+        priceQuoted = data['priceQuoted']
+        executiveId = data['executiveId']
+        nextCallDate = data['nextCallDate']
         furtherCall = data['furtherCall']
         rating = data['rating']
         if demo == 'true':
             demo = True
         else:
             demo = False
-        if demo ==True:
-            demoDate = data['demoDate']
-        feedback = data['feedback']
-        typeFeedBack = data['typeFeedBack']
-        priceQuoted = data['priceQuoted']
-        executiveId = data['executiveId']
-        executive = SaledExecutive.objects.get(id=executiveId)
+        if furtherCall == 'true':
+            furtherCall = True
+        else:
+            furtherCall = False
+
+        executive = SalesExecutive.objects.get(id=executiveId)
         lead = Lead.objects.get(id=lead_id)
+
         feedback = FeedBack()
         feedback.by = my_profile
         feedback.typeFeedBack = typeFeedBack
@@ -72,10 +75,10 @@ class GiveLeadFeedBack(APIView):
         feedback.furtherCall = furtherCall
         feedback.priceQuoted = priceQuoted
         feedback.nextCall = executive
+        feedback.nextCallDate = nextCallDate
         feedback.save()
         context = {'status':'Saved','message':'Feedback saved'}
         return Response(context)
-
 
 class FindTypeFeedBack(APIView):
     def post(self,request,*args,**kwargs):
@@ -89,7 +92,6 @@ class FindTypeFeedBack(APIView):
         context = {'typeFeedback':typeFeedBack}
         return Response(context)
 
-
 class GetAllSalesExecutives(APIView):
     def get(self,request):
         sales_people = SalesExecutive.objects.all()
@@ -99,8 +101,6 @@ class GetAllSalesExecutives(APIView):
             sales_list.append(sp_dict)
         context = {'salesPeople':sales_list}
         return Response(context)
-
-
 
 class GetWorkedLeads(APIView):
     def get(self,request):
@@ -118,7 +118,6 @@ class GetWorkedLeads(APIView):
                 pass
         context = {'Leads':leads_list}
         return Response(context)
-
 
 class GetSpecificFeedback(APIView):
     def post(self,request,*args,**kwargs):

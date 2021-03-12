@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
+    # 'channels',
     'membership',
     'sales',
     'tech',
@@ -78,7 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bodhiteam.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -92,6 +91,17 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default.
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'bodhiaiteamp_db',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 # Password validation

@@ -11,5 +11,6 @@ urlpatterns = [
     path('logout',views.logoutview,name='logout'),
     path('Get_my_all_leads',views.GetMyAllLeadView,name='Get_my_all_leads'),
     path('Get_my_worked_leads',views.GetMyWorkedLeadsView,name='Get_my_worked_leads'),
+    path('Get_my_feedbackes_lead_wise/<int:lead_id>/',views.GetMyFeedbackesLeadWise,name='GetMyFeedbackesLeadWise'),
     url(r'feedback/$',views.FeedbackCreateView.as_view(),name='feedback'),
 ]

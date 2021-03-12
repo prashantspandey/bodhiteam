@@ -10,12 +10,13 @@
     </style>
 </head>
 <body>
+    <h1 style="text-align: center;">Feedback Creating</h1>
     <form action="{% url 'sales:feedback' %}" method="POST">
         {% csrf_token %}
         <div class="form-row">
           <div class="col-md-4 mb-3 formfield">
             <label for="validationDefault01">TypeFeedBack</label>
-            <input type="number" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
+            <input type="text" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
           </div>
           <div class="col-md-4 mb-3 formfield">
             <label for="validationDefault02">By</label>
