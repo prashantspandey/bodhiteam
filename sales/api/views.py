@@ -40,7 +40,6 @@ class GiveLeadFeedBack(APIView):
     def post(self,request,*args,**kwargs):
         my_profile = self.request.user.salesexecutive
         data = request.data
-        demoDate = data['demoDate']
         feedback = data['feedback']
         lead_id = data['lead_id']
         notes = data['notes']
@@ -48,9 +47,15 @@ class GiveLeadFeedBack(APIView):
         typeFeedBack = data['typeFeedBack']
         priceQuoted = data['priceQuoted']
         executiveId = data['executiveId']
-        nextCallDate = data['nextCallDate']
         furtherCall = data['furtherCall']
+        nextCallDate = data['nextCallDate']
+        demoDate = data['demoDate']
         rating = data['rating']
+        if nextCallDate == 'None':
+            nextCallDate = None
+        if demoDate == 'None':
+            demoDate = None
+
         if demo == 'true':
             demo = True
         else:

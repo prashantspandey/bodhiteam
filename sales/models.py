@@ -35,9 +35,9 @@ class FeedBack(models.Model):
     notes = models.TextField()
     nextCall = \
     models.ForeignKey(SalesExecutive,related_name='feedback_nextcall',blank=True,null=True,on_delete=models.CASCADE)
-    nextCallDate = models.DateTimeField()
+    nextCallDate = models.DateTimeField(blank=True,null=True)
     demo = models.BooleanField(default = False)
-    demoDate = models.DateTimeField()
+    demoDate = models.DateTimeField(blank=True,null=True)
     feedback = models.CharField(max_length=100)
     furtherCall = models.BooleanField()
     priceQuoted = models.FloatField(default=12000)
