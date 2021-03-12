@@ -100,3 +100,35 @@ class GetAllSalesExecutives(APIView):
         context = {'salesPeople':sales_list}
         return Response(context)
 
+
+
+class GetWorkedLeads(APIView):
+    def get(self,request):
+        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive).order_by('-date')
+        leads_list = []
+        for i in leads:
+            if FeedBack.objects.filter(lead=i.id).exists():
+                lead = leads.get(id=i.id)
+                leads_dict = {'lead_id': lead.id, 'PersonName': lead.personName, 'InstituteName': lead.instituteName,
+                              'Date': lead.date, 'ContactPhone': lead.contactPhone,
+                              'email': lead.email, 'NumberStudents': lead.numberStudents, 'location': lead.location,
+                              'notes': lead.notes, 'source': lead.source, 'assignedTo': str(lead.assignedTo)}
+                leads_list.append(leads_dict)
+            else:
+                pass
+        context = {'Leads':leads_list}
+        return Response(context)
+
+
+class GetSpecificFeedback(APIView):
+    def post(self,request,*args,**kwargs):
+        lead_id = request.data['lead_id']
+        feedback = FeedBack.objects.filter(lead=lead_id)
+        feedback_list = []
+        for feedback in feedback:
+            feedback_dict = {'typeFeedBack':feedback.typeFeedBack,'by':str(feedback.by),'lead':str(feedback.lead),'time':feedback.time,
+                             'rating':feedback.rating,'notes':feedback.notes,'nextCall':str(feedback.nextCall),'nextCallDate':feedback.nextCallDate,
+                             'demo':feedback.demo,'demoDate':feedback.demoDate,'feedback':feedback.feedback,'furtherCall':feedback.furtherCall,'priceQuoted':feedback.priceQuoted}
+            feedback_list.append(feedback_dict)
+        context = {'feedbacks':feedback_list}
+        return Response(context)

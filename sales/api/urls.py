@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'give_feedback_lead/$',views.GiveLeadFeedBack.as_view(),name='giveLeadFeedBack'),
     url(r'find_type_feedback/$',views.FindTypeFeedBack.as_view(),name='findTypeFeedBack'),
     url(r'get_all_sales_people/$',views.GetAllSalesExecutives.as_view(),name='getAllSalesExecutive'),
-
+    url(r'get_my_worked_leads/$', views.GetWorkedLeads.as_view(), name='get_my_all_leads'),
+    url(r'get_specific_feedback/$', views.GetSpecificFeedback.as_view(), name='get_my_feedback'),
 ]
