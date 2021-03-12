@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My worked leads</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class=" {{ message.tags }} "> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <a href="/sales/logout"><button>logout here</button></a>
+    <div class="container" id="all_leads">
+        <div class="row">
+            {% for i in allworkedleads %}
+            <div class="col-lg-4">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body" style="border:black; border-width:2px; border-style:solid;">
+                        <h4 class="card-title">name : {{i.personName}}</h4>
+                        <h4 class="card-title">contact : {{i.contactPhone}}</h4>
+                        <h4 class="card-title">instituteName : {{i.instituteName}}</h4>
+                        <h4 class="card-title">date : {{i.date}}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">'email' :{{i.email}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">'notes' :{{i.notes}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">'email' :{{i.email}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">'source' :{{i.source}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">'assignedTo' :{{i.assignedTo}}</h6>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                        <a href="/sales/feedback" class="card-link">Check feedback</a>
+                        <!-- <a href="#" class="card-link">Another link</a> -->
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

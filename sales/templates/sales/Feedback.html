@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <style>
+        .formfield{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="{% url 'sales:feedback' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-md-4 mb-3 formfield">
+            <label for="validationDefault01">TypeFeedBack</label>
+            <input type="number" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
+          </div>
+          <div class="col-md-4 mb-3 formfield">
+            <label for="validationDefault02">By</label>
+            <select name="userby" id="">
+                <option value="">---------</option>
+                {% for user in SalesExecutiveUser %}
+                <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+                {% endfor %}
+              </select>
+          </div>
+          <div class="col-md-4 mb-3 formfield">
+            <label for="validationDefaultUsername">Lead</label>         
+              <select name="leadsname" required="" id="id_executiveUser">
+                <option value="">---------</option>
+                {% for lead in leads %}
+                <option value="{{lead.id}}">{{lead.personName}}</option>
+                {% endfor %}
+              </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3 formfield">
+            <label for="validationDefault03">Time</label>
+            <input type="datetime-local" class="form-control" name="time" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault04">Rating</label>
+            <input type="text" class="form-control"  placeholder="Enter rating" name="rating" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">Notes</label>
+            <input type="text" class="form-control" name="notes" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">Next call</label>
+            <select name="nextcalluser" id="">
+                <option value="">---------</option>
+                {% for user in SalesExecutiveUser %}
+                <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+                {% endfor %}
+              </select>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">NextCallDate</label>
+            <input type="datetime-local" class="form-control" name="nextcalldate" placeholder="Zip" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">Demo</label>
+            <input class="form-check-input" type="checkbox" name="demo" id="invalidCheck2">
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">DemoDate</label>
+            <input type="datetime-local" class="form-control" name="demodate" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">Feedback</label>
+            <input type="text" class="form-control" name="feedback" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">FurtherCall</label>
+            <input class="form-check-input" type="checkbox" name="furthercall">
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">PriceQuoted</label>
+            <input type="text" class="form-control" name="pricequoted"  required>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </form>
+</body>
+</html>

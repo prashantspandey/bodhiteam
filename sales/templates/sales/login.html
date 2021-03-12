@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <style>
+        .formclass{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class=" {{ message.tags }} "> {{ message }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form action="{% url 'sales:login' %}" method="POST" id="loginform">
+        {% csrf_token %}
+        <div class="group-input formclass">
+            <label for="username">Username *</label>
+            <input type="text" name="UserName" id="username" required>
+        </div>
+        <div class="group-input formclass">
+            <label for="pass">Password *</label>
+            <input type="password" name="Password" id="password" required>
+        </div>
+        <button type="submit" class="site-btn login-btn">Sign In</button>
+    </form>
+</body>
+</html>
