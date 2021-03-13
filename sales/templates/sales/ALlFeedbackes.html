@@ -16,13 +16,19 @@
     </ul>
     {% endif %}
 
-    <h3 style="text-align: center;">Here You are check Your feedbacked leads wise</h3>
-    <a href="/sales/feedback" ><button>Create another feedback </button></a>
-    <a href="/sales/logout"><button>logout here</button></a>
-    <div class="container" id="all_leads">
+    <h3 style="text-align: center;">Here You are check Your Feedbacked and Demo's leads wise</h3>
+    <div style="text-align: center;">
+        <a href="/sales/feedback/?next={{request.GET.next}}"><button>Create another feedback </button></a>
+        <a href="/sales/demo_creating/?next={{request.GET.next}}"><button>Create another Demo </button></a>
+        <a href="/sales/logout"><button>logout here</button></a>
+    </div>
+
+    <div class="container" style=" margin-top: 40px;" id="all_leads">
         <div class="row">
+            <div class="col-lg-6">
+                <h2 style="text-align: center;">Feedbacke's</h2>
                 {% for i in feedbackes %}
-            <table class="table">
+            <table class="table" style="border:black; border-width:2px; border-style:solid;">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Key</th>
@@ -85,7 +91,61 @@
       </tbody>
 </table>
                 {% endfor %}
+            </div>
+            <div class="col-lg-6">
+                <h2 style="text-align: center;">Demo's</h2>
+                {% for demo in demos %}
+            <table class="table" style="border:black; border-width:2px; border-style:solid;>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Key</th>
+      <th scope="col">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>typedemo</td>
+        <td>{{demo.typedemo}}</td>
+    </tr>
+    <tr>
+      <td>By</td>
+        <td>{{demo.by}}</td>
+    </tr>
+    <tr>
+      <td>lead</td>
+        <td>{{demo.lead}}</td>
+    </tr>
+    <tr>
+      <td>demo_rating</td>
+        <td>{{demo.demo_rating}}</td>
+    </tr>
+    <tr>
+      <td>demo_feedback</td>
+        <td>{{demo.demo_feedback}}</td>
+    </tr>
+    <tr>
+      <td>extra_notes</td>
+        <td>{{demo.extra_notes}}</td>
+    </tr>
+    <tr>
+      <td>price_quoted</td>
+        <td>{{demo.price_quoted}}</td>
+    </tr>
+    <tr>
+      <td>demo_nextCall</td>
+        <td>{{demo.demo_nextCall}}</td>
+    </tr>
+    <tr>
+      <td>demo_nextCallDate</td>
+        <td>{{demo.demo_nextCallDate}}</td>
+    </tr>
+      </tbody>
+</table>
+                {% endfor %}
+
+            </div>
         </div>
     </div>
+
 </body>
 </html>

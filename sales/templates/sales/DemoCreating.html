@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feedback</title>
+    <style>
+        .formfield{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Demo Creating</h1>
+    <form action="{% url 'sales:demo_creating' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="col-md-4 mb-3 formfield">
+            <label for="validationDefault01">TypeDemoFeedBack</label>
+            <input type="text" class="form-control" id="validationDefault01" name="typedemo" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault04">demo_rating</label>
+            <input type="text" class="form-control"  placeholder="Enter rating" name="demo_rating" required>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">demo_feedback</label>
+            <input type="text" class="form-control" name="demo_feedback" required>
+          </div>
+            <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">extra_notes</label>
+            <input type="text" class="form-control" name="extra_notes" required>
+          </div>
+            <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">price_quoted</label>
+            <input type="text" class="form-control" name="price_quoted" required>
+          </div>
+
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">demo_nextCall</label>
+            <select name="demo_nextCall" id="">
+                <option value="">---------</option>
+                {% for user in SalesExecutiveUser %}
+                <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+                {% endfor %}
+              </select>
+          </div>
+          <div class="col-md-3 mb-3 formfield">
+            <label for="validationDefault05">demo_nextCallDate</label>
+            <input type="datetime-local" class="form-control" name="demo_nextCallDate" placeholder="Zip">
+          </div>
+        </div>
+        {% if request.GET.next %}
+        <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% endif %}
+        <button class="btn btn-primary" type="submit">Submit form</button>
+      </form>
+</body>
+</html>

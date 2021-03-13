@@ -13,6 +13,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+
     <h1 style="text-align: center;"> Your all Worked Leads</h1>
     <a href="/sales/logout"><button>logout here</button></a>
     <div class="container" id="all_leads">
@@ -31,8 +32,8 @@
                         <h6 class="card-subtitle mb-2 text-muted">'source' :{{i.source}}</h6>
                         <h6 class="card-subtitle mb-2 text-muted">'assignedTo' :{{i.assignedTo}}</h6>
                         <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/" class="card-link">Check feedback</a>
-                        <!-- <a href="#" class="card-link">Another link</a> -->
+                        <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/?next={{i.id}}" class="card-link">Check feedback and demo</a>
+
                     </div>
                 </div>
             </div>

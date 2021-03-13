@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from membership.models import *
+from django.core.validators import MaxValueValidator
 # Create your models here.
 
 
@@ -17,7 +18,7 @@ class Lead(models.Model):
     assignedTo =\
     models.ForeignKey(SalesExecutive,related_name='lead_assign',blank=True,null=True,on_delete=models.CASCADE)
     workedBy =\
-    models.ManyToManyField(SalesExecutive,related_name='lead_second_assign')
+    models.ManyToManyField(SalesExecutive,related_name='lead_second_assign',blank=True,null=True)
 
 
     def __str__(self):
@@ -43,8 +44,23 @@ class FeedBack(models.Model):
     priceQuoted = models.FloatField(default=12000)
 
     def __str__(self):
-        return self.by.name
+        return self.by.name + ' ' + self.lead.personName
 
-    # def __str__(self):
-    #     return self.by.name + ' ' + str(lead.personName)
+class DemoFeedback(models.Model):
+    typedemo = models.IntegerField()
+    by = models.ForeignKey(SalesExecutive, related_name='demo_person', blank=True, null=True,on_delete=models.CASCADE)
+    lead = models.ForeignKey(Lead, related_name='demo_lead', on_delete=models.CASCADE)
+    demo_rating = models.IntegerField(validators=[MaxValueValidator(5)])
+    demo_feedback = models.CharField(max_length=100)
+    extra_notes = models.TextField(blank=True,null=True)
+    price_quoted = models.FloatField(default=12000)
+    datetime = models.DateTimeField(default=timezone.now())
+    demo_nextCall = models.ForeignKey(SalesExecutive, related_name='demo_nextcall', blank=True, null=True,on_delete=models.CASCADE)
+    demo_nextCallDate = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return self.by.name + ' ' + self.lead.personName
+
+    class Meta:
+        verbose_name = "DemoFeedback"
+        verbose_name_plural = "DemoFeedbacks"

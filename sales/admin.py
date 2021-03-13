@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Lead)
 admin.site.register(FeedBack)
+admin.site.register(DemoFeedback)

@@ -124,7 +124,7 @@ class GetWorkedLeads(APIView):
         context = {'Leads':leads_list}
         return Response(context)
 
-class GetSpecificFeedback(APIView):
+class GetSpecificFeedbackOrDemos(APIView):
     def post(self,request,*args,**kwargs):
         lead_id = request.data['lead_id']
         feedback = FeedBack.objects.filter(lead=lead_id)
@@ -134,5 +134,40 @@ class GetSpecificFeedback(APIView):
                              'rating':feedback.rating,'notes':feedback.notes,'nextCall':str(feedback.nextCall),'nextCallDate':feedback.nextCallDate,
                              'demo':feedback.demo,'demoDate':feedback.demoDate,'feedback':feedback.feedback,'furtherCall':feedback.furtherCall,'priceQuoted':feedback.priceQuoted}
             feedback_list.append(feedback_dict)
-        context = {'feedbacks':feedback_list}
-        return Response(context)
+
+        demos_list = []
+        try:
+            demos = DemoFeedback.objects.filter(lead=lead_id)
+            for demo in demos:
+                demo_dict = {'typedemo':demo.typedemo,'by':str(demo.by),'lead':str(demo.lead),'demo_rating':demo.demo_rating,
+                              'demo_feedback':demo.demo_feedback,'extra_notes':demo.extra_notes,'price_quoted':demo.price_quoted,
+                              'datetime':demo.datetime,'demo_nextCall':str(demo.demo_nextCall),'demo_nextCallDate':demo.demo_nextCallDate}
+                demos_list.append(demo_dict)
+            context = {'feedbacks':feedback_list,'demos':demos_list}
+            return Response(context)
+        except DemoFeedback.DoesNotExist:
+            context = {'feedbacks': feedback_list,'demos':demos_list}
+            return Response(context)
+
+class GiveDemoFeedBack(APIView):
+    def post(self,request):
+        lead_id = request.data['lead_id']
+        my_profile = self.request.user.salesexecutive
+        lead = Lead.objects.get(id=lead_id)
+        demofeedback = DemoFeedback(typedemo=request.data['typedemo'], by=my_profile, lead=lead,
+                                    datetime=datetime.datetime.now(),
+                                    demo_rating=request.data['demo_rating'],
+                                    extra_notes=request.data['extra_notes'],
+                                    demo_feedback=request.data['demo_feedback'],
+                                    price_quoted=request.data['price_quoted'])
+        if request.data['demo_nextCall'] == None:
+            demofeedback.demo_nextCall = SalesExecutive.objects.get(id=request.data['demo_nextCall'])
+        else:
+            demofeedback.demo_nextCall = None
+
+        if request.data['demo_nextCallDate'] == None:
+            demofeedback.demo_nextCallDate = request.data['demo_nextCallDate']
+        else:
+            demofeedback.demo_nextCallDate = None
+        demofeedback.save()
+        return Response({'status':'Saved','message':'Demo saved'})

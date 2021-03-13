@@ -95,7 +95,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'bodhiaiteamp_db',
+#         'NAME': 'bodhiteam_db',
 #         'USER': 'root',
 #         'PASSWORD': '',
 #         'HOST': 'localhost',
