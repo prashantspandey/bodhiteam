@@ -74,6 +74,7 @@ def loginView(request):
 
 def GetMyNewLeadView(request):
     try:
+        request.user.salesexecutive
         leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).order_by('-date')
         leads_list = []
         for i in leads:
@@ -81,24 +82,25 @@ def GetMyNewLeadView(request):
                 leads_list.append(leads.get(id=i.id))
         return render(request,'sales/lead.html',{"leads":leads_list})
     except:
-        return render('/sales/login')
+        return redirect('/sales/login')
 
 def GetMyWorkedLeadsView(request):
     try:
+        request.user.salesexecutive
         leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).order_by('-date')
         leads_list = []
         for i in leads:
             if FeedBack.objects.filter(lead=i.id).exists():
                 lead = leads.get(id=i.id)
                 leads_list.append(lead)
-        return render(request,'sales/WorkedLeads.html',{'allworkedleads':leads_list})
+        return render(request, 'sales/Workedleads.html', {'allworkedleads': leads_list})
     except:
         return redirect('/sales/login')
 
 class FeedbackCreateView(View):
     def get(self,request):
         users = SalesExecutive.objects.all()
-        return render(request,'sales/feedback.html',{'SalesExecutiveUser':users})
+        return render(request,'sales/Feedback.html',{'SalesExecutiveUser':users})
 
     def post(self,request):
         demo = request.POST.get("demo")
@@ -168,7 +170,7 @@ class DemoCreatingView(View):
 def GetMyFeedbackesLeadWise(request,lead_id):
     feedbacks = FeedBack.objects.filter(lead=lead_id)
     demos = DemoFeedback.objects.filter(lead=lead_id)
-    return render(request,'sales/AllFeedbackes.html',{'feedbackes':feedbacks,'demos':demos})
+    return render(request,'sales/ALlFeedbackes.html',{'feedbackes':feedbacks,'demos':demos})
 
 def logoutview(request):
     auth.logout(request)
