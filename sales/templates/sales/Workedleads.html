@@ -1,11 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>My worked leads</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <style>
+         #intro-example {
+            height: 400px;
+        }
+
+        .tagnameclr {
+            color: white;
+            font-size: 3ch;
+            margin-left: 50px;
+        }
+
+        @media (min-width: 992px) {
+            #intro-example {
+                height: 600px;
+            }
+        }
+        .panel-order .row {
+            border-bottom: 1px solid #ccc;
+        }
+        .panel-order .row:last-child {
+            border: 0px;
+        }
+        .panel-order .row .col-md-1 {
+            text-align: center;
+            padding-top: 15px;
+        }
+        .panel-order .row .col-md-1 img {
+            width: 50px;
+            max-height: 50px;
+        }
+        .panel-order .row .row {
+            border-bottom: 0;
+        }
+        .panel-order .row .col-md-11 {
+            border-left: 1px solid #ccc;
+        }
+        .panel-order .row .row .col-md-12 {
+            padding-top: 7px;
+            padding-bottom: 7px;
+        }
+        .panel-order .row .row .col-md-12:last-child {
+            font-size: 11px;
+            color: #555;
+            background: #efefef;
+        }
+        .panel-order .btn-group {
+            margin: 0px;
+            padding: 0px;
+        }
+        .panel-order .panel-body {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+        .panel-order .panel-deading {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
+
 <body>
+    <header>
+        <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+            <a class="navbar-brand tagnameclr"
+                style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+                href="/">Bodhi Ai</a>
+            <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active tagnameclr" href="/">Home <span
+                            class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+                    <a class="nav-item nav-link tagnameclr">My Profile</a>
+                    <a href="/sales/logout">
+                        <button class="tagnameclr"
+                            style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -14,9 +98,8 @@
     </ul>
     {% endif %}
 
-    <h1 style="text-align: center;"> Your all Worked Leads</h1>
-    <a href="/sales/logout"><button>logout here</button></a>
-    <div class="container" id="all_leads">
+    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Your all Worked Leads</h1>
+    <!-- <div class="container" id="all_leads">
         <div class="row">
             {% for i in allworkedleads %}
             <div class="col-lg-4">
@@ -31,14 +114,63 @@
                         <h6 class="card-subtitle mb-2 text-muted">'email' :{{i.email}}</h6>
                         <h6 class="card-subtitle mb-2 text-muted">'source' :{{i.source}}</h6>
                         <h6 class="card-subtitle mb-2 text-muted">'assignedTo' :{{i.assignedTo}}</h6>
-                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
-                        <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/?next={{i.id}}" class="card-link">Check feedback and demo</a>
+                        <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/?next={{i.id}}" class="card-link">Check
+                            feedback and demo</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div> -->
 
+    <div class="container bootdey" style="margin-top: 30px;">
+        <div class="panel panel-default panel-order">
+            <div class="panel-heading">
+                <strong>Worked Leads</strong>
+            </div>
+            {% for i in allworkedleads %}
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-1">
+                        <img src="https://bootdey.com/img/Content/user_1.jpg" class="media-object img-thumbnail" />
+                    </div>
+                    <div class="col-md-11">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/?next={{i.id}}" style="height: 110px;">
+                                    <div class="pull-right">
+                                        <label class="label label-danger">
+                                            Check Feedback & Demo
+                                        </label>
+                                    </div>
+                                </a>
+                                <span><strong>{{i.personName}}</strong></span><br/>
+                                Contact : {{i.contactPhone}} <br/>
+                                Email : {{i.email}} <br />
+
+                                <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
+                                    href="#" title="View"></a>
+                                <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
+                                    href="tel:{{i.contactPhone}}" title="Danger"></a>
+                                <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
+                                    href="mailto:{{i.email}}" title="Danger"></a>
+                            </div>
+                            <div class="col-md-12">Lead made on: {{i.date}} </div>
+                        </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+
+
+
+
+
+
+
+
 </body>
+
 </html>

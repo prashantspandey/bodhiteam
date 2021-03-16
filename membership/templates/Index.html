@@ -4,25 +4,72 @@
 <head>
 
     <meta charset="UTF-8">
-    <title>all lead</title>
+    <title>Home-BodhiAi </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        #intro-example {
+            height: 400px;
+        }
+
+        .tagnameclr {
+            color: white;
+            font-size: 3ch;
+            margin-left: 50px;
+        }
+
+        @media (min-width: 992px) {
+            #intro-example {
+                height: 600px;
+            }
+        }
+        #footer {
+            position: fixed;
+            height: 50px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 
-
 <body>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class=" {{ message.tags }} "> {{ message }} </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    <div style=" text-align: center;">
-        <h1>This is home page </h1>
-        <a href="/sales/Get_my_all_leads"><button>My New leads</button></a></br>
-        <a href="/sales/Get_my_worked_leads"><button>My worked Leads</button></a></br>
-        <a href=""><button>My profile</button></a>
-    </div>
+    <header>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class=" {{ message.tags }} "> {{ message }} </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+            <a class="navbar-brand tagnameclr"
+                style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+                href="/">Bodhi Ai</a>
+            <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active tagnameclr" href="/">Home <span
+                            class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+                    <a class="nav-item nav-link tagnameclr">My Profile</a>
+                    <a href="/sales/logout">
+                        <button class="tagnameclr"
+                            style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- Background image -->
+        <div id="intro-example" class="p-5 text-center bg-image"
+            style="background-image: url('https://static.wixstatic.com/media/2ccf66_fdbc7875588c44fdb065c55bb319ee57~mv2.jpg/v1/fill/w_1035,h_456,al_c,lg_1,q_90/2ccf66_fdbc7875588c44fdb065c55bb319ee57~mv2.webp'); height: 400px; width: 1400px; margin-left: 70px; ">
+        </div>
+        <!-- Background image -->
+    </header>
+    
 </body>
 
 </html>

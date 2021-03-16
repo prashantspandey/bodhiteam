@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Login Form</title>
+    <title>Feedback</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
-        .formclass{
+        body {
+            /* background-color: lightblue; */
+            /* background-color: #17a2b81a; */
+        }
+        .maincls {
+            /* background-color: rgb(20 15 15 / 76%); */
+            background-color: #6c757dad;
+            border-radius: 1ch;
+            width: 500px;
+            height: 230px;
+        }
+        .subcls {
+            margin-top: 20px;
+        }
+        .formfield {
             margin: 10px;
         }
     </style>
 </head>
-<body>
 {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -17,17 +32,30 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <form action="{% url 'sales:login' %}" method="POST" id="loginform">
-        {% csrf_token %}
-        <div class="group-input formclass">
-            <label for="username">Username *</label>
-            <input type="text" name="UserName" id="username" required>
+    <div id="intro-example" class="p-5 text-center bg-image"
+        style=" margin-top: 150px; background-image: url('https://alexwebdevelop.com/wp-content/uploads/2019/08/php-login-and-authentication-the-definitive-guide.png'); height: 400px; width: 1400px; margin-left: 70px; ">
+        <h1 style="font-size: 50px; text-align: center; font-family: Georgia, 'Times New Roman', Times, serif;">Login</h1>
+        <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
+            <div class="div subcls">
+                <form action="{% url 'sales:login' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row" style="color: white; width: 400px; margin-left: 35px;" >
+                        <div class="form-group">
+                            <label for="inputEmail4" style="margin-right: 390px;">Username</label>
+                            <input type="text" class="form-control" placeholder="Enter username" name="UserName">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword4" style="margin-right: 390px;">Password</label>
+                            <input type="password" class="form-control" name="Password" required
+                                placeholder="Enter password">
+                        </div>
+                        <button type="submit" id="submitbtnid" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="group-input formclass">
-            <label for="pass">Password *</label>
-            <input type="password" name="Password" id="password" required>
-        </div>
-        <button type="submit" class="site-btn login-btn">Sign In</button>
-    </form>
+    </div>
+<body>
 </body>
+
 </html>

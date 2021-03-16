@@ -1,94 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Feedback</title>
-    <style>
-        .formfield{
-            margin: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Feedback</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    body{
+      background-image: url("https://www.teahub.io/photos/full/313-3132029_linkedin-wallpaper-wallpapersafari-background-image-for-form-in.jpg");
+      /* background-image: url("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"); */
+    }    
+    .maincls{
+      background-color: wheat;
+      border-radius: 5ch;
+    }
+    .subcls{
+      margin-top: 20px;
+    }
+    .formfield {
+      margin: 10px;
+
+    }
+    #feedbackbtnid{
+      margin-left: 500px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
+
 <body>
-    <h1 style="text-align: center;">Feedback Creating</h1>
-    <form action="{% url 'sales:feedback' %}" method="POST">
+  <h1 style="text-align: center; color: white;">Feedback Creating</h1>
+  <!-- <form action="{% url 'sales:feedback' %}" method="POST">
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="col-md-4 mb-3 formfield">
+        <label for="validationDefault01">TypeFeedBack</label>
+        <input type="text" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault04">Rating</label>
+        <input type="text" class="form-control" placeholder="Enter rating" name="rating" required>
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">Notes</label>
+        <input type="text" class="form-control" name="notes" required>
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">Next call</label>
+        <select name="nextcalluser" id="">
+          <option value="">---------</option>
+          {% for user in SalesExecutiveUser %}
+          <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">NextCallDate</label>
+        <input type="datetime-local" class="form-control" name="nextcalldate" placeholder="Zip">
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">Demo</label>
+        <input class="form-check-input" type="checkbox" name="demo" id="invalidCheck2">
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">DemoDate</label>
+        <input type="datetime-local" class="form-control" name="demodate">
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">Feedback</label>
+        <input type="text" class="form-control" name="feedback" required>
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">FurtherCall</label>
+        <input class="form-check-input" type="checkbox" name="furthercall">
+      </div>
+      <div class="col-md-3 mb-3 formfield">
+        <label for="validationDefault05">PriceQuoted</label>
+        <input type="text" class="form-control" name="pricequoted" required>
+      </div>
+    </div>
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% endif %}
+    <button class="btn btn-primary" type="submit">Submit form</button>
+  </form> -->
+
+  <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
+    <div class="div subcls">
+      <form action="{% url 'sales:feedback' %}" method="POST">
         {% csrf_token %}
         <div class="form-row">
-          <div class="col-md-4 mb-3 formfield">
-            <label for="validationDefault01">TypeFeedBack</label>
-            <input type="text" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">TyFeedBack</label>
+            <input type="number" class="form-control" name="TypeFeedBack">
           </div>
-<!--          <div class="col-md-4 mb-3 formfield">-->
-<!--            <label for="validationDefault02">By</label>-->
-<!--            <select name="userby" id="">-->
-<!--                <option value="">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
-<!--                {% for user in SalesExecutiveUser %}-->
-<!--                <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>-->
-<!--                {% endfor %}-->
-<!--              </select>-->
-<!--          </div>-->
-<!--          <div class="col-md-4 mb-3 formfield">-->
-<!--            <label for="validationDefaultUsername">Lead</label>         -->
-<!--              <select name="leadsname" required="" id="id_executiveUser">-->
-<!--                <option value="">-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
-<!--                {% for lead in leads %}-->
-<!--                <option value="{{lead.id}}">{{lead.personName}}</option>-->
-<!--                {% endfor %}-->
-<!--              </select>-->
-<!--          </div>-->
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Rating</label>
+            <input type="number" class="form-control" name="rating" required placeholder="Enter rating">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Extra Notes</label>
+            <input type="text" class="form-control" name="notes" required placeholder="Enter extra notes">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Feedback</label>
+            <input type="text" class="form-control" name="feedback" required placeholder="Enter feedback">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Assign NextCall</label>
+            <select name="nextcalluser" class="form-control">
+              <option value="" selected>Choose...</option>
+              {% for user in SalesExecutiveUser %}
+              <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Next CallDate</label>
+            <input type="datetime-local" class="form-control" name="nextcalldate"
+              placeholder="Enter Date">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Price Quoted</label>
+            <input type="text" class="form-control" name="pricequoted" required placeholder="Enter Price quoted">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">Demo Date</label>
+            <input type="datetime-local" class="form-control" name="demodate" id="inputCity">
+          </div>
         </div>
-        <div class="form-row">
-<!--          <div class="col-md-6 mb-3 formfield">-->
-<!--            <label for="validationDefault03">Time</label>-->
-<!--            <input type="datetime-local" class="form-control" name="time" required>-->
-<!--          </div>-->
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault04">Rating</label>
-            <input type="text" class="form-control"  placeholder="Enter rating" name="rating" required>
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">Notes</label>
-            <input type="text" class="form-control" name="notes" required>
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">Next call</label>
-            <select name="nextcalluser" id="">
-                <option value="">---------</option>
-                {% for user in SalesExecutiveUser %}
-                <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
-                {% endfor %}
-              </select>
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">NextCallDate</label>
-            <input type="datetime-local" class="form-control" name="nextcalldate" placeholder="Zip">
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">Demo</label>
-            <input class="form-check-input" type="checkbox" name="demo" id="invalidCheck2">
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">DemoDate</label>
-            <input type="datetime-local" class="form-control" name="demodate" >
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">Feedback</label>
-            <input type="text" class="form-control" name="feedback" required>
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">FurtherCall</label>
-            <input class="form-check-input" type="checkbox" name="furthercall">
-          </div>
-          <div class="col-md-3 mb-3 formfield">
-            <label for="validationDefault05">PriceQuoted</label>
-            <input type="text" class="form-control" name="pricequoted"  required>
-          </div>
+        <div class="form-group col-lg-" style="margin-left: 20px;">
+            <div class="form-check" style="display: inline-block;">
+              <label class="form-check-label">
+                <input type="checkbox" name="demo"> Demo</label>
+            </div>
+            <div class="form-check" style="display: inline-block; margin-left: 150px;">
+              <label class="form-check-label">
+                <input type="checkbox" name="furthercall"> Further Call</label>
+            </div>
         </div>
         {% if request.GET.next %}
         <input type="hidden" name="next" value="{{request.GET.next}}">
         {% endif %}
-
-        <button class="btn btn-primary" type="submit">Submit form</button>
+        <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit Feedback</button>
       </form>
+    </div>
+  </div>
 </body>
 </html>

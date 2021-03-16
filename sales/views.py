@@ -63,14 +63,19 @@ def loginView(request):
         return render(request,'sales/login.html')
     else:
         username = request.POST.get("UserName")
-        password = request.POST.get("Password")        
+        password = request.POST.get("Password")
         try:
-            user = auth.authenticate(request,username=username,password=password)
+            user = auth.authenticate(request, username=username, password=password)
             auth.login(request, user)
             return redirect('/')
         except:
-            messages.error(request, 'Invalid user')
-            return redirect('/sales/login',)
+            try:
+                User.objects.get(username=username)
+                messages.error(request, 'Incorrect Password')
+                return redirect('/sales/login')
+            except User.DoesNotExist:
+                messages.error(request, 'Incorrect Username')
+                return redirect('/sales/login')
 
 def GetMyNewLeadView(request):
     try:
