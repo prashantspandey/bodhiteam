@@ -6,21 +6,42 @@
   <title>Feedback</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
-    body{
+    body {
       /* background-image: url("https://www.teahub.io/photos/full/313-3132029_linkedin-wallpaper-wallpapersafari-background-image-for-form-in.jpg"); */
       background-image: url("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg");
-    }    
-    .maincls{
+    }
+
+    .maincls {
       background-color: wheat;
       border-radius: 5ch;
     }
-    .subcls{
+
+    .subcls {
       margin-top: 20px;
     }
+
     .formfield {
       margin: 10px;
     }
-    #feedbackbtnid{
+
+    #intro-example {
+      height: 400px;
+    }
+
+    .tagnameclr {
+      color: white;
+      font-size: 3ch;
+      margin-left: 50px;
+    }
+
+    @media (min-width: 992px) {
+      #intro-example {
+        height: 600px;
+      }
+    }
+
+
+    #feedbackbtnid {
       margin-left: 500px;
       margin-bottom: 10px;
     }
@@ -28,6 +49,42 @@
 </head>
 
 <body>
+  <header>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class=" {{ message.tags }} "> {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+      <a class="navbar-brand tagnameclr"
+        style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+        href="/">Bodhi Ai</a>
+      <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
+
+          {% if request.user.salesexecutive %}
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
+          {% else %}
+          <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
+          {% endif %}
+          <a href="/sales/logout">
+            <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+              Logout
+            </button>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
   <h1 style="text-align: center; color: white;">Demo Creating</h1>
   <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
     <div class="div subcls">
@@ -35,20 +92,31 @@
         {% csrf_token %}
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputEmail4">TypeDemoFeedBack</label>
-            <input type="number" class="form-control" name="typedemo">
-          </div>
-          <div class="form-group col-md-6">
             <label for="inputPassword4">Demo rating</label>
             <input type="number" class="form-control" name="demo_rating" required placeholder="Enter rating">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Demo feedback</label>
-            <input type="text" class="form-control" name="demo_feedback" required placeholder="Enter extra notes">
+            <select name="demo_feedback" required class="form-control">
+              <option value="" selected>Choose...</option>
+              <option value="Invalid Number">Invalid Number</option>
+              <option value="Call not recieved">Call not recieved</option>
+              <option value="Not Responding">Not Responding</option>
+              <option value="Not Interested">Not Interested</option>
+              <option value="Not Reachable">Not Reachable</option>
+              <option value="Interested">Interested</option>
+              <option value="Will update when needed">Will update when needed</option>
+              <option value="Call back">Call back</option>
+              <option value="call busy">call busy</option>
+              <option value="switched off">switched off</option>
+              <option value="using other application">using other application</option>
+              <option value="cut call">cut call</option>
+              <option value="Incoming call not available">Incoming call not available</option>
+            </select>
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Extra notes</label>
-            <input type="text" class="form-control" name="extra_notes" required placeholder="Enter feedback">
+            <input type="text" class="form-control" name="extra_notes" placeholder="Enter feedback">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Price quoted</label>
@@ -65,16 +133,16 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Next CallDate</label>
-            <input type="datetime-local" class="form-control" name="demo_nextCallDate"
-              placeholder="Enter Date">
+            <input type="datetime-local" class="form-control" name="demo_nextCallDate" placeholder="Enter Date">
           </div>
         </div>
-        {% if request.GET.next %}
-        <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% if request.GET.lead_id %}
+        <input type="hidden" name="lead_id" value="{{request.GET.lead_id}}">
         {% endif %}
         <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit DemoFeedback</button>
       </form>
     </div>
   </div>
 </body>
+
 </html>

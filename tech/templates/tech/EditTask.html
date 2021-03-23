@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    .maincls {
+      background-color: wheat;
+      border-radius: 5ch;
+    }
+
+    .subcls {
+      margin-top: 20px;
+    }
+
+    .formfield {
+      margin: 10px;
+    }
+
+    #feedbackbtnid {
+      margin-left: 500px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center; color: black;">Edit Task</h1>
+  <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
+    <div class="div subcls">
+      <form action="/tech/edit_task/" method="POST">
+        {% csrf_token %}
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Task Title</label>
+            <input type="text" class="form-control" value="{{get_task_for_edit.task_title}}" name="demo_feedback"
+              readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">About task</label>
+            <input type="text" class="form-control" value="{{get_task_for_edit.task}}" name="extra_notes" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Task_Startdate</label>
+            <input type="text" class="form-control" value="{{get_task_for_edit.taskStart_date}}" name="price_quoted"
+              required>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Task_Enddate</label>
+            <input type="datetime-local" class="form-control" name="task_enddate" required placeholder="Enter end date">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="margin-left: 15px; width: auto;">
+            <label for="inputPassword4">Your issus</label>
+            <input type="text" class="form-control" name="user_issue" placeholder="Enter issue">
+          </div>
+        </div>
+        <div class="form-group col-lg-">
+          <div class="form-check" style="display: inline-block; margin-left: 20px;">
+            <label class="form-check-label">
+              <input type="checkbox" name="is_task_ongoing"> Is task ongoing</label>
+          </div>
+        </div>
+        {% if request.GET.task_id %}
+        <input type="hidden" name="task_id" value="{{request.GET.task_id}}">
+        {% endif %}
+        <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit DemoFeedback</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

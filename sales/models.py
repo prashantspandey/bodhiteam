@@ -34,6 +34,11 @@ class FeedBack(models.Model):
     time = models.DateTimeField(default=timezone.now())
     rating = models.IntegerField()
     notes = models.TextField()
+    Cource = models.CharField(max_length=200,blank=True,null=True)
+    instituteType = models.CharField(max_length=200,blank=True,null=True)
+    State = models.CharField(max_length=200,blank=True,null=True)
+    city = models.CharField(max_length=200,blank=True,null=True)
+    Is_wrongLead = models.BooleanField(default=False)
     nextCall = \
     models.ForeignKey(SalesExecutive,related_name='feedback_nextcall',blank=True,null=True,on_delete=models.CASCADE)
     nextCallDate = models.DateTimeField(blank=True,null=True)
@@ -43,9 +48,12 @@ class FeedBack(models.Model):
     furtherCall = models.BooleanField()
     priceQuoted = models.FloatField(default=12000)
 
-    def __str__(self):
-        return self.by.name + ' ' + self.lead.personName
+    # def __str__(self):
+    #     return self.by.name + ' ' + self.lead.personName
 
+    def __str__(self):
+        return self.lead.personName
+        
 class DemoFeedback(models.Model):
     typedemo = models.IntegerField()
     by = models.ForeignKey(SalesExecutive, related_name='demo_person', blank=True, null=True,on_delete=models.CASCADE)
@@ -64,3 +72,26 @@ class DemoFeedback(models.Model):
     class Meta:
         verbose_name = "DemoFeedback"
         verbose_name_plural = "DemoFeedbacks"
+
+class Massages(models.Model):
+    senderId = models.ForeignKey(SalesExecutive, related_name='sender',on_delete=models.CASCADE)
+    reciverId = models.ForeignKey(SalesExecutive, related_name='reciever', on_delete=models.CASCADE)
+    lead = models.ForeignKey(Lead,on_delete=models.SET_NULL,blank=True,null=True)
+    feedback = models.ForeignKey(FeedBack,on_delete=models.SET_NULL,blank=True,null=True)
+    massage = models.TextField(blank=True,null=True)
+    massagRead = models.BooleanField(default=False) 
+    datetime = models.DateTimeField(default=timezone.now())
+    
+    def __str__(self):
+        return self.senderId.name 
+
+    class Meta:
+        verbose_name = "Massage"
+        verbose_name_plural = "Massages"
+
+class Notification(models.Model):
+    notification_user = models.ForeignKey(SalesExecutive, related_name='user_notification',on_delete=models.CASCADE)
+    sender_user = models.ForeignKey(SalesExecutive, related_name='MessageSender_name', on_delete=models.CASCADE)
+    massage = models.TextField(blank=True,null=True)
+    is_FirstTime = models.BooleanField(default=True) 
+    datetime = models.DateTimeField(default=timezone.now())

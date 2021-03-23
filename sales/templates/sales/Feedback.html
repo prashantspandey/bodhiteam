@@ -6,22 +6,42 @@
   <title>Feedback</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
-    body{
+    body {
       background-image: url("https://www.teahub.io/photos/full/313-3132029_linkedin-wallpaper-wallpapersafari-background-image-for-form-in.jpg");
-      /* background-image: url("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"); */
-    }    
-    .maincls{
+    }
+
+    .maincls {
       background-color: wheat;
       border-radius: 5ch;
     }
-    .subcls{
+
+    .subcls {
       margin-top: 20px;
     }
+
     .formfield {
       margin: 10px;
 
     }
-    #feedbackbtnid{
+
+    #intro-example {
+      height: 400px;
+    }
+
+    .tagnameclr {
+      color: white;
+      font-size: 3ch;
+      margin-left: 50px;
+    }
+
+    @media (min-width: 992px) {
+      #intro-example {
+        height: 600px;
+      }
+    }
+
+
+    #feedbackbtnid {
       margin-left: 500px;
       margin-bottom: 10px;
     }
@@ -29,73 +49,49 @@
 </head>
 
 <body>
-  <h1 style="text-align: center; color: white;">Feedback Creating</h1>
-  <!-- <form action="{% url 'sales:feedback' %}" method="POST">
-    {% csrf_token %}
-    <div class="form-row">
-      <div class="col-md-4 mb-3 formfield">
-        <label for="validationDefault01">TypeFeedBack</label>
-        <input type="text" class="form-control" id="validationDefault01" name="TypeFeedBack" required>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault04">Rating</label>
-        <input type="text" class="form-control" placeholder="Enter rating" name="rating" required>
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">Notes</label>
-        <input type="text" class="form-control" name="notes" required>
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">Next call</label>
-        <select name="nextcalluser" id="">
-          <option value="">---------</option>
-          {% for user in SalesExecutiveUser %}
-          <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">NextCallDate</label>
-        <input type="datetime-local" class="form-control" name="nextcalldate" placeholder="Zip">
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">Demo</label>
-        <input class="form-check-input" type="checkbox" name="demo" id="invalidCheck2">
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">DemoDate</label>
-        <input type="datetime-local" class="form-control" name="demodate">
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">Feedback</label>
-        <input type="text" class="form-control" name="feedback" required>
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">FurtherCall</label>
-        <input class="form-check-input" type="checkbox" name="furthercall">
-      </div>
-      <div class="col-md-3 mb-3 formfield">
-        <label for="validationDefault05">PriceQuoted</label>
-        <input type="text" class="form-control" name="pricequoted" required>
-      </div>
-    </div>
-    {% if request.GET.next %}
-    <input type="hidden" name="next" value="{{request.GET.next}}">
+  <header>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li class=" {{ message.tags }} "> {{ message }} </li>
+      {% endfor %}
+    </ul>
     {% endif %}
-    <button class="btn btn-primary" type="submit">Submit form</button>
-  </form> -->
+
+    <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+      <a class="navbar-brand tagnameclr"
+        style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+        href="/">Bodhi Ai</a>
+      <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
+
+          {% if request.user.salesexecutive %}
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
+          <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
+          {% else %}
+          <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
+          {% endif %}
+          <a href="/sales/logout">
+            <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+              Logout
+            </button>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <h1 style="text-align: center; color: white;">Feedback Creating</h1>
 
   <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
     <div class="div subcls">
       <form action="{% url 'sales:feedback' %}" method="POST">
         {% csrf_token %}
         <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="inputEmail4">TyFeedBack</label>
-            <input type="number" class="form-control" name="TypeFeedBack">
-          </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Rating</label>
             <input type="number" class="form-control" name="rating" required placeholder="Enter rating">
@@ -106,7 +102,38 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Feedback</label>
-            <input type="text" class="form-control" name="feedback" required placeholder="Enter feedback">
+            <select name="feedback" required class="form-control">
+              <option value="" selected>Choose...</option>
+              <option value="Invalid Number">Invalid Number</option>
+              <option value="Call not recieved">Call not recieved</option>
+              <option value="Not Responding">Not Responding</option>
+              <option value="Not Interested">Not Interested</option>
+              <option value="Not Reachable">Not Reachable</option>
+              <option value="Interested">Interested</option>
+              <option value="Will update when needed">Will update when needed</option>
+              <option value="Call back">Call back</option>
+              <option value="call busy">call busy</option>
+              <option value="switched off">switched off</option>
+              <option value="using other application">using other application</option>
+              <option value="cut call">cut call</option>
+              <option value="Incoming call not available">Incoming call not available</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Course</label>
+            <input type="text" class="form-control" name="Course" placeholder="Enter course">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">Institute Type</label>
+            <input type="text" class="form-control" name="instituteType" placeholder="Enter your institue type">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">State</label>
+            <input type="text" class="form-control" name="state" placeholder="Enter your state">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputPassword4">City</label>
+            <input type="text" class="form-control" name="city" placeholder="Enter your city">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Assign NextCall</label>
@@ -119,8 +146,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Next CallDate</label>
-            <input type="datetime-local" class="form-control" name="nextcalldate"
-              placeholder="Enter Date">
+            <input type="datetime-local" class="form-control" name="nextcalldate" placeholder="Enter Date">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Price Quoted</label>
@@ -131,22 +157,27 @@
             <input type="datetime-local" class="form-control" name="demodate" id="inputCity">
           </div>
         </div>
-        <div class="form-group col-lg-" style="margin-left: 20px;">
-            <div class="form-check" style="display: inline-block;">
-              <label class="form-check-label">
-                <input type="checkbox" name="demo"> Demo</label>
-            </div>
-            <div class="form-check" style="display: inline-block; margin-left: 150px;">
-              <label class="form-check-label">
-                <input type="checkbox" name="furthercall"> Further Call</label>
-            </div>
+        <div class="form-group col-lg-">
+          <div class="form-check" style="display: inline-block; margin-top: 30px; margin-left: 20px;">
+            <label class="form-check-label">
+              <input type="checkbox" name="demo"> Demo</label>
+          </div>
+          <div class="form-check" style="display: inline-block; margin-left: 150px;">
+            <label class="form-check-label">
+              <input type="checkbox" name="furthercall"> Further Call</label>
+          </div>
+          <div class="form-check" style="display: inline-block; margin-left: 50px;">
+            <label class="form-check-label">
+              <input type="checkbox" name="iswronglead"> Is WrongLead</label>
+          </div>
         </div>
-        {% if request.GET.next %}
-        <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% if request.GET.lead_id %}
+        <input type="hidden" name="lead_id" value="{{request.GET.lead_id}}">
         {% endif %}
         <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit Feedback</button>
       </form>
     </div>
   </div>
 </body>
+
 </html>

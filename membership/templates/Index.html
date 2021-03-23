@@ -5,7 +5,12 @@
 
     <meta charset="UTF-8">
     <title>Home-BodhiAi </title>
+    <!-- <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <style>
         #intro-example {
             height: 400px;
@@ -22,6 +27,7 @@
                 height: 600px;
             }
         }
+
         #footer {
             position: fixed;
             height: 50px;
@@ -42,6 +48,7 @@
             {% endfor %}
         </ul>
         {% endif %}
+
         <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
             <a class="navbar-brand tagnameclr"
                 style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
@@ -50,10 +57,17 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link active tagnameclr" href="/">Home <span
                             class="sr-only">(current)</span></a>
+
+                    {% if request.user.salesexecutive %}
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
-                    <a class="nav-item nav-link tagnameclr">My Profile</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
+                    {% else %}
+                    <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
+                    {% endif %}
                     <a href="/sales/logout">
                         <button class="tagnameclr"
                             style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
@@ -69,7 +83,36 @@
         </div>
         <!-- Background image -->
     </header>
-    
+
+    {% for i in user_notification %}
+    <div class="container">
+        <div class="modal" id="{{i.id}}myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">New message</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {{i.massage}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% if user_notification %}
+    <script>
+        {% for i in user_notification %}
+        $("#{{i.id}}myModal").modal('show')
+        {% endfor %}
+    </script>
+    {% endif %}
+
+    </script>
 </body>
 
 </html>

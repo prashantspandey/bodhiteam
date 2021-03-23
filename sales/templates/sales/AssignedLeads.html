@@ -104,14 +104,13 @@
     {% endif %}
 
 
-    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Your New
-        leads</h1>
+    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Assigned Leads</h1>
     <div class="container bootdey" style="margin-top: 30px;">
         <div class="panel panel-default panel-order">
             <div class="panel-heading">
-                <strong>My New Leads </strong>
+                <strong>My Assigned Leads </strong>
             </div>
-            {% for i in leads %}
+            {% for i in assignedLeadss %}
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-1">
@@ -123,7 +122,14 @@
                                 <a href="/sales/feedback_creating/?lead_id={{i.id}}">
                                     <div class="pull-right" >
                                         <label class="label label-success">
-                                            Create Feedback
+                                            Create new feedback
+                                        </label>
+                                    </div>
+                                </a>
+                                <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}" >
+                                    <div class="pull-right" >
+                                        <label class="label label-success" style="margin-right: 20px;">
+                                            Check old feedback & demo this lead
                                         </label>
                                     </div>
                                 </a>

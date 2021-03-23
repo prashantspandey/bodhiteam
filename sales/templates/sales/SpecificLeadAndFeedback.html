@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My worked leads</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+        #intro-example {
+            height: 400px;
+        }
+
+        .tagnameclr {
+            color: white;
+            font-size: 3ch;
+            margin-left: 50px;
+        }
+
+        @media (min-width: 992px) {
+            #intro-example {
+                height: 600px;
+            }
+        }
+
+        .features_table h1 {
+            font-size: 25px !important;
+
+        }
+
+        li {
+            list-style: none;
+        }
+
+        h1 {
+            font-size: 21px !important;
+        }
+
+        .features-table li {
+            background: #da9748 none repeat scroll 0 0;
+            border-bottom: 2px solid #e5a253;
+            color: #f1f1f1;
+            font-size: 16px;
+            padding: 15px 24px;
+        }
+
+        .features-table li:hover {
+            background: #e5a253;
+            -webkit-transition: all .35s;
+            -moz-transition: all .35s;
+            transition: all .35s;
+        }
+
+        .features-table-free li,
+        .features-table-paid li {
+            background: #efefef none repeat scroll 0 0;
+            border-bottom: 2px solid #d4d4d4;
+            text-align: center;
+            padding: 16.4px 21px;
+        }
+
+        .features-table-free h1,
+        .features-table-paid h1 {
+            text-align: center;
+        }
+
+        .features-table-free li:hover,
+        .features-table-paid li:hover {
+            background: #dedede none repeat scroll 0 0;
+            -webkit-transition: all .35s;
+            -moz-transition: all .35s;
+            transition: all .35s;
+        }
+
+        .features_table h1 {
+            font-size: 23px !important;
+        }
+
+        .features-table h1,
+        .features-table-free h1,
+        .features-table-paid h1 {
+            background: #6b6b6b none repeat scroll 0 0;
+            color: #fff;
+            font-weight: 600;
+            margin: 0;
+            padding: 19px 21px;
+            text-transform: uppercase;
+        }
+
+        .features-table h1 {
+            border-top-left-radius: 20px;
+            text-align: center;
+        }
+
+        .features-table-paid h1 {
+            border-top-right-radius: 20px;
+        }
+
+        .features-table-free li {
+            border-right: 2px solid #d4d4d4;
+
+        }
+
+        .fa.fa-check {
+            color: #2cc14f;
+        }
+
+        .fa.fa-times {
+            color: #BA5340;
+        }
+
+        .fa {
+            font-size: 30px;
+        }
+
+        .no-padding {
+            padding: 0;
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        body {
+            counter-reset: section;
+            /* Set the section counter to 0 */
+        }
+
+        .fortext {
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class=" {{ message.tags }} "> {{ message }} </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+            <a class="navbar-brand tagnameclr"
+                style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+                href="/">Bodhi Ai</a>
+            <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link active tagnameclr" href="/">Home <span
+                            class="sr-only">(current)</span></a>
+
+                    {% if request.user.salesexecutive %}
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
+                    {% else %}
+                    <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
+                    {% endif %}
+                    <a href="/sales/logout">
+                        <button class="tagnameclr"
+                            style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+                            Logout
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="features_table">
+        <div class="container ">
+            <div class="col-md-6">
+                <h3
+                    style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                    lead</h3>
+                <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
+                    <div class="features-table">
+                        <ul>
+                            <h1>key</h1>
+                            <li>Lead name</li>
+                            <li>Institute Name</li>
+                            <li>Lead date</li>
+                            <li>Contact </li>
+                            <li>Email</li>
+                            <li>Number Students</li>
+                            <li>Location</li>
+                            <li>Source</li>
+                            <li>AssignedTo</li>
+                            <li>Notes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
+                    <div class="features-table-free">
+                        <ul>
+                            <h1>Data</h1>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.personName}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.instituteName}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.date}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.contactPhone}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.email}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.numberStudents}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.location}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.source}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.assignedTo}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.notes}}</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% if specific_lead_and_feedback.0.recieved_feedback %}
+            <div class="col-md-6">
+                <h3
+                    style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+                    Feedback</h3>
+                <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
+                    <div class="features-table">
+                        <ul>
+                            <h1>Key</h1>
+                            <li>Type Feedback</li>
+                            <li>By</li>
+                            <li>Lead</li>
+                            <li>Time</li>
+                            <li>Rating </li>
+                            <li>NextCall User</li>
+                            <li>NextCall Date</li>
+                            <li>Demo</li>
+                            <li>DemoDate</li>
+                            <li>Feedback</li>
+                            <li>FurtherCall</li>
+                            <li>Price Quoted</li>
+                            <li>Notes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
+                    <div class="features-table-free">
+                        <ul>
+                            <h1>Data</h1>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.typeFeedBack}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.by}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.lead}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.time}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.rating}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.nextCall}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.nextCallDate}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.demo}}</i></li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.demoDate}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.feedback}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.furtherCall}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.priceQuoted}}</i>
+                            </li>
+                            <li><i class="fortext">{{specific_lead_and_feedback.0.recieved_feedback.0.notes}}</i></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</body>
+
+</html>

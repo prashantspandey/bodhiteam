@@ -109,11 +109,10 @@ class GetAllSalesExecutives(APIView):
 
 class GetWorkedLeads(APIView):
     def get(self,request):
-        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive).order_by('-date')
+        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive).prefetch_related('feeback_lead').order_by('-date')
         leads_list = []
-        for i in leads:
-            if FeedBack.objects.filter(lead=i.id).exists():
-                lead = leads.get(id=i.id)
+        for lead in leads:
+            if lead.feeback_lead.filter(lead=lead.id).exists():
                 leads_dict = {'lead_id': lead.id, 'PersonName': lead.personName, 'InstituteName': lead.instituteName,
                               'Date': lead.date, 'ContactPhone': lead.contactPhone,
                               'email': lead.email, 'NumberStudents': lead.numberStudents, 'location': lead.location,

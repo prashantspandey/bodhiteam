@@ -19,9 +19,10 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sales/',include('sales.urls',namespace='sales')),
-    path('api/membership/',include('membership.api.urls')),
-    path('',include('membership.urls')),
     path('api/sales/',include('sales.api.urls')),
+    path('',include('membership.urls')),
+    path('api/membership/',include('membership.api.urls')),
+    path('tech/',include('tech.urls',namespace='tech')),
     path('silk/',include('silk.urls',namespace='silk'))
 ]
 
