@@ -125,7 +125,14 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Institute Type</label>
-            <input type="text" class="form-control" name="instituteType" placeholder="Enter your institue type">
+            <select name="instituteType" class="form-control">
+              <option value="" selected>Choose...</option>
+              <option value="School">School</option>
+              <option value="College">College</option>
+              <option value="Coaching">Coaching</option>
+              <option value="Individual Teacher">Individual Teacher</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">State</label>
@@ -140,7 +147,7 @@
             <select name="nextcalluser" class="form-control">
               <option value="" selected>Choose...</option>
               {% for user in SalesExecutiveUser %}
-              <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+              <option value="{{user.id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
               {% endfor %}
             </select>
           </div>

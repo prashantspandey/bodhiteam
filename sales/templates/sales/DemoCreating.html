@@ -127,7 +127,7 @@
             <select name="demo_nextCall" class="form-control">
               <option value="" selected>Choose...</option>
               {% for user in SalesExecutiveUser %}
-              <option value="{{user.executiveUser_id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
+              <option value="{{user.id}}">{{user.executiveUser}} {{user.typeExecutive}}</option>
               {% endfor %}
             </select>
           </div>
