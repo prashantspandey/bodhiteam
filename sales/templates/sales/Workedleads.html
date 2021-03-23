@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css"
         href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
     <style>
-         #intro-example {
+        #intro-example {
             height: 400px;
         }
 
@@ -23,43 +23,54 @@
                 height: 600px;
             }
         }
+
         .panel-order .row {
             border-bottom: 1px solid #ccc;
         }
+
         .panel-order .row:last-child {
             border: 0px;
         }
+
         .panel-order .row .col-md-1 {
             text-align: center;
             padding-top: 15px;
         }
+
         .panel-order .row .col-md-1 img {
             width: 50px;
             max-height: 50px;
         }
+
         .panel-order .row .row {
             border-bottom: 0;
         }
+
         .panel-order .row .col-md-11 {
             border-left: 1px solid #ccc;
         }
+
         .panel-order .row .row .col-md-12 {
             padding-top: 7px;
             padding-bottom: 7px;
         }
+
         .panel-order .row .row .col-md-12:last-child {
             font-size: 11px;
             color: #555;
             background: #efefef;
         }
+
         .panel-order .btn-group {
             margin: 0px;
             padding: 0px;
         }
+
         .panel-order .panel-body {
             padding-top: 0px;
             padding-bottom: 0px;
         }
+
         .panel-order .panel-deading {
             margin-bottom: 0;
         }
@@ -68,6 +79,14 @@
 
 <body>
     <header>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li class=" {{ message.tags }} "> {{ message }} </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
         <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
             <a class="navbar-brand tagnameclr"
                 style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
@@ -76,10 +95,17 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link active tagnameclr" href="/">Home <span
                             class="sr-only">(current)</span></a>
+
+                    {% if request.user.salesexecutive %}
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
                     <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
-                    <a class="nav-item nav-link tagnameclr">My Profile</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
+                    <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
+                    {% else %}
+                    <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
+                    {% endif %}
                     <a href="/sales/logout">
                         <button class="tagnameclr"
                             style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
@@ -90,39 +116,10 @@
             </div>
         </nav>
     </header>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class=" {{ message.tags }} "> {{ message }} </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
 
-    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Your all Worked Leads</h1>
-    <!-- <div class="container" id="all_leads">
-        <div class="row">
-            {% for i in allworkedleads %}
-            <div class="col-lg-4">
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body" style="border:black; border-width:2px; border-style:solid;">
-                        <h4 class="card-title">name : {{i.personName}}</h4>
-                        <h4 class="card-title">contact : {{i.contactPhone}}</h4>
-                        <h4 class="card-title">instituteName : {{i.instituteName}}</h4>
-                        <h4 class="card-title">date : {{i.date}}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">'email' :{{i.email}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">'notes' :{{i.notes}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">'email' :{{i.email}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">'source' :{{i.source}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">'assignedTo' :{{i.assignedTo}}</h6>
-                        <a href="/sales/Get_my_feedbackes_lead_wise/{{i.id}}/?next={{i.id}}" class="card-link">Check
-                            feedback and demo</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div> -->
 
+    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Your all
+        Worked Leads</h1>
     <div class="container bootdey" style="margin-top: 30px;">
         <div class="panel panel-default panel-order">
             <div class="panel-heading">
@@ -137,15 +134,16 @@
                     <div class="col-md-11">
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}" style="height: 110px;">
+                                <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}"
+                                    style="height: 110px;">
                                     <div class="pull-right">
                                         <label class="label label-danger">
                                             Check Feedback & Demo
                                         </label>
                                     </div>
                                 </a>
-                                <span><strong>{{i.personName}}</strong></span><br/>
-                                Contact : {{i.contactPhone}} <br/>
+                                <span><strong>{{i.personName}}</strong></span><br />
+                                Contact : {{i.contactPhone}} <br />
                                 Email : {{i.email}} <br />
 
                                 <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
@@ -163,14 +161,6 @@
             {% endfor %}
         </div>
     </div>
-
-
-
-
-
-
-
-
 </body>
 
 </html>
