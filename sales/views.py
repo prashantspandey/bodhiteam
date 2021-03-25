@@ -9,8 +9,8 @@ from django.views.generic.base import View
 from django.contrib import messages
 import datetime
 from django.db.models import Prefetch
+from rest_framework.authtoken.models import Token
 # Create your views here.
-
 
 def lead_upload(request):
     template = 'sales/lead_upload.html'
@@ -19,43 +19,32 @@ def lead_upload(request):
     csv_file = request.FILES['file']
     if not csv_file.name.endswith('.csv'):
         messages.error(request,'This is not csv')
-    df = pd.read_csv(csv_file)
+    df = pd.read_csv(csv_file,encoding = "ISO-8859-1")
     final_list = []
-    sources = df['Source']
-    notes = df['Notes']
-    name = df['Client Name']
-    phone = df['Phone Number']
-    email = df['Email']
-    final_list = list(zip(sources,name,phone,email,notes))
-    for so,na,ph,em,no in final_list:
+    created_at = df['created_time']
+    platform = df['platform']
+    educator = df['what_type_of_educator_are_you']
+    full_name = df['full_name']
+    phone_number = df['phone_number']
+    email = df['email']
+    salesAssigned = df['sales']
+    final_list =\
+    list(zip(created_at,platform,educator,full_name,phone_number,email,salesAssigned))
+    for time,where,type_teacher,name,phone,mail,bde in final_list:
+        ph = phone.split(':')[1]
         lead = Lead.objects.filter(contactPhone=ph)
         if len(lead) > 0:
             continue
         else:
+            salesMan = SalesExecutive.objects.get(salesNumber=bde)
             number_students = 0
-            type_educatior = ''
-            details = no.split('\n')
-            for det in details:
-                if 'Educator' in det:
-                    type_educator = det.split(':')[1]
-                if 'Students' in det:
-                    number_students = det.split(':')[1]
+            type_educator = type_teacher
+            source = platform
+            date_format = "%Y-%m-%dT%H:%M:%S%z"
+            lead_time = datetime.datetime.strptime(time,date_format)
             leads =\
-            Lead(personName=na,source=so,contactPhone=ph,email=em,numberStudents=number_students,notes=type_educator)
+            Lead(date=time,personName=name,source=where,contactPhone=ph,email=mail,notes=type_educator,assignedTo=salesMan)
             leads.save()
-    #data_set = csv_file.read().decode('UTF-8')
-    #io_string = io.StringIO(data_set)
-    #next(io_string)
-    #for column in csv.reader(io_string,delimiter=',',quotechar="|"):
-    #    print('type column {}'.format(type(column)))
-    #    for col in column:
-    #        print(col)
-    #    #print('source {}'.format(column[0]))
-    #    #print('whatsapp number {}'.format(column[1]))
-    #    #print('display name {}'.format(column[2]))
-    #    #print('date {}'.format(column[3]))
-    #    #print('name {}'.format(column[4]))
-    #    #print('notes {}'.format(column[6]))
     context = {}
     return render(request,template,context)
 
@@ -68,6 +57,7 @@ def loginView(request):
         user = None
         user = auth.authenticate(request, username=username, password=password)
         if user:
+            token,created = Token.objects.get_or_create(user=user)
             auth.login(request, user)
             return redirect('/')
         else:
@@ -94,7 +84,7 @@ def GetMyNewLeadView(request):
 def GetMyWorkedLeadsView(request):
     try:
         request.user.salesexecutive
-        leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).prefetch_related('feeback_lead').order_by('-date')
+        leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).order_by('-date')
         leads_list = []
         for i in leads:
             if i.feeback_lead.filter(lead=i.id).exists():
@@ -113,24 +103,27 @@ class FeedbackCreateView(View):
         iswronglead = request.POST.get("iswronglead")
         furthercall = request.POST.get("furthercall")
         lead_id = request.POST.get('lead_id')
-
+        NextCallUser = request.POST.get("nextcalluser")
+        NextCallDate = request.POST.get("nextcalldate")
         my_profile = self.request.user.salesexecutive
         lead = Lead.objects.get(id=lead_id)
 
         feedback = FeedBack(typeFeedBack=FeedBack.objects.filter(lead=lead_id).count()+1,by=my_profile,lead=lead,time= datetime.datetime.now(),
                             rating=request.POST.get("rating"),notes=request.POST.get("notes"),Cource=request.POST.get("Course"),
                             instituteType=request.POST.get("instituteType"),State=request.POST.get("state"),city=request.POST.get("city"))
-
-        if request.POST.get("nextcalluser"):
-            executive = SalesExecutive.objects.get(id=request.POST.get("nextcalluser"))
+        if NextCallUser:
+            executive = SalesExecutive.objects.get(id=NextCallUser)
             feedback.nextCall = executive
+            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=executive,
+            sender_user=self.request.user.salesexecutive,notification_type='LeadFeedbackNotification', 
+            massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=NextCallDate)
         else:
             feedback.nextCall = None
-        if request.POST.get("nextcalldate"):
-            feedback.nextCallDate = request.POST.get("nextcalldate")
+
+        if NextCallDate:
+            feedback.nextCallDate = NextCallDate
         else:
             feedback.nextCallDate = None
-
         if request.POST.get("demodate"):
             feedback.demoDate = request.POST.get("demodate")
         else:
@@ -139,7 +132,6 @@ class FeedbackCreateView(View):
             feedback.demo = True
         else:
             feedback.demo = False
-
         if iswronglead == 'on':
             feedback.Is_wrongLead = True
         else:
@@ -158,22 +150,26 @@ class DemoCreatingView(View):
     def get(self,request):
         users = SalesExecutive.objects.all()
         return  render(request,'sales/DemoCreating.html',{'SalesExecutiveUser':users})
+    
     def post(self,request):
         lead_id = request.POST.get('lead_id')
         my_profile = self.request.user.salesexecutive
         lead = Lead.objects.get(id=lead_id)
-
+        DemoNextUser = request.POST.get("demo_nextCall")
+        DemoNextDate = request.POST.get("demo_nextCallDate")
         demofeedback = DemoFeedback(typedemo=DemoFeedback.objects.filter(lead=lead_id).count()+1, by=my_profile, lead=lead,
-                            datetime=datetime.datetime.now(),
-                            demo_rating=request.POST.get("demo_rating"), extra_notes=request.POST.get("extra_notes"),
-                                    demo_feedback=request.POST.get("demo_feedback"),price_quoted = request.POST.get("price_quoted"))
-        if request.POST.get("demo_nextCall"):
-            demofeedback.demo_nextCall = SalesExecutive.objects.get(id=request.POST.get("demo_nextCall"))
+                            datetime=datetime.datetime.now(),demo_rating=request.POST.get("demo_rating"), 
+                            extra_notes=request.POST.get("extra_notes"),demo_feedback=request.POST.get("demo_feedback"),
+                            price_quoted = request.POST.get("price_quoted"))
+        if DemoNextUser:
+            nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
+            demofeedback.demo_nextCall = nextcaller
+            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=self.request.user.salesexecutive,notification_type='DemoNotification',
+            massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
         else:
             demofeedback.demo_nextCall = None
-
-        if request.POST.get("demo_nextCallDate"):
-            demofeedback.demo_nextCallDate = request.POST.get("demo_nextCallDate")
+        if DemoNextDate:
+            demofeedback.demo_nextCallDate = DemoNextDate
         else:
             demofeedback.demo_nextCallDate = None
         demofeedback.save()
@@ -249,6 +245,10 @@ def GetSpecificLeadAndFeedbackView(request,lead_id=None,feedback_id=None):
     return render(request,'sales/SpecificLeadAndFeedback.html',{'specific_lead_and_feedback':specific_lead_and_feedback})
     
 def logoutview(request):
+    try:
+        request.user.auth_token.delete()
+    except (AttributeError, ObjectDoesNotExist):
+        pass
     auth.logout(request)
     messages.success(request, 'Logged Out Successfully')
     return redirect('/sales/login')

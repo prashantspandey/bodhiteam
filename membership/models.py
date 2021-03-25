@@ -9,18 +9,16 @@ class SalesExecutive(models.Model):
     photo = models.URLField()
     joiningDate = models.DateField()
     typeExecutive = models.CharField(max_length=50)
-
+    salesNumber = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
         return self.name + ' ' + self.typeExecutive
-
 
 class Technology(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
-
 
 class TechPerson(models.Model):
     executiveUser = models.OneToOneField(User,on_delete=models.CASCADE)

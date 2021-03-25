@@ -24,7 +24,6 @@ class Lead(models.Model):
     def __str__(self):
         return self.personName
 
-
 class FeedBack(models.Model):
     typeFeedBack = models.IntegerField()
     by = \
@@ -95,3 +94,17 @@ class Notification(models.Model):
     massage = models.TextField(blank=True,null=True)
     is_FirstTime = models.BooleanField(default=True) 
     datetime = models.DateTimeField(default=timezone.now())
+
+class DemoFeedback_And_LeadFeedback_Notifications(models.Model):
+    notification_user = models.ForeignKey(SalesExecutive, related_name='demofeedbackuser_notification',on_delete=models.CASCADE)
+    sender_user = models.ForeignKey(SalesExecutive, related_name='DemoAssigner_name', on_delete=models.SET_NULL,blank=True,null=True)
+    notification_type = models.CharField(max_length=100)
+    massage = models.TextField(blank=True,null=True)
+    is_FirstTime = models.BooleanField(default=True)
+    nextDate = models.DateTimeField(blank=True, null=True)
+    datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.notification_user.name
+
+

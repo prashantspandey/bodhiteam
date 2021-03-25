@@ -123,6 +123,7 @@
         </nav>
     </header>
 
+    {% if assignedLeadss %}
     <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Assigned
         Leads</h1>
     <div class="container bootdey" style="margin-top: 30px;">
@@ -174,6 +175,9 @@
                 bootdeys</div> -->
         </div>
     </div>
+    {% else %}
+    <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" style="display: block; margin-left: auto; margin-right: auto;" id="img-fluid" class="col-12">
+    {% endif %}
 </body>
 
 </html>
