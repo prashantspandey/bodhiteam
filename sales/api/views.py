@@ -46,7 +46,7 @@ class GiveLeadFeedBack(APIView):
         demo = data['demo']
         typeFeedBack = data['typeFeedBack']
         priceQuoted = data['priceQuoted']
-        executiveId = data['executiveId']
+        executiveId = data['nextCall']
         furtherCall = data['furtherCall']
         nextCallDate = data['nextCallDate']
         demoDate = data['demoDate']
@@ -64,8 +64,11 @@ class GiveLeadFeedBack(APIView):
             furtherCall = True
         else:
             furtherCall = False
-        
-        lead = Lead.objects.get(id=lead_id)
+        try:
+            lead = Lead.objects.get(id=lead_id)
+        except Lead.DoesNotExist:
+            return Response('Incorrect lead id ')
+
         feedback = FeedBack()
         feedback.by = my_profile
         feedback.typeFeedBack = typeFeedBack
@@ -91,7 +94,7 @@ class GiveLeadFeedBack(APIView):
             NextCallerUser = SalesExecutive.objects.get(id=executiveId)
             feedback.nextCall = NextCallerUser
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=NextCallerUser,
-            sender_user=my_profile,notification_type='LeadFeedbackNotification', 
+            sender_user=my_profile,notification_type='LeadFeedbackNotification',lead=lead,
             massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=nextCallDate)
         feedback.nextCallDate = nextCallDate
         feedback.save()
@@ -160,7 +163,7 @@ class GiveDemoFeedBackApi(APIView):
         else:
             nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
             demofeedback.demo_nextCall = nextcaller
-            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=my_profile,notification_type='DemoNotification',
+            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=my_profile,notification_type='DemoNotification',lead=lead,
             massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
 
         if DemoNextDate == 'None':

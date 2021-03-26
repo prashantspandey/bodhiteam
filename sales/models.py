@@ -45,13 +45,10 @@ class FeedBack(models.Model):
     demoDate = models.DateTimeField(blank=True,null=True)
     feedback = models.CharField(max_length=100)
     furtherCall = models.BooleanField()
-    priceQuoted = models.FloatField(default=12000)
-
-    # def __str__(self):
-    #     return self.by.name + ' ' + self.lead.personName
+    priceQuoted = models.CharField(max_length=200,blank=True,null=True,default=12000)
 
     def __str__(self):
-        return self.lead.personName
+        return self.by.name + ' ' + self.lead.personName
         
 class DemoFeedback(models.Model):
     typedemo = models.IntegerField()
@@ -98,6 +95,7 @@ class Notification(models.Model):
 class DemoFeedback_And_LeadFeedback_Notifications(models.Model):
     notification_user = models.ForeignKey(SalesExecutive, related_name='demofeedbackuser_notification',on_delete=models.CASCADE)
     sender_user = models.ForeignKey(SalesExecutive, related_name='DemoAssigner_name', on_delete=models.SET_NULL,blank=True,null=True)
+    lead = models.ForeignKey(Lead,on_delete=models.CASCADE)
     notification_type = models.CharField(max_length=100)
     massage = models.TextField(blank=True,null=True)
     is_FirstTime = models.BooleanField(default=True)

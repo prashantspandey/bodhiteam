@@ -19,5 +19,6 @@ urlpatterns = [
     path('Get_specific_lead_andfeedback/<int:lead_id>/',views.GetSpecificLeadAndFeedbackView,name='Get_specific_lead_andfeedback'),
     path('Get_specific_lead_andfeedback/<int:lead_id>/<int:feedback_id>/',views.GetSpecificLeadAndFeedbackView,name='Get_specific_lead_andfeedback'),
     path('Get_my_assigned_leads/',views.GetMyAssignedLeadsView,name='Get_my_assigned_leads'),
+    path('Get_my_all_notifications/',views.GetMyAllNotificationsView,name='Get_my_all_notifications'),
 
 ]

@@ -115,7 +115,7 @@ class FeedbackCreateView(View):
             executive = SalesExecutive.objects.get(id=NextCallUser)
             feedback.nextCall = executive
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=executive,
-            sender_user=self.request.user.salesexecutive,notification_type='LeadFeedbackNotification', 
+            sender_user=self.request.user.salesexecutive,notification_type='LeadFeedbackNotification',lead=lead,
             massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=NextCallDate)
         else:
             feedback.nextCall = None
@@ -164,7 +164,7 @@ class DemoCreatingView(View):
         if DemoNextUser:
             nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
             demofeedback.demo_nextCall = nextcaller
-            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=self.request.user.salesexecutive,notification_type='DemoNotification',
+            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=self.request.user.salesexecutive,notification_type='DemoNotification',lead=lead,
             massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
         else:
             demofeedback.demo_nextCall = None
@@ -217,9 +217,15 @@ def GetMyAssignedLeadsView(request):
 
 def MessagesInboxView(request):
     Allmassages = Massages.objects.filter(reciverId=request.user.salesexecutive).order_by('-datetime')
+    list1 = []
+    list2 = []
+    for i in Allmassages:
+        if i.senderId.id not in list1:
+            list1.append(i.senderId.id)
+            list2.append(i)
     unread_massage_length = Allmassages.filter(massagRead=False).count()
     Notification.objects.filter(notification_user=request.user.salesexecutive).delete()
-    context = {'usermassages':Allmassages,'unread_massage_length':unread_massage_length}
+    context = {'usermassages':list2,'unread_massage_length':unread_massage_length}
     return render(request,'sales/MessagesInbox.html',context)
 
 def GetSpecificUserMessageView(request,user_id):
@@ -244,6 +250,10 @@ def GetSpecificLeadAndFeedbackView(request,lead_id=None,feedback_id=None):
     )
     return render(request,'sales/SpecificLeadAndFeedback.html',{'specific_lead_and_feedback':specific_lead_and_feedback})
     
+def GetMyAllNotificationsView(request):
+    myallnotifications = DemoFeedback_And_LeadFeedback_Notifications.objects.filter(notification_user=request.user.salesexecutive).order_by('-nextDate')
+    return render(request,'sales/Allnotification.html',{'myallnotifications':myallnotifications})   
+
 def logoutview(request):
     try:
         request.user.auth_token.delete()
