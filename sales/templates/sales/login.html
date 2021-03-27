@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Feedback</title>
+    <title>Login</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -15,9 +15,9 @@
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <style>
         .user_card {
-            height: 400px;
-            width: 350px;
-            bottom: 120px;
+            height: 500px;
+            width: 450px;
+            bottom: 180px;
             background: #f39c12;
             position: relative;
             display: flex;
@@ -110,21 +110,21 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-center form_container">
-                        <form action="{% url 'sales:login' %}" method="POST" style="width: 250px;">
+                        <form action="{% url 'sales:login' %}" method="POST" style="width: 350px;">
                             {% csrf_token %}
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-user" style="width: 20px ;"></i></span>
                                 </div>
                                 <input type="text" class="form-control input_user" placeholder="username"
-                                    name="UserName" required style="height: 40px;">
+                                    name="UserName" required style="height: 45px; font-size: 17px;">
                             </div>
                             <div class="input-group mb-2">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-key" style="width: 20px;"></i></span>
                                 </div>
                                 <input type="password" name="Password" class="form-control input_pass"
-                                    placeholder="password" required style="height: 40px;">
+                                    placeholder="password" required style="height: 45px; font-size: 17px;">
                             </div>
                             <div class="d-flex justify-content-center mt-3 login_container">
                                 <button type="submit" name="button" class="btn login_btn">Login</button>

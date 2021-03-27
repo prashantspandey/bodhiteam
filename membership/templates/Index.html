@@ -25,13 +25,18 @@
             background-color: #F5F7FA;
         }
 
+        body {
+            background: #f5fafa;
+        }
     </style>
 </head>
 
 <body>
-    <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcom {{user.salesexecutive.name}} {{user.salesexecutive.typeExecutive}}</h1>
+    <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcom
+        {{user.salesexecutive.name}} {{user.salesexecutive.typeExecutive}}</h1>
     <h3 style="text-align: center; font-family: serif ;">Bodhi AI </h3>
-    <a href="/sales/logout"><button style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: greenyellow;">Logout</button></a>
+    <!-- <a href="/sales/logout"><button
+            style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a> -->
 
     {% if messages %}
     <ul class="messages">
@@ -40,183 +45,206 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <section id="minimal-statistics" style="margin-top: 10px;">
-        <div class="row">
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/Get_my_new_leads">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="align-self-center">
-                                        <i class="icon-list primary font-large-2 float-left"></i>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3>278</h3>
-                                        <span>New Leads</span>
+    <div class="container-fluid px-2">
+        <section id="minimal-statistics" style="margin-top: 10px;">
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Get_my_new_leads">
+                        <div class="card" style="background: rgb(215, 182, 247);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="icon-list primary font-large-2 float-left"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h3>278</h3>
+                                            <span>New Leads</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Get_my_worked_leads">
+                        <div class="card" style="background: rgb(250, 208, 208);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="icon-docs warning font-large-2 float-left"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h3>156</h3>
+                                            <span>Worked Leads</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Get_my_assigned_leads">
+                        <div class="card" style="background: rgb(207, 245, 169);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="icon-info success font-large-2 float-left"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h3>64.89 %</h3>
+                                            <span>Assigned Leads</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/">
+                        <div class="card" style="background: rgb(192, 243, 243);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="icon-book-open danger font-large-2 float-left"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h3>423</h3>
+                                            <span>My Demo's </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
 
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/Get_my_worked_leads">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="align-self-center">
-                                        <i class="icon-docs warning font-large-2 float-left"></i>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3>156</h3>
-                                        <span>Worked Leads</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/Get_my_assigned_leads">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="align-self-center">
-                                        <i class="icon-info success font-large-2 float-left"></i>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3>64.89 %</h3>
-                                        <span>Assigned Leads</span>
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Sendmassage">
+                        <div class="card" style="background: rgb(240, 208, 128);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="danger">278</h3>
+                                            <span>Message</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-speech danger font-large-2 float-right"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="align-self-center">
-                                        <i class="icon-book-open danger font-large-2 float-left"></i>
-                                    </div>
-                                    <div class="media-body text-right">
-                                        <h3>423</h3>
-                                        <span>My Demo's </span>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/messagesInbox/">
+                        <div class="card" style="background: rgb(231, 219, 219)">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="success">156</h3>
+                                            <span>Inbox</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-bubbles success font-large-2 float-right"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Get_my_all_notifications/">
+                        <div class="card" style="background: rgb(248, 248, 157);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="warning">64.89 %</h3>
+                                            <span>Notifications</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-bell warning font-large-2 float-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/">
+                        <div class="card" style="background: rgb(252, 210, 156)">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="primary">423</h3>
+                                            <span>Profile</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-user primary font-large-2 float-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/Sendmassage">
-                    <div class="card">
+        </section>
+        <section id="stats-subtitle">
+            <div class="row">
+                <div class="col-xl-6 col-md-12">
+                    <div class="card overflow-hidden" style="background: rgb(255, 200, 255);">
                         <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <h3 class="danger">278</h3>
-                                        <span>Message</span>
+                            <div class="card-body cleartfix">
+                                <div class="media align-items-stretch">
+                                    <div class="align-self-center">
+                                        <i class="icon-pencil primary font-large-2 mr-2"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Total Posts (under construction)</h4>
+                                        <span>Monthly blog posts</span>
                                     </div>
                                     <div class="align-self-center">
-                                        <i class="icon-speech danger font-large-2 float-right"></i>
+                                        <h1>18,000</h1>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/messagesInbox/">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <h3 class="success">156</h3>
-                                        <span>Inbox</span>
-                                    </div>
-                                    <div class="align-self-center">
-                                        <i class="icon-bubbles success font-large-2 float-right"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/sales/Get_my_all_notifications/">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <h3 class="warning">64.89 %</h3>
-                                        <span>Notifications</span>
-                                    </div>
-                                    <div class="align-self-center">
-                                        <i class="icon-bell warning font-large-2 float-right"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-xl-3 col-sm-6 col-12">
-                <a href="/">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="card-body">
-                                <div class="media d-flex">
-                                    <div class="media-body text-left">
-                                        <h3 class="primary">423</h3>
-                                        <span>Profile</span>
-                                    </div>
-                                    <div class="align-self-center">
-                                        <i class="icon-user primary font-large-2 float-right"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+                </div>
 
-    </section>
-    <section id="stats-subtitle">
-        <div class="row">
-            <div class="col-xl-6 col-md-12">
-                <div class="card overflow-hidden">
-                    <div class="card-content">
-                        <div class="card-body cleartfix">
-                            <div class="media align-items-stretch">
-                                <div class="align-self-center">
-                                    <i class="icon-pencil primary font-large-2 mr-2"></i>
-                                </div>
-                                <div class="media-body">
-                                    <h4>Total Posts (under construction)</h4>
-                                    <span>Monthly blog posts</span>
-                                </div>
-                                <div class="align-self-center">
-                                    <h1>18,000</h1>
+                <div class="col-xl-6 col-md-12">
+                    <div class="card" style="background: rgb(250, 239, 142)">
+                        <div class="card-content">
+                            <div class="card-body cleartfix">
+                                <div class="media align-items-stretch">
+                                    <div class="align-self-center">
+                                        <i class="icon-speech warning font-large-2 mr-2"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Total Comments (under construction)</h4>
+                                        <span>Monthly blog comments</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <h1>84,695</h1>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -224,72 +252,79 @@
                 </div>
             </div>
 
-            <div class="col-xl-6 col-md-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body cleartfix">
-                            <div class="media align-items-stretch">
-                                <div class="align-self-center">
-                                    <i class="icon-speech warning font-large-2 mr-2"></i>
+            <div class="row">
+                <div class="col-xl-6 col-md-12">
+                    <div class="card" style="background: rgb(250, 144, 144);">
+                        <div class="card-content">
+                            <div class="card-body cleartfix">
+                                <div class="media align-items-stretch">
+                                    <div class="align-self-center">
+                                        <h1 class="mr-2">$76,456.00</h1>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Total Sales (under construction)</h4>
+                                        <span>Monthly Sales Amount</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-heart danger font-large-2"></i>
+                                    </div>
                                 </div>
-                                <div class="media-body">
-                                    <h4>Total Comments (under construction)</h4>
-                                    <span>Monthly blog comments</span>
-                                </div>
-                                <div class="align-self-center">
-                                    <h1>84,695</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-md-12">
+                    <div class="card" style="background: rgb(110, 243, 236);">
+                        <div class="card-content">
+                            <div class="card-body cleartfix">
+                                <div class="media align-items-stretch">
+                                    <div class="align-self-center">
+                                        <h1 class="mr-2">$36,000.00</h1>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4>Total Cost (under construction)</h4>
+                                        <span>Monthly Cost</span>
+                                    </div>
+                                    <div class="align-self-center">
+                                        <i class="icon-wallet success font-large-2"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-6 col-md-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body cleartfix">
-                            <div class="media align-items-stretch">
-                                <div class="align-self-center">
-                                    <h1 class="mr-2">$76,456.00</h1>
-                                </div>
-                                <div class="media-body">
-                                    <h4>Total Sales (under construction)</h4>
-                                    <span>Monthly Sales Amount</span>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="icon-heart danger font-large-2"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6 col-md-12">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="card-body cleartfix">
-                            <div class="media align-items-stretch">
-                                <div class="align-self-center">
-                                    <h1 class="mr-2">$36,000.00</h1>
-                                </div>
-                                <div class="media-body">
-                                    <h4>Total Cost  (under construction)</h4>
-                                    <span>Monthly Cost</span>
-                                </div>
-                                <div class="align-self-center">
-                                    <i class="icon-wallet success font-large-2"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
     </div>
+    {% for i in user_notification %}
+    <div class="container">
+        <div class="modal" id="{{i.id}}myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">New message</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        {{i.massage}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% if user_notification %}
+    <script>
+        {% for i in user_notification %}
+        $("#{{i.id}}myModal").modal('show')
+        {% endfor %}
+    </script>
+    {% endif %}
+
+    </script>
 </body>
 
 </html>

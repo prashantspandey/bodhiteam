@@ -1,9 +1,10 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Messages</title>
+    <title>Inbox</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css"
         href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
@@ -593,7 +594,7 @@
                                     <td colspan="2" class="view-message  dont-show">{{i.senderId}}</td>
                                     <td class="view-message text-truncate" style="max-width: 100px;">{{i.massage}}...
                                     </td>
-                                    <td colspan="2" class="view-message  text-right">{{i.datetime}}</td>
+                                    <td colspan="2" class="view-message  text-right">{{i.datetime|naturalday}} </td>
                                 </tr>
                             </tbody>
                         </table>

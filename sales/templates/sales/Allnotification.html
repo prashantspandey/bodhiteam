@@ -1,9 +1,10 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>all lead</title>
+    <title>Notifications</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
         #intro-example {
@@ -263,8 +264,8 @@
                             Your demo schedule On {{i.nextDate }}
                         </div>
                         {% endif %}
-                        <div class="" style="margin-left: 300px;">
-                            <p style="color: white; font-family: serif; font-size: 20px;">{{i.datetime }} ago</p>
+                        <div class="" style="margin-left: 600px;">
+                            <p style="color: white; font-family: serif; font-size: 20px;">{{i.datetime|naturalday}}</p>
                         </div>
                         
                     </div>

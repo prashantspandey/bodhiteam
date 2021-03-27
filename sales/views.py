@@ -96,7 +96,8 @@ def GetMyWorkedLeadsView(request):
 class FeedbackCreateView(View):
     def get(self,request):
         users = SalesExecutive.objects.all()
-        return render(request,'sales/Feedback.html',{'SalesExecutiveUser':users})
+        typefeedback = FeedBack.objects.filter(lead=request.GET['lead_id']).count() + 1
+        return render(request,'sales/Feedback.html',{'SalesExecutiveUser':users,'feedbacktype':typefeedback})
 
     def post(self,request):
         demo = request.POST.get("demo")
@@ -111,6 +112,11 @@ class FeedbackCreateView(View):
         feedback = FeedBack(typeFeedBack=FeedBack.objects.filter(lead=lead_id).count()+1,by=my_profile,lead=lead,time= datetime.datetime.now(),
                             rating=request.POST.get("rating"),notes=request.POST.get("notes"),Cource=request.POST.get("Course"),
                             instituteType=request.POST.get("instituteType"),State=request.POST.get("state"),city=request.POST.get("city"))
+        if NextCallDate:
+            feedback.nextCallDate = NextCallDate
+        else:
+            feedback.nextCallDate = None
+            NextCallDate = None
         if NextCallUser:
             executive = SalesExecutive.objects.get(id=NextCallUser)
             feedback.nextCall = executive
@@ -119,11 +125,6 @@ class FeedbackCreateView(View):
             massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=NextCallDate)
         else:
             feedback.nextCall = None
-
-        if NextCallDate:
-            feedback.nextCallDate = NextCallDate
-        else:
-            feedback.nextCallDate = None
         if request.POST.get("demodate"):
             feedback.demoDate = request.POST.get("demodate")
         else:
@@ -149,7 +150,8 @@ class FeedbackCreateView(View):
 class DemoCreatingView(View):
     def get(self,request):
         users = SalesExecutive.objects.all()
-        return  render(request,'sales/DemoCreating.html',{'SalesExecutiveUser':users})
+        typedemo = DemoFeedback.objects.filter(lead=request.GET['lead_id']).count() + 1
+        return  render(request,'sales/DemoCreating.html',{'SalesExecutiveUser':users,'typedemo':typedemo})
     
     def post(self,request):
         lead_id = request.POST.get('lead_id')
@@ -161,6 +163,11 @@ class DemoCreatingView(View):
                             datetime=datetime.datetime.now(),demo_rating=request.POST.get("demo_rating"), 
                             extra_notes=request.POST.get("extra_notes"),demo_feedback=request.POST.get("demo_feedback"),
                             price_quoted = request.POST.get("price_quoted"))
+        if DemoNextDate:
+            demofeedback.demo_nextCallDate = DemoNextDate
+        else:
+            demofeedback.demo_nextCallDate = None
+            DemoNextDate = None
         if DemoNextUser:
             nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
             demofeedback.demo_nextCall = nextcaller
@@ -168,10 +175,6 @@ class DemoCreatingView(View):
             massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
         else:
             demofeedback.demo_nextCall = None
-        if DemoNextDate:
-            demofeedback.demo_nextCallDate = DemoNextDate
-        else:
-            demofeedback.demo_nextCallDate = None
         demofeedback.save()
         messages.success(request, 'demofeedback saved successfully')
         return redirect('/')

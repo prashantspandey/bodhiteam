@@ -158,6 +158,11 @@ class GiveDemoFeedBackApi(APIView):
                                     extra_notes=data['extra_notes'],
                                     demo_feedback=data['demo_feedback'],
                                     price_quoted=data['price_quoted'])
+        if DemoNextDate == 'None':
+            demofeedback.demo_nextCallDate = None
+            DemoNextDate = None
+        else:
+            demofeedback.demo_nextCallDate = DemoNextDate
         if DemoNextUser == 'None':
             demofeedback.demo_nextCall = None
         else:
@@ -165,11 +170,6 @@ class GiveDemoFeedBackApi(APIView):
             demofeedback.demo_nextCall = nextcaller
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=my_profile,notification_type='DemoNotification',lead=lead,
             massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
-
-        if DemoNextDate == 'None':
-            demofeedback.demo_nextCallDate = None
-        else:
-            demofeedback.demo_nextCallDate = DemoNextDate
         demofeedback.save()
         return Response({'status':'Saved','message':'Demo saved'})
 

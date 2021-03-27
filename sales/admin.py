@@ -20,9 +20,13 @@ class DemoFeedbackAdmin(admin.ModelAdmin):
 class MassagesAdmin(admin.ModelAdmin):
     list_filter = ('datetime','senderId',)
 
+class DemoFeedback_And_LeadFeedback_NotificationsAdmin(admin.ModelAdmin):
+    list_display = ('notification_user','sender_user','lead','nextDate')
+    list_filter = ('datetime','nextDate','notification_user')
+    
 admin.site.register(Lead,LeadAdmin)
 admin.site.register(FeedBack,FeedBackAdmin)
 admin.site.register(DemoFeedback,DemoFeedbackAdmin)
 admin.site.register(Massages,MassagesAdmin)
 admin.site.register(Notification)
-admin.site.register(DemoFeedback_And_LeadFeedback_Notifications)
+admin.site.register(DemoFeedback_And_LeadFeedback_Notifications,DemoFeedback_And_LeadFeedback_NotificationsAdmin)

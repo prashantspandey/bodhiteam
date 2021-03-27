@@ -1,9 +1,10 @@
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Feedback</title>
+  <title>Create Demo</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
     body {
@@ -85,7 +86,7 @@
       </div>
     </nav>
   </header>
-  <h1 style="text-align: center; color: white;">Demo Creating</h1>
+  <h1 style="text-align: center; color: white;">Create Demo {{typedemo|ordinal}} Time</h1>
   <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
     <div class="div subcls">
       <form action="{% url 'sales:demo_creating' %}" method="POST">
