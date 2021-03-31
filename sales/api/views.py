@@ -251,6 +251,12 @@ class GetMySpecificMessageAPI(APIView):
         messageserializer =  MassagesSerializer(specific_user_massages,many=True)
         return Response({'messgaes':messageserializer.data})
 
+class SpecificUserNotificationsAPI(APIView):
+    def get(self,request):
+        myallnotifications = DemoFeedback_And_LeadFeedback_Notifications.objects.filter(notification_user=self.request.user.salesexecutive).order_by('-nextDate')
+        serializer = DemoFeedback_And_LeadFeedback_NotificationsSerializer(myallnotifications,many=True)
+        return Response({'serializer':serializer.data})
+
 class LogoutUserApi(APIView):
     def get(self,request):
         try:

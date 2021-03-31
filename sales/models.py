@@ -20,9 +20,16 @@ class Lead(models.Model):
     workedBy =\
     models.ManyToManyField(SalesExecutive,related_name='lead_second_assign',blank=True,null=True)
 
-
     def __str__(self):
         return self.personName
+
+class SuccessfullyLead(models.Model):
+    by = models.ForeignKey(SalesExecutive,on_delete=models.SET_NULL,blank=True,null=True)
+    lead = models.ForeignKey(Lead,related_name='comfirmed_lead',on_delete=models.SET_NULL,blank=True,null=True)
+    priceQuoted = models.CharField(max_length=200)
+    extra_requirement = models.TextField(blank=True,null=True)
+    datetime = models.DateTimeField(default=timezone.now())
+
 
 class FeedBack(models.Model):
     typeFeedBack = models.IntegerField()

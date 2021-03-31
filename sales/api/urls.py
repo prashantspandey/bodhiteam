@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'Get_feedbackes_leadwise_by_ajex/$', views.GetFeedbackesLeadWiseUsingAjexAPI.as_view(), name='Get_feedbackes_leadwise_by_ajex'),
     url(r'Get_my_all_message/$', views.MessagesInboxAPI.as_view(), name='Get_my_all_message'),
     url(r'Get_specific_massages/$', views.GetMySpecificMessageAPI.as_view(), name='Get_specific_massages'),
+    url(r'specific_user_notifications/$', views.SpecificUserNotificationsAPI.as_view(), name='specific_user_notifications'),
     url(r'logout/$', views.LogoutUserApi.as_view(), name='logout'),
 
 ]

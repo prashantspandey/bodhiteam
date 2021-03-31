@@ -26,3 +26,9 @@ class MassagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Massages
         fields = '__all__'
+
+class DemoFeedback_And_LeadFeedback_NotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DemoFeedback_And_LeadFeedback_Notifications
+        fields = '__all__'
+

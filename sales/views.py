@@ -10,6 +10,7 @@ from django.contrib import messages
 import datetime
 from django.db.models import Prefetch
 from rest_framework.authtoken.models import Token
+from django.db.models import Q
 # Create your views here.
 
 def lead_upload(request):
@@ -109,7 +110,7 @@ class FeedbackCreateView(View):
         my_profile = self.request.user.salesexecutive
         lead = Lead.objects.get(id=lead_id)
 
-        feedback = FeedBack(typeFeedBack=FeedBack.objects.filter(lead=lead_id).count()+1,by=my_profile,lead=lead,time= datetime.datetime.now(),
+        feedback = FeedBack(typeFeedBack=FeedBack.objects.filter(lead=lead_id).count() + 1,by=my_profile,lead=lead,time= datetime.datetime.now(),
                             rating=request.POST.get("rating"),notes=request.POST.get("notes"),Cource=request.POST.get("Course"),
                             instituteType=request.POST.get("instituteType"),State=request.POST.get("state"),city=request.POST.get("city"))
         if NextCallDate:
@@ -256,6 +257,21 @@ def GetSpecificLeadAndFeedbackView(request,lead_id=None,feedback_id=None):
 def GetMyAllNotificationsView(request):
     myallnotifications = DemoFeedback_And_LeadFeedback_Notifications.objects.filter(notification_user=request.user.salesexecutive).order_by('-nextDate')
     return render(request,'sales/Allnotification.html',{'myallnotifications':myallnotifications})   
+
+class AddSuccessfullyLeadView(View):
+    def get(self,request):
+        leads = Lead.objects.filter(Q(assignedTo=self.request.user.salesexecutive) |
+        Q(feeback_lead__nextCall=self.request.user.salesexecutive)).distinct()
+        return render(request,'sales/AddSuccessfullyLead.html',{'leads':leads})
+
+    def post(self,request):
+        lead = Lead.objects.get(id=request.POST.get('comfirmlead'))
+        SuccessfullyLead.objects.create(by=self.request.user.salesexecutive,lead=lead,priceQuoted=request.POST.get('decidedPrice'),extra_requirement=request.POST.get('extrarequirments'),datetime=datetime.datetime.now())
+        return HttpResponse('seccessfully ')
+
+def SpecificPersonSuccessfullyLeadsView(request):
+    successfullyleads = SuccessfullyLead.objects.filter(by=request.user.salesexecutive).order_by('datetime')
+    return render(request,'sales/SuccessfullyLeads.html',{'successfullyleads':successfullyleads})
 
 def logoutview(request):
     try:

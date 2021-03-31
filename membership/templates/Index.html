@@ -58,7 +58,7 @@
                                             <i class="icon-list primary font-large-2 float-left"></i>
                                         </div>
                                         <div class="media-body text-right">
-                                            <h3>278</h3>
+                                            <h3>{{NewleadsLenght|length}}</h3>
                                             <span>New Leads</span>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                             <i class="icon-docs warning font-large-2 float-left"></i>
                                         </div>
                                         <div class="media-body text-right">
-                                            <h3>156</h3>
+                                            <h3>{{WorkedLeadsLenght|length}}</h3>
                                             <span>Worked Leads</span>
                                         </div>
                                     </div>
@@ -97,7 +97,7 @@
                                             <i class="icon-info success font-large-2 float-left"></i>
                                         </div>
                                         <div class="media-body text-right">
-                                            <h3>64.89 %</h3>
+                                            <h3>{{assignedleads}}</h3>
                                             <span>Assigned Leads</span>
                                         </div>
                                     </div>
@@ -135,7 +135,7 @@
                                 <div class="card-body">
                                     <div class="media d-flex">
                                         <div class="media-body text-left">
-                                            <h3 class="danger">278</h3>
+                                            <h3 class="danger">Send</h3>
                                             <span>Message</span>
                                         </div>
                                         <div class="align-self-center">
@@ -154,7 +154,7 @@
                                 <div class="card-body">
                                     <div class="media d-flex">
                                         <div class="media-body text-left">
-                                            <h3 class="success">156</h3>
+                                            <h3 class="success">{{allmessagelength}}</h3>
                                             <span>Inbox</span>
                                         </div>
                                         <div class="align-self-center">
@@ -173,7 +173,7 @@
                                 <div class="card-body">
                                     <div class="media d-flex">
                                         <div class="media-body text-left">
-                                            <h3 class="warning">64.89 %</h3>
+                                            <h3 class="warning">{{allNotificationslength}}</h3>
                                             <span>Notifications</span>
                                         </div>
                                         <div class="align-self-center">
@@ -205,7 +205,46 @@
                     </a>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/add_comfirmLead">
+                        <div class="card" style="background: rgb(222, 203, 250);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="danger">Add</h3>
+                                            <span>Successfull Lead</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-plus danger font-large-2 float-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Specific_person_successfullLeads/">
+                        <div class="card" style="background: rgb(252, 228, 241)">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="success">454</h3>
+                                            <span>Successfull Leads</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-check success font-large-2 float-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </section>
         <section id="stats-subtitle">
             <div class="row">

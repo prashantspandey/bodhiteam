@@ -3,12 +3,27 @@ from membership.models import SalesExecutive,TechPerson
 from django.contrib import messages
 from sales.models import *
 from datetime import datetime, timezone
+from django.db.models import Prefetch
 # Create your views here.
 
-def IndexView(request):
+def IndexView(request):            
     if request.user.is_authenticated:
         try:
-            request.user.salesexecutive 
+            request.user.salesexecutive  
+            try:
+                currentUser = SalesExecutive.objects.filter(executiveUser=request.user.id).prefetch_related(Prefetch("lead_assign",queryset=Lead.objects.filter(assignedTo=request.user.salesexecutive),to_attr="recieved_leads"))
+                Newleads_list,WorkedLeads_list = [],[]
+                for i in currentUser[0].recieved_leads:
+                    if not i.feeback_lead.filter(lead=i.id).exists():
+                        Newleads_list.append(i.id)
+                    else:
+                        WorkedLeads_list.append(i.id)
+                allmessagelength = currentUser[0].reciever.count()
+                allNotificationslength = currentUser[0].demofeedbackuser_notification.count()  
+                assignedleads = Lead.objects.filter(feeback_lead__nextCall=request.user.salesexecutive).count()
+            except Exception as e:
+                pass
+    
             user_notification = Notification.objects.filter(notification_user=request.user.salesexecutive,is_FirstTime=True)
             IsDemo_Or_feedback_schedule = DemoFeedback_And_LeadFeedback_Notifications.objects.filter(notification_user=request.user.salesexecutive,is_FirstTime=True)
             for i in IsDemo_Or_feedback_schedule:
@@ -28,7 +43,8 @@ def IndexView(request):
                         i.save()
                 except Exception as e:
                     pass
-            return render(request,'Index.html',{'user_notification':user_notification})
+            context = {'user_notification':user_notification,'assignedleads':assignedleads,'allmessagelength':allmessagelength,'allNotificationslength':allNotificationslength,'NewleadsLenght':Newleads_list,'WorkedLeadsLenght':WorkedLeads_list}
+            return render(request,'Index.html',context)
         except:
             try:
                 request.user.techperson
