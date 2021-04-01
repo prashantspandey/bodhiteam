@@ -1,291 +1,230 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'sales/base.html'%}
+{% block title %}Feedback and Demo's{% endblock title %}
+{% block body %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style>
+  .features_table h1 {
+    font-size: 25px !important;
 
-<head>
-  <meta charset="UTF-8">
-  <title>Feedback and Demo</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <style>
-    #intro-example {
-      height: 400px;
-    }
+  }
 
-    .tagnameclr {
-      color: white;
-      font-size: 3ch;
-      margin-left: 50px;
-    }
+  li {
+    list-style: none;
+  }
 
-    @media (min-width: 992px) {
-      #intro-example {
-        height: 600px;
-      }
-    }
+  h1 {
+    font-size: 21px !important;
+  }
 
-    .features_table h1 {
-      font-size: 25px !important;
+  .features-table li {
+    background: #da9748 none repeat scroll 0 0;
+    border-bottom: 2px solid #e5a253;
+    color: #f1f1f1;
+    font-size: 16px;
+    padding: 15px 24px;
+  }
 
-    }
+  .features-table li:hover {
+    background: #e5a253;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+  }
 
-    li {
-      list-style: none;
-    }
+  .features-table-free li,
+  .features-table-paid li {
+    background: #efefef none repeat scroll 0 0;
+    border-bottom: 2px solid #d4d4d4;
+    text-align: center;
+    padding: 16.4px 21px;
+  }
 
-    h1 {
-      font-size: 21px !important;
-    }
+  .features-table-free h1,
+  .features-table-paid h1 {
+    text-align: center;
+  }
 
-    .features-table li {
-      background: #da9748 none repeat scroll 0 0;
-      border-bottom: 2px solid #e5a253;
-      color: #f1f1f1;
-      font-size: 16px;
-      padding: 15px 24px;
-    }
+  .features-table-free li:hover,
+  .features-table-paid li:hover {
+    background: #dedede none repeat scroll 0 0;
+    -webkit-transition: all .35s;
+    -moz-transition: all .35s;
+    transition: all .35s;
+  }
 
-    .features-table li:hover {
-      background: #e5a253;
-      -webkit-transition: all .35s;
-      -moz-transition: all .35s;
-      transition: all .35s;
-    }
+  .features_table h1 {
+    font-size: 23px !important;
+  }
 
-    .features-table-free li,
-    .features-table-paid li {
-      background: #efefef none repeat scroll 0 0;
-      border-bottom: 2px solid #d4d4d4;
-      text-align: center;
-      padding: 16.4px 21px;
-    }
+  .features-table h1,
+  .features-table-free h1,
+  .features-table-paid h1 {
+    background: #6b6b6b none repeat scroll 0 0;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    padding: 19px 21px;
+    text-transform: uppercase;
+  }
 
-    .features-table-free h1,
-    .features-table-paid h1 {
-      text-align: center;
-    }
+  .features-table h1 {
+    border-top-left-radius: 20px;
+    text-align: center;
+  }
 
-    .features-table-free li:hover,
-    .features-table-paid li:hover {
-      background: #dedede none repeat scroll 0 0;
-      -webkit-transition: all .35s;
-      -moz-transition: all .35s;
-      transition: all .35s;
-    }
+  .features-table-paid h1 {
+    border-top-right-radius: 20px;
+  }
 
-    .features_table h1 {
-      font-size: 23px !important;
-    }
+  .features-table-free li {
+    border-right: 2px solid #d4d4d4;
 
-    .features-table h1,
-    .features-table-free h1,
-    .features-table-paid h1 {
-      background: #6b6b6b none repeat scroll 0 0;
-      color: #fff;
-      font-weight: 600;
-      margin: 0;
-      padding: 19px 21px;
-      text-transform: uppercase;
-    }
+  }
 
-    .features-table h1 {
-      border-top-left-radius: 20px;
-      text-align: center;
-    }
+  .fa.fa-check {
+    color: #2cc14f;
+  }
 
-    .features-table-paid h1 {
-      border-top-right-radius: 20px;
-    }
+  .fa.fa-times {
+    color: #BA5340;
+  }
 
-    .features-table-free li {
-      border-right: 2px solid #d4d4d4;
+  .fa {
+    font-size: 30px;
+  }
 
-    }
+  .no-padding {
+    padding: 0;
+  }
 
-    .fa.fa-check {
-      color: #2cc14f;
-    }
+  ul {
+    padding: 0;
+  }
 
-    .fa.fa-times {
-      color: #BA5340;
-    }
+  body {
+    counter-reset: section;
+    /* Set the section counter to 0 */
+  }
 
-    .fa {
-      font-size: 30px;
-    }
+  .fortext {
+    font-size: 15px;
+  }
+</style>
+<h3 style="text-align: center; font-family: serif;">Here You are check Your Feedbackes and Demo's leads wise</h3>
+<div style="text-align: center;">
+  <a href="/sales/feedback_creating/?lead_id={{request.GET.lead_id}}"><button
+      style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another feedback </button></a>
+  <a href="/sales/demo_creating/?lead_id={{request.GET.lead_id}}"><button
+      style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another Demo </button></a>
+</div>
+<section class="features_table">
+  <div class="container ">
+    <div class="col-md-6">
+      <h3
+        style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+        Feedback</h3>
+      {% for feedback in feedbackes_SpecificLeadWise %}
+      <div class="div">
+        <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
+          <div class="features-table">
+            <ul>
+              <h1>Key</h1>
+              <li>Type Feedback</li>
+              <li>By</li>
+              <li>Lead</li>
+              <li>Time</li>
+              <li>Rating </li>
+              <li>Cource </li>
+              <li>instituteType </li>
+              <li>State </li>
+              <li>city </li>
+              <li>Is_wrongLead </li>
+              <li>NextCall User</li>
+              <li>NextCall Date</li>
+              <li>Demo</li>
+              <li>DemoDate</li>
+              <li>Feedback</li>
+              <li>FurtherCall</li>
+              <li>Price Quoted</li>
+              <li>Notes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
+          <div class="features-table-free">
+            <ul>
+              <h1>Data</h1>
+              <li><i class="fortext">{{feedback.typeFeedBack}}</i></li>
+              <li><i class="fortext">{{feedback.by}}</i></li>
+              <li><i class="fortext">{{feedback.lead}}</i></li>
+              <li><i class="fortext">{{feedback.time}}</i></li>
+              <li><i class="fortext">{{feedback.rating}}</i></li>
 
-    .no-padding {
-      padding: 0;
-    }
+              <li><i class="fortext">{{feedback.Cource}}</i></li>
+              <li><i class="fortext">{{feedback.instituteType}}</i></li>
+              <li><i class="fortext">{{feedback.State}}</i></li>
+              <li><i class="fortext">{{feedback.city}}</i></li>
+              <li><i class="fortext">{{feedback.Is_wrongLead}}</i></li>
 
-    ul {
-      padding: 0;
-    }
-
-    body {
-      counter-reset: section;
-      /* Set the section counter to 0 */
-    }
-
-    .fortext {
-      font-size: 15px;
-    }
-  </style>
-</head>
-
-<body>
-  <header>
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-      <li class=" {{ message.tags }} "> {{ message }} </li>
+              <li><i class="fortext">{{feedback.nextCall}}</i></li>
+              <li><i class="fortext">{{feedback.nextCallDate}}</i></li>
+              <li><i class="fortext">{{feedback.demo}}</i></li>
+              <li><i class="fortext">{{feedback.demoDate}}</i></li>
+              <li><i class="fortext">{{feedback.feedback}}</i></li>
+              <li><i class="fortext">{{feedback.furtherCall}}</i></li>
+              <li><i class="fortext">{{feedback.priceQuoted}}</i></li>
+              <li><i class="fortext">{{feedback.notes}}</i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
       {% endfor %}
-    </ul>
-    {% endif %}
-
-    <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
-      <a class="navbar-brand tagnameclr"
-        style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
-        href="/">Bodhi Ai</a>
-      <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
-
-          {% if request.user.salesexecutive %}
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="#">My Demo's</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
-          {% else %}
-          <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
-          {% endif %}
-          <a href="/sales/logout">
-            <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
-              Logout
-            </button>
-          </a>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-
-  <h3 style="text-align: center; font-family: serif;">Here You are check Your Feedbackes and Demo's leads wise</h3>
-  <div style="text-align: center;">
-    <a href="/sales/feedback_creating/?lead_id={{request.GET.lead_id}}"><button style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another feedback </button></a>
-    <a href="/sales/demo_creating/?lead_id={{request.GET.lead_id}}" ><button style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another Demo </button></a>
-  </div>
-
-  <section class="features_table">
-    <div class="container ">
-      <div class="col-md-6">
-        <h3
-          style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-          Feedback</h3>
-        {% for feedback in feedbackes_SpecificLeadWise %}
-        <div class="div">
-          <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
-            <div class="features-table">
-              <ul>
-                <h1>Key</h1>
-                <li>Type Feedback</li>
-                <li>By</li>
-                <li>Lead</li>
-                <li>Time</li>
-                <li>Rating </li>
-                <li>Cource </li>
-                <li>instituteType </li>
-                <li>State </li>
-                <li>city </li>
-                <li>Is_wrongLead </li>
-                <li>NextCall User</li>
-                <li>NextCall Date</li>
-                <li>Demo</li>
-                <li>DemoDate</li>
-                <li>Feedback</li>
-                <li>FurtherCall</li>
-                <li>Price Quoted</li>
-                <li>Notes</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
-            <div class="features-table-free">
-              <ul>
-                <h1>Data</h1>
-                <li><i class="fortext">{{feedback.typeFeedBack}}</i></li>
-                <li><i class="fortext">{{feedback.by}}</i></li>
-                <li><i class="fortext">{{feedback.lead}}</i></li>
-                <li><i class="fortext">{{feedback.time}}</i></li>
-                <li><i class="fortext">{{feedback.rating}}</i></li>
-
-                <li><i class="fortext">{{feedback.Cource}}</i></li>
-                <li><i class="fortext">{{feedback.instituteType}}</i></li>
-                <li><i class="fortext">{{feedback.State}}</i></li>
-                <li><i class="fortext">{{feedback.city}}</i></li>
-                <li><i class="fortext">{{feedback.Is_wrongLead}}</i></li>
-
-                <li><i class="fortext">{{feedback.nextCall}}</i></li>
-                <li><i class="fortext">{{feedback.nextCallDate}}</i></li>
-                <li><i class="fortext">{{feedback.demo}}</i></li>
-                <li><i class="fortext">{{feedback.demoDate}}</i></li>
-                <li><i class="fortext">{{feedback.feedback}}</i></li>
-                <li><i class="fortext">{{feedback.furtherCall}}</i></li>
-                <li><i class="fortext">{{feedback.priceQuoted}}</i></li>
-                <li><i class="fortext">{{feedback.notes}}</i></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% if demos_SpecificLeadWise %}
-      <div class="col-md-6">
-        <h3
-          style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
-          Demos</h3>
-        {% for demo in demos_SpecificLeadWise %}
-        <div class="div">
-          <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
-            <div class="features-table">
-              <ul>
-                <h1>Key</h1>
-                <li>Type Demo</li>
-                <li>By</li>
-                <li>Lead</li>
-                <li>Time</li>
-                <li>Demo Rating </li>
-                <li>Demo Feedback</li>
-                <li>Price Quoted</li>
-                <li>NextCall User</li>
-                <li>NextCall Date</li>
-                <li>Extra Notes</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
-            <div class="features-table-free">
-              <ul>
-                <h1>Data</h1>
-                <li><i class="fortext">{{demo.typedemo}}</i></li>
-                <li><i class="fortext">{{demo.by}}</i></li>
-                <li><i class="fortext">{{demo.lead}}</i></li>
-                <li><i class="fortext">{{demo.datetime}}</i></li>
-                <li><i class="fortext">{{demo.demo_rating}}</i></li>
-                <li><i class="fortext">{{demo.demo_feedback}}</i></li>
-                <li><i class="fortext">{{demo.price_quoted}}</i></li>
-                <li><i class="fortext">{{demo.demo_nextCall}}</i></li>
-                <li><i class="fortext">{{demo.demo_nextCallDate}}</i></li>
-                <li><i class="fortext">{{demo.extra_notes}}</i></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
     </div>
-  </section>
-</body>
-
-</html>
+    {% if demos_SpecificLeadWise %}
+    <div class="col-md-6">
+      <h3
+        style="margin-left: 230px !important; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">
+        Demos</h3>
+      {% for demo in demos_SpecificLeadWise %}
+      <div class="div">
+        <div class="col-sm-8 col-8 col-xs-12 no-padding" style="width: 200px;">
+          <div class="features-table">
+            <ul>
+              <h1>Key</h1>
+              <li>Type Demo</li>
+              <li>By</li>
+              <li>Lead</li>
+              <li>Time</li>
+              <li>Demo Rating </li>
+              <li>Demo Feedback</li>
+              <li>Price Quoted</li>
+              <li>NextCall User</li>
+              <li>NextCall Date</li>
+              <li>Extra Notes</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-2 col-2 col-xs-12 no-padding" style="width: 300px;">
+          <div class="features-table-free">
+            <ul>
+              <h1>Data</h1>
+              <li><i class="fortext">{{demo.typedemo}}</i></li>
+              <li><i class="fortext">{{demo.by}}</i></li>
+              <li><i class="fortext">{{demo.lead}}</i></li>
+              <li><i class="fortext">{{demo.datetime}}</i></li>
+              <li><i class="fortext">{{demo.demo_rating}}</i></li>
+              <li><i class="fortext">{{demo.demo_feedback}}</i></li>
+              <li><i class="fortext">{{demo.price_quoted}}</i></li>
+              <li><i class="fortext">{{demo.demo_nextCall}}</i></li>
+              <li><i class="fortext">{{demo.demo_nextCallDate}}</i></li>
+              <li><i class="fortext">{{demo.extra_notes}}</i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock body %}

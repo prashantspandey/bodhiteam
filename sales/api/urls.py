@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'Get_my_all_message/$', views.MessagesInboxAPI.as_view(), name='Get_my_all_message'),
     url(r'Get_specific_massages/$', views.GetMySpecificMessageAPI.as_view(), name='Get_specific_massages'),
     url(r'specific_user_notifications/$', views.SpecificUserNotificationsAPI.as_view(), name='specific_user_notifications'),
+    url(r'add_successfull_lead/$', views.AddSuccessfullyLeadsAPI.as_view(), name='add_successfull_lead'),
+    url(r'get_my_successfully_leads/$', views.SpecificPersonSuccessfullyLeadsAPI.as_view(), name='get_my_successfully_leads'),
     url(r'logout/$', views.LogoutUserApi.as_view(), name='logout'),
 
 ]

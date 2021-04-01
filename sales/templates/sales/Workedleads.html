@@ -1,169 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'sales/base.html'%}
+{% block title %}Worked leads{% endblock title %}
+{% block body %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+<style>
+    .panel-order .row {
+        border-bottom: 1px solid #ccc;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <title>My worked leads</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"
-        href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-    <style>
-        #intro-example {
-            height: 400px;
-        }
+    .panel-order .row:last-child {
+        border: 0px;
+    }
 
-        .tagnameclr {
-            color: white;
-            font-size: 3ch;
-            margin-left: 50px;
-        }
+    .panel-order .row .col-md-1 {
+        text-align: center;
+        padding-top: 15px;
+    }
 
-        @media (min-width: 992px) {
-            #intro-example {
-                height: 600px;
-            }
-        }
+    .panel-order .row .col-md-1 img {
+        width: 50px;
+        max-height: 50px;
+    }
 
-        .panel-order .row {
-            border-bottom: 1px solid #ccc;
-        }
+    .panel-order .row .row {
+        border-bottom: 0;
+    }
 
-        .panel-order .row:last-child {
-            border: 0px;
-        }
+    .panel-order .row .col-md-11 {
+        border-left: 1px solid #ccc;
+    }
 
-        .panel-order .row .col-md-1 {
-            text-align: center;
-            padding-top: 15px;
-        }
+    .panel-order .row .row .col-md-12 {
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
 
-        .panel-order .row .col-md-1 img {
-            width: 50px;
-            max-height: 50px;
-        }
+    .panel-order .row .row .col-md-12:last-child {
+        font-size: 11px;
+        color: #555;
+        background: #efefef;
+    }
 
-        .panel-order .row .row {
-            border-bottom: 0;
-        }
+    .panel-order .btn-group {
+        margin: 0px;
+        padding: 0px;
+    }
 
-        .panel-order .row .col-md-11 {
-            border-left: 1px solid #ccc;
-        }
+    .panel-order .panel-body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
 
-        .panel-order .row .row .col-md-12 {
-            padding-top: 7px;
-            padding-bottom: 7px;
-        }
-
-        .panel-order .row .row .col-md-12:last-child {
-            font-size: 11px;
-            color: #555;
-            background: #efefef;
-        }
-
-        .panel-order .btn-group {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .panel-order .panel-body {
-            padding-top: 0px;
-            padding-bottom: 0px;
-        }
-
-        .panel-order .panel-deading {
-            margin-bottom: 0;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class=" {{ message.tags }} "> {{ message }} </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-
-        <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
-            <a class="navbar-brand tagnameclr"
-                style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
-                href="/">Bodhi Ai</a>
-            <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active tagnameclr" href="/">Home <span
-                            class="sr-only">(current)</span></a>
-
-                    {% if request.user.salesexecutive %}
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="#">My Demo's</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
-                    {% else %}
-                    <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
-                    {% endif %}
-                    <a href="/sales/logout">
-                        <button class="tagnameclr"
-                            style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
-                            Logout
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    {% if allworkedleads %}
-    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Your all
-        Worked Leads</h1>
-    <div class="container bootdey" style="margin-top: 30px;">
-        <div class="panel panel-default panel-order">
-            <div class="panel-heading">
-                <strong>Worked Leads</strong>
-            </div>
-            {% for i in allworkedleads %}
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-1">
-                        <img src="https://bootdey.com/img/Content/user_1.jpg" class="media-object img-thumbnail" />
-                    </div>
-                    <div class="col-md-11">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}"
-                                    style="height: 110px;">
-                                    <div class="pull-right">
-                                        <label class="label label-danger">
-                                            Check Feedback & Demo
-                                        </label>
-                                    </div>
-                                </a>
-                                <span><strong>{{i.personName}}</strong></span><br />
-                                Contact : {{i.contactPhone}} <br />
-                                Email : {{i.email}} <br />
-
-                                <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
-                                    href="/sales/Get_specific_lead_andfeedback/{{i.id}}" title="View"></a>
-                                <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
-                                    href="tel:{{i.contactPhone}}" title="Danger"></a>
-                                <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
-                                    href="mailto:{{i.email}}" title="Danger"></a>
-                            </div>
-                            <div class="col-md-12">Lead made on: {{i.date}} </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+    .panel-order .panel-deading {
+        margin-bottom: 0;
+    }
+</style>
+<h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Your all
+    Worked Leads</h1>
+{% if allworkedleads %}
+<div class="container bootdey" style="margin-top: 30px;">
+    <div class="panel panel-default panel-order">
+        <div class="panel-heading">
+            <strong>Worked Leads</strong>
         </div>
-    </div>
-    {% else %}
-    <img src="https://www.aclproduct.com/images/empty.png" style="display: block; margin-left: auto; margin-right: auto;" id="img-fluid" class="col-12">
-    {% endif %}
-</body>
+        {% for i in allworkedleads %}
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <img src="https://bootdey.com/img/Content/user_1.jpg" class="media-object img-thumbnail" />
+                </div>
+                <div class="col-md-11">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}"
+                                style="height: 110px;">
+                                <div class="pull-right">
+                                    <label class="label label-danger">
+                                        Check Feedback & Demo
+                                    </label>
+                                </div>
+                            </a>
+                            <span><strong>{{i.personName}}</strong></span><br />
+                            Contact : {{i.contactPhone}} <br />
+                            Email : {{i.email}} <br />
 
-</html>
+                            <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
+                                href="/sales/Get_specific_lead_andfeedback/{{i.id}}" title="View"></a>
+                            <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
+                                href="tel:{{i.contactPhone}}" title="Danger"></a>
+                            <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
+                                href="mailto:{{i.email}}" title="Danger"></a>
+                        </div>
+                        <div class="col-md-12">Lead made on: {{i.date}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<img src="https://www.aclproduct.com/images/empty.png" style="display: block; margin-left: auto; margin-right: auto;"
+    id="img-fluid" class="col-12">
+{% endif %}
+{% endblock body %}

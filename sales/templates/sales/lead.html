@@ -1,164 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'sales/base.html'%}
+{% block title %}New leads{% endblock title %}
+{% block body %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<style>
+    .navcenter {
+        text-align: center !important;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <title>New Leads</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <style>
-        #intro-example {
-            height: 400px;
-        }
+    .panel-order .row {
+        border-bottom: 1px solid #ccc;
+    }
 
-        .tagnameclr {
-            color: white;
-            font-size: 3ch;
-            margin-left: 50px;
-        }
+    .panel-order .row:last-child {
+        border: 0px;
+    }
 
-        @media (min-width: 992px) {
-            #intro-example {
-                height: 600px;
-            }
-        }
-        /* body{
-            background-image: url("https://www.pixelstalk.net/wp-content/uploads/2016/07/HD-Peaceful-Background.jpg");
-        } */
-        .navcenter {
-            text-align: center !important;
-        }
-        .panel-order .row {
-            border-bottom: 1px solid #ccc;
-        }
-        .panel-order .row:last-child {
-            border: 0px;
-        }
-        .panel-order .row .col-md-1 {
-            text-align: center;
-            padding-top: 15px;
-        }
-        .panel-order .row .col-md-1 img {
-            width: 50px;
-            max-height: 50px;
-        }
-        .panel-order .row .row {
-            border-bottom: 0;
-        }
-        .panel-order .row .col-md-11 {
-            border-left: 1px solid #ccc;
-        }
-        .panel-order .row .row .col-md-12 {
-            padding-top: 7px;
-            padding-bottom: 7px;
-        }
-        .panel-order .row .row .col-md-12:last-child {
-            font-size: 11px;
-            color: #555;
-            background: #efefef;
+    .panel-order .row .col-md-1 {
+        text-align: center;
+        padding-top: 15px;
+    }
 
-        }
-        .panel-order .btn-group {
-            margin: 0px;
-            padding: 0px;
-        }
-        .panel-order .panel-body {
-            padding-top: 0px;
-            padding-bottom: 0px;
-        }
-        .panel-order .panel-deading {
-            margin-bottom: 0;
-        }
-    </style>
-</head>
+    .panel-order .row .col-md-1 img {
+        width: 50px;
+        max-height: 50px;
+    }
 
-<body>
-    <header>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li class=" {{ message.tags }} "> {{ message }} </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+    .panel-order .row .row {
+        border-bottom: 0;
+    }
 
-        <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
-            <a class="navbar-brand tagnameclr"
-                style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
-                href="/">Bodhi Ai</a>
-            <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active tagnameclr" href="/">Home <span
-                            class="sr-only">(current)</span></a>
+    .panel-order .row .col-md-11 {
+        border-left: 1px solid #ccc;
+    }
 
-                    {% if request.user.salesexecutive %}
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="#">My Demo's</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
-                    <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
-                    {% else %}
-                    <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
-                    {% endif %}
-                    <a href="/sales/logout">
-                        <button class="tagnameclr"
-                            style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
-                            Logout
-                        </button>
-                    </a>
-                </div>
-            </div>
-        </nav>
-    </header>
+    .panel-order .row .row .col-md-12 {
+        padding-top: 7px;
+        padding-bottom: 7px;
+    }
 
-    {% if leads %}
-    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Your New
-        leads</h1>
-    <div class="container bootdey" style="margin-top: 30px;">
-        <div class="panel panel-default panel-order">
-            <div class="panel-heading">
-                <strong>My New Leads </strong>
-            </div>
-            {% for i in leads %}
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-1">
-                        <img src="https://bootdey.com/img/Content/user_3.jpg" class="media-object img-thumbnail" />
-                    </div>
-                    <div class="col-md-11">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a href="/sales/feedback_creating/?lead_id={{i.id}}">
-                                    <div class="pull-right" >
-                                        <label class="label label-success">
-                                            Create Feedback
-                                        </label>
-                                    </div>
-                                </a>
-                                <span><strong>{{i.personName}}</strong></span><br/>
-                                Contact : {{i.contactPhone}} <br/>
-                                Email : {{i.email}} <br />
+    .panel-order .row .row .col-md-12:last-child {
+        font-size: 11px;
+        color: #555;
+        background: #efefef;
 
-                                <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
-                                    href="/sales/Get_specific_lead_andfeedback/{{i.id}}" title="View"></a>
-                                <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
-                                    href="tel:{{i.contactPhone}}" title="Danger"></a>
-                                <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
-                                    href="mailto:{{i.email}}" title="Danger"></a>
-                            </div>
-                            <div class="col-md-12">Lead made on: {{i.date}} </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-            <!-- <div class="panel-footer">Put here some note for example: bootdey si a gallery of free bootstrap snippets
-                bootdeys</div> -->
+    }
+
+    .panel-order .btn-group {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .panel-order .panel-body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .panel-order .panel-deading {
+        margin-bottom: 0;
+    }
+</style>
+{% if leads %}
+<h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Your New
+    leads</h1>
+<div class="container bootdey" style="margin-top: 30px;">
+    <div class="panel panel-default panel-order">
+        <div class="panel-heading">
+            <strong>My New Leads </strong>
         </div>
-    </div>
-    {% else %}
-    <img src="https://www.aclproduct.com/images/empty.png" style="display: block; margin-left: auto; margin-right: auto;" id="img-fluid" class="col-12">
-    {% endif %}
-</body>
+        {% for i in leads %}
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-1">
+                    <img src="https://bootdey.com/img/Content/user_3.jpg" class="media-object img-thumbnail" />
+                </div>
+                <div class="col-md-11">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/sales/feedback_creating/?lead_id={{i.id}}">
+                                <div class="pull-right">
+                                    <label class="label label-success">
+                                        Create Feedback
+                                    </label>
+                                </div>
+                            </a>
+                            <span><strong>{{i.personName}}</strong></span><br />
+                            Contact : {{i.contactPhone}} <br />
+                            Email : {{i.email}} <br />
 
-</html>
+                            <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
+                                href="/sales/Get_specific_lead_andfeedback/{{i.id}}" title="View"></a>
+                            <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
+                                href="tel:{{i.contactPhone}}" title="Danger"></a>
+                            <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
+                                href="mailto:{{i.email}}" title="Danger"></a>
+                        </div>
+                        <div class="col-md-12">Lead made on: {{i.date}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        <!-- <div class="panel-footer">Put here some note for example: bootdey si a gallery of free bootstrap snippets
+                bootdeys</div> -->
+    </div>
+</div>
+{% else %}
+<img src="https://www.aclproduct.com/images/empty.png" style="display: block; margin-left: auto; margin-right: auto;"
+    id="img-fluid" class="col-12">
+{% endif %}
+{% endblock body %}

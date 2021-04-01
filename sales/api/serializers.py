@@ -32,3 +32,8 @@ class DemoFeedback_And_LeadFeedback_NotificationsSerializer(serializers.ModelSer
         model = DemoFeedback_And_LeadFeedback_Notifications
         fields = '__all__'
 
+class SuccessfullyLeadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SuccessfullyLead
+        fields = '__all__'
+

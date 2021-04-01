@@ -7,6 +7,7 @@ from tech.models import *
 import datetime
 from django.db.models import Prefetch
 from .serializers import *
+from django.db.models import Q
 
 class GetMyNewLeads(APIView):
     def get(self,request):
@@ -95,7 +96,7 @@ class GiveLeadFeedBack(APIView):
             feedback.nextCall = NextCallerUser
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=NextCallerUser,
             sender_user=my_profile,notification_type='LeadFeedbackNotification',lead=lead,
-            massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=nextCallDate)
+            massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=nextCallDate,datetime=datetime.datetime.now())
         feedback.nextCallDate = nextCallDate
         feedback.save()
         context = {'status':'Saved','message':'Feedback saved'}
@@ -169,7 +170,7 @@ class GiveDemoFeedBackApi(APIView):
             nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
             demofeedback.demo_nextCall = nextcaller
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=my_profile,notification_type='DemoNotification',lead=lead,
-            massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
+            massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate,datetime=datetime.datetime.now())
         demofeedback.save()
         return Response({'status':'Saved','message':'Demo saved'})
 
@@ -255,7 +256,24 @@ class SpecificUserNotificationsAPI(APIView):
     def get(self,request):
         myallnotifications = DemoFeedback_And_LeadFeedback_Notifications.objects.filter(notification_user=self.request.user.salesexecutive).order_by('-nextDate')
         serializer = DemoFeedback_And_LeadFeedback_NotificationsSerializer(myallnotifications,many=True)
-        return Response({'serializer':serializer.data})
+        return Response({'allnotifications':serializer.data})
+
+class AddSuccessfullyLeadsAPI(APIView):
+    def get(self,request):
+        leads = Lead.objects.filter(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)).distinct()
+        leadsSerializer = LeadSerializer(leads,many=True)
+        return Response({'leads':leadsSerializer.data})
+    def post(self,request):
+        data = request.data
+        lead = Lead.objects.get(id=data['comfirmlead'])
+        SuccessfullyLead.objects.create(by=self.request.user.salesexecutive,lead=lead,priceQuoted=data['decidedPrice'],extra_requirement=data['extrarequirments'],datetime=datetime.datetime.now())
+        return Response('Successfully added')
+
+class SpecificPersonSuccessfullyLeadsAPI(APIView):
+    def get(self,request):
+        successfullyleads = SuccessfullyLead.objects.filter(by=self.request.user.salesexecutive).order_by('datetime')
+        successfullLeadsSerializer = SuccessfullyLeadSerializer(successfullyleads,many=True)
+        return Response({'Successfully leads':successfullLeadsSerializer.data})
 
 class LogoutUserApi(APIView):
     def get(self,request):

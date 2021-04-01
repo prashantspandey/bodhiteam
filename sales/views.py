@@ -123,7 +123,7 @@ class FeedbackCreateView(View):
             feedback.nextCall = executive
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=executive,
             sender_user=self.request.user.salesexecutive,notification_type='LeadFeedbackNotification',lead=lead,
-            massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=NextCallDate)
+            massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=NextCallDate,datetime=datetime.datetime.now())
         else:
             feedback.nextCall = None
         if request.POST.get("demodate"):
@@ -173,7 +173,7 @@ class DemoCreatingView(View):
             nextcaller = SalesExecutive.objects.get(id=DemoNextUser)
             demofeedback.demo_nextCall = nextcaller
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=nextcaller,sender_user=self.request.user.salesexecutive,notification_type='DemoNotification',lead=lead,
-            massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate)
+            massage = f"Today is your Demo schedule of this {lead.personName} lead So remember This",is_FirstTime = True,nextDate=DemoNextDate,datetime=datetime.datetime.now())
         else:
             demofeedback.demo_nextCall = None
         demofeedback.save()
@@ -216,7 +216,7 @@ def GetFeedbackesLeadWiseUsingAjexView(request):
     return JsonResponse(list(feedbackes),safe=False)
 
 def GetMyAssignedLeadsView(request):
-    assignedLeadss = Lead.objects.filter(feeback_lead__nextCall=request.user.salesexecutive).order_by('-feeback_lead__time')
+    assignedLeadss = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)).order_by('-feeback_lead__time')
     return render(request,'sales/AssignedLeads.html',{'assignedLeadss':assignedLeadss})
 
 def MessagesInboxView(request):

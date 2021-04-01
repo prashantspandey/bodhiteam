@@ -4,8 +4,8 @@ from django.contrib import messages
 from sales.models import *
 from datetime import datetime, timezone
 from django.db.models import Prefetch
+from django.db.models import Q
 # Create your views here.
-
 def IndexView(request):            
     if request.user.is_authenticated:
         try:
@@ -18,9 +18,9 @@ def IndexView(request):
                         Newleads_list.append(i.id)
                     else:
                         WorkedLeads_list.append(i.id)
-                allmessagelength = currentUser[0].reciever.count()
+                allmessagelength = currentUser[0].reciever.filter(massagRead=False).count()
                 allNotificationslength = currentUser[0].demofeedbackuser_notification.count()  
-                assignedleads = Lead.objects.filter(feeback_lead__nextCall=request.user.salesexecutive).count()
+                assignedleads = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)).count()
             except Exception as e:
                 pass
     
@@ -43,7 +43,8 @@ def IndexView(request):
                         i.save()
                 except Exception as e:
                     pass
-            context = {'user_notification':user_notification,'assignedleads':assignedleads,'allmessagelength':allmessagelength,'allNotificationslength':allNotificationslength,'NewleadsLenght':Newleads_list,'WorkedLeadsLenght':WorkedLeads_list}
+            context = {'user_notification':user_notification,'assignedleads':assignedleads,'allmessagelength':allmessagelength,
+            'allNotificationslength':allNotificationslength,'NewleadsLenght':Newleads_list,'WorkedLeadsLenght':WorkedLeads_list}
             return render(request,'Index.html',context)
         except:
             try:

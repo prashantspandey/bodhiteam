@@ -1,10 +1,8 @@
-{% load humanize %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Create Demo</title>
+{% extends 'sales/base.html'%}
+{% load humanize %}
+{% block title %}Create demo {% endblock title %}
+{% block body %}
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
     body {
@@ -24,68 +22,11 @@
     .formfield {
       margin: 10px;
     }
-
-    #intro-example {
-      height: 400px;
-    }
-
-    .tagnameclr {
-      color: white;
-      font-size: 3ch;
-      margin-left: 50px;
-    }
-
-    @media (min-width: 992px) {
-      #intro-example {
-        height: 600px;
-      }
-    }
-
-
     #feedbackbtnid {
       margin-left: 500px;
       margin-bottom: 10px;
     }
   </style>
-</head>
-
-<body>
-  <header>
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-      <li class=" {{ message.tags }} "> {{ message }} </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
-      <a class="navbar-brand tagnameclr"
-        style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
-        href="/">Bodhi Ai</a>
-      <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
-
-          {% if request.user.salesexecutive %}
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="#">My Demo's</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_assigned_leads">Assigned Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Sendmassage">Message</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/messagesInbox/">Inbox</a>
-          {% else %}
-          <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask/">New task</a>
-          {% endif %}
-          <a href="/sales/logout">
-            <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
-              Logout
-            </button>
-          </a>
-        </div>
-      </div>
-    </nav>
-  </header>
   <h1 style="text-align: center; color: white;">Create Demo {{typedemo|ordinal}} Time</h1>
   <div class="container maincls" style=" margin-top: 40px;" id="all_leads">
     <div class="div subcls">
@@ -144,6 +85,4 @@
       </form>
     </div>
   </div>
-</body>
-
-</html>
+  {% endblock body %}

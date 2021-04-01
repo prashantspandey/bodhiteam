@@ -28,8 +28,33 @@
         body {
             background: #f5fafa;
         }
+
+        .messagedesign {
+            width: 500px;
+            height: 40px;
+            font-size: 25px;
+            font-family: serif;
+            color: white;
+            background: rgb(41, 41, 41);
+            text-align: center;
+            border-radius: 1ch;
+        }
     </style>
 </head>
+<header>
+    {% if messages %}
+    <div class="container" style="height: 200px; position: relative;">
+        <div class="div"
+            style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+            <ul class="messages messagedesign">
+                {% for message in messages %}
+                <li class="{{ message.tags }}"> {{ message }} </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endif %}
+</header>
 
 <body>
     <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcom
@@ -37,14 +62,6 @@
     <h3 style="text-align: center; font-family: serif ;">Bodhi AI </h3>
     <!-- <a href="/sales/logout"><button
             style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a> -->
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li class=" {{ message.tags }} "> {{ message }} </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
     <div class="container-fluid px-2">
         <section id="minimal-statistics" style="margin-top: 10px;">
             <div class="row">

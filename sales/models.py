@@ -107,9 +107,7 @@ class DemoFeedback_And_LeadFeedback_Notifications(models.Model):
     massage = models.TextField(blank=True,null=True)
     is_FirstTime = models.BooleanField(default=True)
     nextDate = models.DateTimeField(blank=True, null=True)
-    datetime = models.DateTimeField(auto_now=True)
+    datetime = models.DateTimeField(default=timezone.localtime())
 
     def __str__(self):
         return self.notification_user.name
-
-
