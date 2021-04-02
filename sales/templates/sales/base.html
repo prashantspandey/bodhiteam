@@ -6,7 +6,7 @@
   <title>{% block title %}{% endblock title %}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <style>
     #intro-example {
@@ -33,17 +33,6 @@
 
     .subcls {
       margin-top: 20px;
-    }
-
-    .messagedesign {
-      width: 500px;
-      height: 40px;
-      font-size: 25px;
-      font-family: serif;
-      color: white;
-      background: rgb(41, 41, 41);
-      text-align: center;
-      border-radius: 1ch;
     }
   </style>
 </head>
@@ -75,22 +64,20 @@
       </div>
     </nav>
   </header>
-
   {% block body %} {% endblock body %}
-  <footer>
-    <div class="container" style="height: 200px; position: relative">
-      <div class="div" style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
-        {% if messages %}
-        <ul class="messages messagedesign">
-          {% for message in messages %}
-          <li class="{{ message.tags }}"> {{ message }} </li>
-          {% endfor %}
-        </ul>
-        {% endif %}
+  {% if messages %}
+  <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
+    <div class="div"
+      style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{ message.tags }}!</strong> {{ message }}.
       </div>
+      {% endfor %}
     </div>
-  </footer>
-
+  </div>
+  {% endif %}
 </body>
 
 </html>

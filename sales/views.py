@@ -146,7 +146,7 @@ class FeedbackCreateView(View):
         feedback.priceQuoted = request.POST.get("pricequoted")
         feedback.save()
         messages.success(request, 'Feedback saved successfully')
-        return redirect('/')
+        return redirect('/sales/feedback_creating/?lead_id='+lead_id)
 
 class DemoCreatingView(View):
     def get(self,request):
@@ -178,7 +178,7 @@ class DemoCreatingView(View):
             demofeedback.demo_nextCall = None
         demofeedback.save()
         messages.success(request, 'demofeedback saved successfully')
-        return redirect('/')
+        return redirect('/sales/demo_creating/?lead_id='+lead_id)
 
 class SendMassageToUserView(View):
     def get(self,request):
@@ -203,20 +203,20 @@ class SendMassageToUserView(View):
         else:
             lead_id = None
         Massages.objects.create(senderId=self.request.user.salesexecutive,reciverId=SalesExecutive.objects.get(id=request.POST.get('reciver')),lead=lead_id,feedback=Lead_Feedback_Id,massage=request.POST.get('massage'),datetime=datetime.datetime.now())
-        
+
         get,create = Notification.objects.get_or_create(notification_user=SalesExecutive.objects.get(id=request.POST.get('reciver')),sender_user=self.request.user.salesexecutive) 
         get.massage = self.request.user.salesexecutive.name +' '+ self.request.user.salesexecutive.typeExecutive + " send a massage"
         get.is_FirstTime = True
         get.save()
         messages.success(request,'massage send successfully')
-        return redirect('/sales/Sendmassage')
+        return redirect('/sales/Sendmassage/')
 
 def GetFeedbackesLeadWiseUsingAjexView(request):
     feedbackes = FeedBack.objects.filter(lead=request.GET.get('Selected_lead_id')).order_by('-typeFeedBack').values()
     return JsonResponse(list(feedbackes),safe=False)
 
 def GetMyAssignedLeadsView(request):
-    assignedLeadss = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)).order_by('-feeback_lead__time')
+    assignedLeadss = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) or Q(demo_lead__demo_nextCall=request.user.salesexecutive)).order_by('-feeback_lead__time')
     return render(request,'sales/AssignedLeads.html',{'assignedLeadss':assignedLeadss})
 
 def MessagesInboxView(request):
@@ -267,7 +267,8 @@ class AddSuccessfullyLeadView(View):
     def post(self,request):
         lead = Lead.objects.get(id=request.POST.get('comfirmlead'))
         SuccessfullyLead.objects.create(by=self.request.user.salesexecutive,lead=lead,priceQuoted=request.POST.get('decidedPrice'),extra_requirement=request.POST.get('extrarequirments'),datetime=datetime.datetime.now())
-        return HttpResponse('seccessfully ')
+        messages.success(request,'successfully added')
+        return redirect('/sales/add_comfirmLead/')
 
 def SpecificPersonSuccessfullyLeadsView(request):
     successfullyleads = SuccessfullyLead.objects.filter(by=request.user.salesexecutive).order_by('datetime')

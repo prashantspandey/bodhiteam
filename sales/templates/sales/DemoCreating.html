@@ -34,11 +34,11 @@
         {% csrf_token %}
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="inputPassword4">Demo rating</label>
+            <label for="inputPassword4">Demo rating *</label>
             <input type="number" class="form-control" name="demo_rating" required placeholder="Enter rating">
           </div>
           <div class="form-group col-md-6">
-            <label for="inputPassword4">Demo feedback</label>
+            <label for="inputPassword4">Demo feedback *</label>
             <select name="demo_feedback" required class="form-control">
               <option value="" selected>Choose...</option>
               <option value="Invalid Number">Invalid Number</option>
@@ -62,7 +62,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Price quoted</label>
-            <input type="text" class="form-control" name="price_quoted" required placeholder="Enter feedback">
+            <input type="text" class="form-control" name="price_quoted" placeholder="Enter feedback">
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Assign DemoNextCall</label>

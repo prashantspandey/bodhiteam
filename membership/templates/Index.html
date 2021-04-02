@@ -41,20 +41,6 @@
         }
     </style>
 </head>
-<header>
-    {% if messages %}
-    <div class="container" style="height: 200px; position: relative;">
-        <div class="div"
-            style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
-            <ul class="messages messagedesign">
-                {% for message in messages %}
-                <li class="{{ message.tags }}"> {{ message }} </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% endif %}
-</header>
 
 <body>
     <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcom
@@ -352,6 +338,20 @@
             </div>
         </section>
     </div>
+    {% if messages %}
+    <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
+        <div class="div"
+            style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>{{ message.tags }}!</strong> {{ message }}.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
     {% for i in user_notification %}
     <div class="container">
         <div class="modal" id="{{i.id}}myModal">
@@ -379,7 +379,6 @@
         {% endfor %}
     </script>
     {% endif %}
-
     </script>
 </body>
 

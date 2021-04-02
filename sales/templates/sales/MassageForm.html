@@ -27,7 +27,7 @@
       {% csrf_token %}
       <div class="form-row" style="width: 500px;">
         <div class="form-group">
-          <label for="inputPassword4">To</label>
+          <label for="inputPassword4">To *</label>
           <select name="reciver" class="form-control" required>
             <option value="" selected>Choose...</option>
             {% for user in SalesExecutiveUser %}
@@ -36,7 +36,7 @@
           </select>
         </div>
         <div class="form-group" id="forcheck">
-          <label for="inputPassword4">Message</label>
+          <label for="inputPassword4">Message *</label>
           <input type="text" class="form-control" required name="massage" required placeholder="type message">
         </div>
         <div class="form-group">

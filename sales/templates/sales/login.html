@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -13,6 +13,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
         integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
         .user_card {
             height: 500px;
@@ -88,16 +91,8 @@
         }
     </style>
 </head>
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li class=" {{ message.tags }} "> {{ message }} </li>
-    {% endfor %}
-</ul>
-{% endif %}
 <div id="intro-example" class="p-5 text-center bg-image"
     style=" margin-top: 150px; background-image: url('https://alexwebdevelop.com/wp-content/uploads/2019/08/php-login-and-authentication-the-definitive-guide.png'); height: 400px; width: 1400px; margin-left: 70px; ">
-    -->
 
     <body>
         <div class="container h-100">
@@ -114,14 +109,16 @@
                             {% csrf_token %}
                             <div class="input-group mb-3">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-user" style="width: 20px ;"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-user"
+                                            style="width: 20px ;"></i></span>
                                 </div>
                                 <input type="text" class="form-control input_user" placeholder="username"
                                     name="UserName" required style="height: 45px; font-size: 17px;">
                             </div>
                             <div class="input-group mb-2">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><i class="fas fa-key" style="width: 20px;"></i></span>
+                                    <span class="input-group-text"><i class="fas fa-key"
+                                            style="width: 20px;"></i></span>
                                 </div>
                                 <input type="password" name="Password" class="form-control input_pass"
                                     placeholder="password" required style="height: 45px; font-size: 17px;">
@@ -142,6 +139,20 @@
                 </div>
             </div>
         </div>
+
+        {% if messages %}
+        <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
+            <div class="div"
+                style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ message.tags }}!</strong> {{ message }}.
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
     </body>
 
 </html>

@@ -6,13 +6,13 @@ class LeadAdmin(admin.ModelAdmin):
     search_fields = ("personName","email")
     list_filter = ('date','source','assignedTo')
     list_display = ("personName","assignedTo","email","contactPhone",)
-    list_display_links = ('assignedTo','email','contactPhone')
+    list_display_links = ('personName','assignedTo','email','contactPhone')
 
 class FeedBackAdmin(admin.ModelAdmin):
     search_fields = ("typeFeedBack",)
     list_filter = ('time','by','lead')
     list_display = ("typeFeedBack","by","lead","rating","demo")
-    list_display_links = ('by','lead','rating')
+    list_display_links = ('typeFeedBack','by','lead','rating')
 
 class DemoFeedbackAdmin(admin.ModelAdmin):
     search_fields = ("typedemo","demo_rating")
