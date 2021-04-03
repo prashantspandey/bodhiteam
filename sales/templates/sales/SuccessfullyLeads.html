@@ -85,11 +85,10 @@
                                 </div>
                             </a>
                             <span><strong>{{i.lead.personName}}</strong></span><br />
-                            Contact : {{i.lead.contactPhone}} <br />
-                            Email : {{i.lead.email}} <br />
-                            Decided Price : {{i.priceQuoted}} <br />
-                            Extra requirments : {{i.extra_requirement}} <br />
-
+                            <strong>Contact</strong> : {{i.lead.contactPhone}} <br />
+                            <strong>Email</strong> : {{i.lead.email}} <br />
+                            <strong>Decided Price</strong> : {{i.priceQuoted}} <br />
+                            <strong>Extra requirments</strong> : {{i.extra_requirement}}<br />
                             <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
                                 href="/sales/Get_specific_lead_andfeedback/{{i.lead.id}}" title="View"></a>
                             <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
@@ -97,7 +96,7 @@
                             <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
                                 href="mailto:{{i.lead.email}}" title="Danger"></a>
                         </div>
-                        <div class="col-md-12">Lead made on: {{i.lead.date}} </div>
+                        <div class="col-md-12">Lead made on: {{i.lead.date}} <span style="margin-left: 40px;">Lead successfull on: {{i.datetime}}</span></div>
                     </div>
                 </div>
             </div>

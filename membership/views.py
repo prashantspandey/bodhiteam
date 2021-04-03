@@ -13,14 +13,11 @@ def IndexView(request):
             request.user.salesexecutive 
             # getting lengths of all activities 
             currentUser = SalesExecutive.objects.filter(executiveUser=request.user.id).prefetch_related('lead_assign')
-            Newleads_list,WorkedLeads_list = [],[]
-            for i in currentUser[0].lead_assign.all():
-                if not i.feeback_lead.filter(lead=i.id).exists():
-                    Newleads_list.append(i.id)
-                else:
-                    WorkedLeads_list.append(i.id)
+            new_leads_length = currentUser[0].lead_assign.filter(lead_status='is_successfull_lead').count()
+            worked_leads_length = currentUser[0].lead_assign.filter(lead_status='worked_lead').count()
             allmessagelength = currentUser[0].reciever.filter(massagRead=False).count()
-            allNotificationslength = currentUser[0].demofeedbackuser_notification.count()  
+            allNotificationslength = currentUser[0].demofeedbackuser_notification.count()
+            successfully_leads_length = currentUser[0].successfull_lead_user.count()
             assignedleads = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) or Q(demo_lead__demo_nextCall=request.user.salesexecutive)).count()
             
             # here we are check notifications of feedback & demo or messages 
@@ -31,7 +28,7 @@ def IndexView(request):
                     messages.info(request,i.massage)
                     i.is_FirstTime = False
                     i.save()
-            context = {'user_notification':user_notification,'assignedleads':assignedleads,'allmessagelength':allmessagelength,'allNotificationslength':allNotificationslength,'NewleadsLenght':Newleads_list,'WorkedLeadsLenght':WorkedLeads_list}
+            context = {'user_notification':user_notification,'assignedleads':assignedleads,'allmessagelength':allmessagelength,'allNotificationslength':allNotificationslength,'NewleadsLenght':new_leads_length,'WorkedLeadsLenght':worked_leads_length,'successfully_leads_length':successfully_leads_length}
             return render(request,'Index.html',context)
         except:
             try:

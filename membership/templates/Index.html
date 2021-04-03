@@ -46,8 +46,7 @@
     <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcom
         {{user.salesexecutive.name}} {{user.salesexecutive.typeExecutive}}</h1>
     <h3 style="text-align: center; font-family: serif ;">Bodhi AI </h3>
-    <!-- <a href="/sales/logout"><button
-            style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a> -->
+    {% if request.user.salesexecutive %}
     <div class="container-fluid px-2">
         <section id="minimal-statistics" style="margin-top: 10px;">
             <div class="row">
@@ -61,7 +60,7 @@
                                             <i class="icon-list primary font-large-2 float-left"></i>
                                         </div>
                                         <div class="media-body text-right">
-                                            <h3>{{NewleadsLenght|length}}</h3>
+                                            <h3>{{NewleadsLenght}}</h3>
                                             <span>New Leads</span>
                                         </div>
                                     </div>
@@ -81,7 +80,7 @@
                                             <i class="icon-docs warning font-large-2 float-left"></i>
                                         </div>
                                         <div class="media-body text-right">
-                                            <h3>{{WorkedLeadsLenght|length}}</h3>
+                                            <h3>{{WorkedLeadsLenght}}</h3>
                                             <span>Worked Leads</span>
                                         </div>
                                     </div>
@@ -129,7 +128,6 @@
                     </a>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-xl-3 col-sm-6 col-12">
                     <a href="/sales/Sendmassage">
@@ -235,7 +233,7 @@
                                 <div class="card-body">
                                     <div class="media d-flex">
                                         <div class="media-body text-left">
-                                            <h3 class="success">454</h3>
+                                            <h3 class="success">{{successfully_leads_length}}</h3>
                                             <span>Successfull Leads</span>
                                         </div>
                                         <div class="align-self-center">
@@ -338,6 +336,12 @@
             </div>
         </section>
     </div>
+    {% else %}
+    <h1 style="text-align: center;">You Are a tech user </h1>
+    <a href="/sales/logout"><button
+        style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a>
+    {% endif %}
+    
     {% if messages %}
     <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
         <div class="div"

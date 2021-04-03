@@ -5,8 +5,9 @@ from .models import *
 class LeadAdmin(admin.ModelAdmin):
     search_fields = ("personName","email")
     list_filter = ('date','source','assignedTo')
-    list_display = ("personName","assignedTo","email","contactPhone",)
-    list_display_links = ('personName','assignedTo','email','contactPhone')
+    list_display = ("__str__","assignedTo","email","contactPhone",)
+    list_display_links = ('__str__','assignedTo','email','contactPhone')
+    # empty_value_display = '-???-'
 
 class FeedBackAdmin(admin.ModelAdmin):
     search_fields = ("typeFeedBack",)

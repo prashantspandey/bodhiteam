@@ -110,13 +110,16 @@
     font-size: 15px;
   }
 </style>
-<h3 style="text-align: center; font-family: serif;">Here You are check Your Feedbackes and Demo's leads wise</h3>
+<h3 style="text-align: center; font-family: serif;">Feedbackes and Demos</h3>
+{% if lead_status == 'is_successfull_lead' %}
 <div style="text-align: center;">
   <a href="/sales/feedback_creating/?lead_id={{request.GET.lead_id}}"><button
       style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another feedback </button></a>
   <a href="/sales/demo_creating/?lead_id={{request.GET.lead_id}}"><button
       style="border-radius: 0.5ch; height: 30px; background: aliceblue;">Create another Demo </button></a>
 </div>
+{% endif %}
+
 <section class="features_table">
   <div class="container ">
     <div class="col-md-6">

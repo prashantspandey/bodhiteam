@@ -11,14 +11,9 @@ from django.db.models import Q
 
 class GetMyNewLeads(APIView):
     def get(self,request):
-        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive).order_by('-date')
-        leads_list = []
-        for lead in leads:
-            if not lead.feeback_lead.filter(lead=lead.id).exists():
-                leads_list.append(lead)
-        serializer = LeadSerializer(leads_list,many=True)
-        context = {'Leads':serializer.data}
-        return Response(context)
+        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive,lead_status='is_successfull_lead').order_by('-date')
+        serializer = LeadSerializer(leads,many=True)
+        return Response({'Leads':serializer.data})
 
 class GetMyNewLeadsDateWise(APIView):
     def post(self,request,*args,**kwargs):
@@ -67,6 +62,8 @@ class GiveLeadFeedBack(APIView):
             furtherCall = False
         try:
             lead = Lead.objects.get(id=lead_id)
+            lead.lead_status = 'worked_lead'
+            lead.save()
         except Lead.DoesNotExist:
             return Response('Incorrect lead id ')
 
@@ -126,14 +123,9 @@ class GetAllSalesExecutives(APIView):
 
 class GetWorkedLeadsApi(APIView):
     def get(self,request):
-        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive).order_by('-date')
-        leads_list = []
-        for lead in leads:
-            if lead.feeback_lead.filter(lead=lead.id).exists():
-                leads_list.append(lead)
-        serializer = LeadSerializer(leads_list,many=True)
-        context = {'Leads':serializer.data}
-        return Response(context)
+        leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive,lead_status='worked_lead').order_by('-date')
+        serializer = LeadSerializer(leads,many=True)
+        return Response({'Leads':serializer.data})
 
 class GetFeedbackOrDemos_A_specificLeadWiseApi(APIView):
     def post(self,request,*args,**kwargs):
@@ -260,7 +252,7 @@ class SpecificUserNotificationsAPI(APIView):
 
 class AddSuccessfullyLeadsAPI(APIView):
     def get(self,request):
-        leads = Lead.objects.filter(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)).distinct()
+        leads = Lead.objects.filter(Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)) & Q(Q(lead_status='is_successfull_lead') | Q(lead_status='worked_lead'))).distinct()
         leadsSerializer = LeadSerializer(leads,many=True)
         return Response({'leads':leadsSerializer.data})
     def post(self,request):
@@ -279,6 +271,6 @@ class LogoutUserApi(APIView):
     def get(self,request):
         try:
             self.request.user.auth_token.delete()
-        except (AttributeError, ObjectDoesNotExist):
+        except Exception as e:
             pass
         return Response('Logout successfully')

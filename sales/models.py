@@ -19,12 +19,13 @@ class Lead(models.Model):
     models.ForeignKey(SalesExecutive,related_name='lead_assign',blank=True,null=True,on_delete=models.CASCADE)
     workedBy =\
     models.ManyToManyField(SalesExecutive,related_name='lead_second_assign',blank=True,null=True)
+    lead_status = models.CharField(max_length=100,default='is_successfull_lead')
 
     def __str__(self):
         return self.personName
 
 class SuccessfullyLead(models.Model):
-    by = models.ForeignKey(SalesExecutive,on_delete=models.SET_NULL,blank=True,null=True)
+    by = models.ForeignKey(SalesExecutive,related_name='successfull_lead_user',on_delete=models.SET_NULL,blank=True,null=True)
     lead = models.ForeignKey(Lead,related_name='comfirmed_lead',on_delete=models.SET_NULL,blank=True,null=True)
     priceQuoted = models.CharField(max_length=200)
     extra_requirement = models.TextField(blank=True,null=True)
@@ -44,6 +45,7 @@ class FeedBack(models.Model):
     instituteType = models.CharField(max_length=200,blank=True,null=True)
     State = models.CharField(max_length=200,blank=True,null=True)
     city = models.CharField(max_length=200,blank=True,null=True)
+    callrecording = models.URLField(max_length=500,blank=True,null=True)
     Is_wrongLead = models.BooleanField(default=False)
     nextCall = \
     models.ForeignKey(SalesExecutive,related_name='feedback_nextcall',blank=True,null=True,on_delete=models.CASCADE)
@@ -53,6 +55,7 @@ class FeedBack(models.Model):
     feedback = models.CharField(max_length=100)
     furtherCall = models.BooleanField()
     priceQuoted = models.CharField(max_length=200,blank=True,null=True,default=12000)
+
 
     def __str__(self):
         return self.by.name + ' ' + self.lead.personName

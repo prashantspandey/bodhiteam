@@ -71,29 +71,13 @@ def loginView(request):
                 return redirect('/sales/login')
 
 def GetMyNewLeadView(request):
-    try:
-        request.user.salesexecutive
-        leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).prefetch_related('feeback_lead').order_by('-date')
-        leads_list = []
-        for i in leads:
-            if not i.feeback_lead.filter(lead=i.id).exists():
-                leads_list.append(i)
-        return render(request,'sales/lead.html',{"leads":leads_list})
-    except:
-        return redirect('/sales/login')
+    leads = Lead.objects.filter(assignedTo=request.user.salesexecutive,lead_status='is_successfull_lead').order_by('-date')
+    return render(request,'sales/lead.html',{"leads":leads})
 
 def GetMyWorkedLeadsView(request):
-    try:
-        request.user.salesexecutive
-        leads = Lead.objects.filter(assignedTo=request.user.salesexecutive).order_by('-date')
-        leads_list = []
-        for i in leads:
-            if i.feeback_lead.filter(lead=i.id).exists():
-                leads_list.append(i)
-        return render(request, 'sales/Workedleads.html', {'allworkedleads': leads_list})
-    except:
-        return redirect('/sales/login')
-
+    leads = Lead.objects.filter(assignedTo=request.user.salesexecutive,lead_status='worked_lead').order_by('-date')
+    return render(request, 'sales/Workedleads.html', {'allworkedleads': leads})
+    
 class FeedbackCreateView(View):
     def get(self,request):
         users = SalesExecutive.objects.all()
@@ -108,7 +92,10 @@ class FeedbackCreateView(View):
         NextCallUser = request.POST.get("nextcalluser")
         NextCallDate = request.POST.get("nextcalldate")
         my_profile = self.request.user.salesexecutive
+        
         lead = Lead.objects.get(id=lead_id)
+        lead.lead_status = 'worked_lead'
+        lead.save()
 
         feedback = FeedBack(typeFeedBack=FeedBack.objects.filter(lead=lead_id).count() + 1,by=my_profile,lead=lead,time= datetime.datetime.now(),
                             rating=request.POST.get("rating"),notes=request.POST.get("notes"),Cource=request.POST.get("Course"),
@@ -260,12 +247,13 @@ def GetMyAllNotificationsView(request):
 
 class AddSuccessfullyLeadView(View):
     def get(self,request):
-        leads = Lead.objects.filter(Q(assignedTo=self.request.user.salesexecutive) |
-        Q(feeback_lead__nextCall=self.request.user.salesexecutive)).distinct()
+        leads = Lead.objects.filter(Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)) & Q(Q(lead_status='is_successfull_lead') | Q(lead_status='worked_lead'))).distinct()
         return render(request,'sales/AddSuccessfullyLead.html',{'leads':leads})
 
     def post(self,request):
         lead = Lead.objects.get(id=request.POST.get('comfirmlead'))
+        lead.lead_status = 'successfully_lead'
+        lead.save()
         SuccessfullyLead.objects.create(by=self.request.user.salesexecutive,lead=lead,priceQuoted=request.POST.get('decidedPrice'),extra_requirement=request.POST.get('extrarequirments'),datetime=datetime.datetime.now())
         messages.success(request,'successfully added')
         return redirect('/sales/add_comfirmLead/')
@@ -277,7 +265,7 @@ def SpecificPersonSuccessfullyLeadsView(request):
 def logoutview(request):
     try:
         request.user.auth_token.delete()
-    except (AttributeError, ObjectDoesNotExist):
+    except Exception as e:
         pass
     auth.logout(request)
     messages.success(request, 'Logged Out Successfully')
