@@ -14,6 +14,11 @@ urlpatterns = [
     url(r'demo_creating/$',views.DemoCreatingView.as_view(),name='demo_creating'),
     url(r'Sendmassage/$',views.SendMassageToUserView.as_view(),name='Sendmassage'),
     url(r'add_comfirmLead/$',views.AddSuccessfullyLeadView.as_view(),name='add_comfirmLead'),
+    
+    url(r'apply_filter_AndSearch/$',views.ApplyFilterAndSeacrhView.as_view(),name='apply_filter_AndSearch'),
+    path('applySorting/<slug:sorting_type>/',views.SortingApplyView,name='applySorting'),
+
+
     path('getting_feedbackes_leadwise_by_ajex/',views.GetFeedbackesLeadWiseUsingAjexView,name='getting_feedbackes_leadwise_by_ajex'),
     path('messagesInbox/',views.MessagesInboxView,name='messagesInbox'),
     path('Get_specific_user_messages/<int:user_id>/',views.GetSpecificUserMessageView,name='Get_specific_user_messages'),

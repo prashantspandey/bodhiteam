@@ -59,11 +59,26 @@
         margin-bottom: 0;
     }
 </style>
-{% if successfullyleads %}
 <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Successfull
     Leads</h1>
 <div class="container bootdey" style="margin-top: 30px;">
-    <div class="panel panel-default panel-order">
+    <form action="/sales/Specific_person_successfullLeads/" method="POST" style="margin-right: 250px;">
+        {% csrf_token %}
+        <div class="col-md-4">
+            From
+            <div class="input-group date form_date">
+                <input type="datetime-local" name="Fromdate" required class="form-control">
+            </div>
+        </div>
+        <div class="col-md-4">
+            To
+            <div class="input-group date form_date">
+                <input type="datetime-local" name="Todate" required class="form-control">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 20px;" >Show result</button>
+    </form>
+    <div class="panel panel-default panel-order" style="margin-top: 10px;">
         <div class="panel-heading">
             <strong>My successfull Leads </strong>
         </div>
@@ -96,7 +111,8 @@
                             <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
                                 href="mailto:{{i.lead.email}}" title="Danger"></a>
                         </div>
-                        <div class="col-md-12">Lead made on: {{i.lead.date}} <span style="margin-left: 40px;">Lead successfull on: {{i.datetime}}</span></div>
+                        <div class="col-md-12">Lead made on: {{i.lead.date}} <span style="margin-left: 40px;">Lead
+                                successfull on: {{i.datetime}}</span></div>
                     </div>
                 </div>
             </div>
@@ -104,8 +120,4 @@
         {% endfor %}
     </div>
 </div>
-{% else %}
-<img src="https://www.aclproduct.com/images/empty.png" style="display: block; margin-left: auto; margin-right: auto;"
-    id="img-fluid" class="col-12">
-{% endif %}
 {% endblock body %}

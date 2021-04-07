@@ -1,0 +1,342 @@
+{% extends 'sales/base.html'%}
+{% block title %}Filter & Search{% endblock title %}
+{% block body %}
+<style>
+  body {
+    /* margin-top: 20px; */
+    background: #eee;
+  }
+
+  .btn {
+    margin-bottom: 5px;
+  }
+
+  .grid {
+    position: relative;
+    width: 110%;
+    background: #fff;
+    color: #666666;
+    border-radius: 2px;
+    margin-bottom: 25px;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .grid .grid-body {
+    padding: 15px 20px 15px 20px;
+    font-size: 0.9em;
+    line-height: 1.9em;
+  }
+
+  .search table tr td.rate {
+    color: #f39c12;
+    line-height: 50px;
+  }
+
+  .search table tr:hover {
+    cursor: pointer;
+  }
+
+  .search table tr td.image {
+    width: 50px;
+  }
+
+  .search table tr td img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .search table tr td.rate {
+    color: #f39c12;
+    line-height: 50px;
+  }
+
+  .search table tr td.price {
+    font-size: 1.5em;
+    line-height: 50px;
+  }
+
+  .search #price1,
+  .search #price2 {
+    display: inline;
+    font-weight: 600;
+  }
+</style>
+<style>
+  .navcenter {
+    text-align: center !important;
+  }
+
+  .panel-order .row {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .panel-order .row:last-child {
+    border: 0px;
+  }
+
+  .panel-order .row .col-md-1 {
+    text-align: center;
+    padding-top: 15px;
+  }
+
+  .panel-order .row .col-md-1 img {
+    width: 50px;
+    max-height: 50px;
+  }
+
+  .panel-order .row .row {
+    border-bottom: 0;
+  }
+
+  .panel-order .row .col-md-11 {
+    border-left: 1px solid #ccc;
+  }
+
+  .panel-order .row .row .col-md-12 {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .panel-order .row .row .col-md-12:last-child {
+    font-size: 11px;
+    color: #555;
+    background: #efefef;
+
+  }
+
+  .panel-order .btn-group {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .panel-order .panel-body {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  .panel-order .panel-deading {
+    margin-bottom: 0;
+  }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="grid search">
+        <div class="grid-body">
+          <div class="row">
+            <!-- BEGIN FILTERS code here  -->
+            <div class="col-md-3">
+              <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
+              <hr>
+              <form action="/sales/apply_filter_AndSearch/" method="POST" id="filterformid" name="filterform">
+                {% csrf_token %}
+                <h4>By Feedbackes:</h4>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Invalid Number" class="icheck"> Invalid
+                    Number</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Call not recieved" class="icheck"> Call
+                    not recieved</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Not Responding" class="icheck"> Not
+                    Responding</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Not Interested" class="icheck"> Not
+                    Interested</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Not Reachable" class="icheck"> Not
+                    Reachable</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Interested" class="icheck">
+                    Interested</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Will update when needed" class="icheck">
+                    Will update when
+                    needed</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Call back" class="icheck"> Call
+                    back</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="call busy" class="icheck"> call
+                    busy</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="switched off" class="icheck"> switched
+                    off</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="using other application" class="icheck">
+                    using other
+                    application</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="cut call" class="icheck"> cut
+                    call</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="feedbackesfilter" value="Incoming call not available"
+                      class="icheck"> Incoming call not
+                    available</label>
+                </div>
+                <h4>By Rating:</h4>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="filterByRating" value="1" class="icheck"> 1 * </label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="filterByRating" value="2" class="icheck"> 2 *</label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="filterByRating" value="3" class="icheck"> 3 *
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="filterByRating" value="4" class="icheck"> 4 *
+                  </label>
+                </div>
+                <div class="checkbox">
+                  <label><input type="checkbox" name="filterByRating" value="5" class="icheck"> 5 *
+                  </label>
+                </div>
+                <h4>By date:</h4>
+                From
+                <div class="input-group date form_date">
+                  <input type="datetime-local" name="Fromdate" class="form-control">
+                </div>
+                To
+                <div class="input-group date form_date">
+                  <input type="datetime-local" name="Todate" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="validateAndSend()">Show result</button>
+              </form>
+            </div>
+            <!-- END FILTERS code here -->
+
+            <!-- BEGIN RESULT -->
+            <div class="col-md-9">
+              <h2><i class="fa fa-file-o"></i> Result</h2>
+              <hr>
+              <form action="/sales/apply_filter_AndSearch/" method="POST">
+                {% csrf_token %}
+                <div class="input-group">
+                  <input type="text" class="form-control" name="searchingvalue" placeholder="search by Lead name"
+                    required>
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+                  </span>
+                </div>
+              </form>
+              {% if searching_value %}
+              <p>all results to matching "{{searching_value}}"</p>
+              {% endif %}
+              
+              <!-- BEGIN Sort code  -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="btn-group">
+                    {% if sorting_type %}
+                    <button type="button" id="sorting_btn" class="btn btn-default dropdown-toggle"
+                      data-toggle="dropdown">
+                      {{sorting_type}} <span class="caret"></span>
+                    </button>
+                    {% else %}
+                    <button type="button" id="sorting_btn" class="btn btn-default dropdown-toggle"
+                      data-toggle="dropdown">
+                      Sort by <span class="caret"></span>
+                    </button>
+                    {% endif %}
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="/sales/applySorting/latest">Lates</a></li>
+                      <li><a href="/sales/applySorting/oldest">Oldest</a></li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <!-- <div class="col-md-6 text-right">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default active"><i class="fa fa-list"></i></button>
+                    <button type="button" class="btn btn-default"><i class="fa fa-th"></i></button>
+                  </div>
+                </div> -->
+              </div>
+              <!-- END Sort code -->
+
+              <!-- BEGIN TABLE RESULT -->
+              {% if filteredLeads %}
+              <div class="container bootdey" style="margin-top: 30px; width: auto;">
+                <div class="panel panel-default panel-order">
+                  <div class="panel-heading">
+                    <strong>My New Leads </strong>
+                  </div>
+                  {% for i in filteredLeads %}
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-1">
+                        <img
+                          src="https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png"
+                          class="media-object img-thumbnail" />
+                      </div>
+                      <div class="col-md-11">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <a href="/sales/feedback_creating/?lead_id={{i.id}}">
+                              <div class="pull-right">
+                                <label class="label label-success">
+                                  Create Feedback
+                                </label>
+                              </div>
+                            </a>
+                            <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}">
+                              <div class="pull-right">
+                                <label class="label label-danger" style="margin-right: 20px;">
+                                  Check old feedback & demo this lead
+                                </label>
+                              </div>
+                            </a>
+                            <span><strong>{{i.personName}}</strong></span><br />
+                            Contact : {{i.contactPhone}} <br />
+                            Email : {{i.email}} <br />
+
+                            <a data-placement="top" class="btn btn-success btn-xs glyphicon glyphicon-info-sign"
+                              href="/sales/Get_specific_lead_andfeedback/{{i.id}}" title="View"></a>
+                            <a data-placement="top" class="btn btn-danger btn-xs glyphicon glyphicon-earphone"
+                              href="tel:{{i.contactPhone}}" title="Danger"></a>
+                            <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
+                              href="mailto:{{i.email}}" title="Danger"></a>
+                          </div>
+                          <div class="col-md-12">Lead made on: {{i.date}} </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+              {% else %}
+              <h1 style="text-align: center; margin-top: auto; font-family: serif;">No Data</h1>
+              {% endif %}
+            </div>
+            <!-- END RESULT -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $("#filterformid").submit(function () {
+    if (filterform.Fromdate.value && filterform.Todate.value == '') {
+      alert('Please Fill Properly To_date in Filter ');
+      return false;
+    }
+  });
+</script>
+{% endblock body %}

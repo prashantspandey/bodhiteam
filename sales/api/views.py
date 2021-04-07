@@ -36,30 +36,17 @@ class GiveLeadFeedBack(APIView):
     def post(self,request,*args,**kwargs):
         my_profile = self.request.user.salesexecutive
         data = request.data
-        feedback = data['feedback']
         lead_id = data['lead_id']
-        notes = data['notes']
         demo = data['demo']
-        typeFeedBack = data['typeFeedBack']
-        priceQuoted = data['priceQuoted']
         executiveId = data['nextCall']
         furtherCall = data['furtherCall']
         nextCallDate = data['nextCallDate']
         demoDate = data['demoDate']
-        rating = data['rating']
 
         if nextCallDate == 'None':
             nextCallDate = None
         if demoDate == 'None':
             demoDate = None
-        if demo == 'true':
-            demo = True
-        else:
-            demo = False
-        if furtherCall == 'true':
-            furtherCall = True
-        else:
-            furtherCall = False
         try:
             lead = Lead.objects.get(id=lead_id)
             lead.lead_status = 'worked_lead'
@@ -67,25 +54,21 @@ class GiveLeadFeedBack(APIView):
         except Lead.DoesNotExist:
             return Response('Incorrect lead id ')
 
-        feedback = FeedBack()
-        feedback.by = my_profile
-        feedback.typeFeedBack = typeFeedBack
-        feedback.lead = lead
-        feedback.rating = rating
-        feedback.notes = notes
-        feedback.Cource = data['cource']
-        feedback.instituteType = data['instituteType']
-        feedback.State = data['State']
-        feedback.city = data['city']
+        feedback = FeedBack(by=my_profile,typeFeedBack=FeedBack.objects.filter(lead=lead_id).count()+1,lead=lead,rating = data['rating'],notes = data['notes'],
+                            Cource=data['cource'],instituteType=data['instituteType'],State=data['State'],city=data['city'],
+                            callrecording=data['audioUrl'],feedback=data['feedback'],priceQuoted=data['priceQuoted'])
+
         if data['Is_wrongLead'] == 'false':
             feedback.Is_wrongLead = False
         else:
             feedback.Is_wrongLead = True
-        feedback.demo = demo
-        feedback.demoDate = demoDate
-        feedback.feedback = feedback
-        feedback.furtherCall = furtherCall
-        feedback.priceQuoted = priceQuoted
+            
+        if furtherCall == 'true':
+            feedback.furtherCall = True
+        else:
+            feedback.furtherCall = False
+
+        
         if executiveId == 'None':
             feedback.nextCall = None
         else:
@@ -94,6 +77,16 @@ class GiveLeadFeedBack(APIView):
             DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=NextCallerUser,
             sender_user=my_profile,notification_type='LeadFeedbackNotification',lead=lead,
             massage = f"Today is your Feedback schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=nextCallDate,datetime=datetime.datetime.now())
+        
+        if demo == 'true':
+            feedback.demo = True
+            DemoFeedback_And_LeadFeedback_Notifications.objects.create(notification_user=my_profile,
+            sender_user=my_profile,notification_type='DemoNotification',lead=lead,
+            massage = f"Today is your demo schedule of this {lead.personName} lead So remember This", is_FirstTime=True ,nextDate=demoDate,datetime=datetime.datetime.now())
+        else:
+            feedback.demo = False
+
+        feedback.demoDate = demoDate        
         feedback.nextCallDate = nextCallDate
         feedback.save()
         context = {'status':'Saved','message':'Feedback saved'}
