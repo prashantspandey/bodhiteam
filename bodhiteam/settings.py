@@ -157,6 +157,11 @@ USE_TZ = True
 
 
 STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+# this static files for images
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,'static')
+]
+# end here 
 STATIC_URL = '/static/'
 ASGI_APPLICATION = "bodhiteam.routing.application"
 CHANNEL_LAYERS = {
@@ -167,6 +172,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# messages override here 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }

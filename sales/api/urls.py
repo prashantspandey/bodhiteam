@@ -23,6 +23,8 @@ urlpatterns = [
     url(r'specific_user_notifications/$', views.SpecificUserNotificationsAPI.as_view(), name='specific_user_notifications'),
     url(r'add_successfull_lead/$', views.AddSuccessfullyLeadsAPI.as_view(), name='add_successfull_lead'),
     url(r'get_my_successfully_leads/$', views.SpecificPersonSuccessfullyLeadsAPI.as_view(), name='get_my_successfully_leads'),
+    url(r'applyFilterAndSearch/$', views.ApplyFilterAndSeacrhAPI.as_view(), name='applyFilterAndSearch'),
+    url(r'applysorting/$', views.SortingApplyAPI.as_view(), name='applysorting'),
     url(r'logout/$', views.LogoutUserApi.as_view(), name='logout'),
 
 ]

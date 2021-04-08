@@ -1,6 +1,7 @@
 {% extends 'sales/base.html'%}
 {% block title %}Successfully leads{% endblock title %}
 {% block body %}
+{% load static %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style>
     .navcenter {
@@ -86,7 +87,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-1">
-                    <img src="https://i.pinimg.com/originals/d3/78/70/d3787036e6cbbecb5c2df64b4d71b40d.jpg"
+                    <img src="{% static 'images/icon5.jpg' %}"
                         class="media-object img-thumbnail" />
                 </div>
                 <div class="col-md-11">

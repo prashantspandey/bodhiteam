@@ -1,6 +1,7 @@
 {% extends 'sales/base.html'%}
 {% block title %}New leads{% endblock title %}
 {% block body %}
+{% load static %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style>
     .navcenter {
@@ -71,7 +72,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-1">
-                    <img src="https://nutrikiran.com/wp-content/uploads/2019/09/my_image.png" class="media-object img-thumbnail" />
+                    <img src="{% static 'images/icon1.png' %}" class="media-object img-thumbnail" />
                 </div>
                 <div class="col-md-11">
                     <div class="row">

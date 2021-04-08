@@ -1,6 +1,7 @@
 {% extends 'sales/base.html'%}
 {% block title %}Assigned leads{% endblock title %}
 {% block body %}
+{% load static %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style>
     .navcenter {
@@ -71,7 +72,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-1">
-                    <img src="https://previews.123rf.com/images/yupiramos/yupiramos1609/yupiramos160912741/62358463-avatar-man-smiling-cartoon-with-beard-male-person-user-vector-illustration.jpg" class="media-object img-thumbnail" />
+                    <img src="{% static 'images/icon3.jpg' %}" class="media-object img-thumbnail" />
                 </div>
                 <div class="col-md-11">
                     <div class="row">

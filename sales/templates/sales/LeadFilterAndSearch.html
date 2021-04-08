@@ -1,6 +1,7 @@
 {% extends 'sales/base.html'%}
 {% block title %}Filter & Search{% endblock title %}
 {% block body %}
+{% load static %}
 <style>
   body {
     /* margin-top: 20px; */
@@ -227,7 +228,7 @@
               <form action="/sales/apply_filter_AndSearch/" method="POST">
                 {% csrf_token %}
                 <div class="input-group">
-                  <input type="text" class="form-control" name="searchingvalue" placeholder="search by Lead name"
+                  <input type="text" class="form-control" name="searchingvalue" placeholder="search by leadName,email,contact.."
                     required>
                   <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
@@ -281,8 +282,7 @@
                     <div class="row">
                       <div class="col-md-1">
                         <img
-                          src="https://icons-for-free.com/iconfiles/png/512/business+costume+male+man+office+user+icon-1320196264882354682.png"
-                          class="media-object img-thumbnail" />
+                          src="{% static 'images/icon4.png' %}" class="media-object img-thumbnail" />
                       </div>
                       <div class="col-md-11">
                         <div class="row">

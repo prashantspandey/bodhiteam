@@ -71,6 +71,7 @@ class DemoFeedback(models.Model):
     datetime = models.DateTimeField(default=timezone.now())
     demo_nextCall = models.ForeignKey(SalesExecutive, related_name='demo_nextcall', blank=True, null=True,on_delete=models.CASCADE)
     demo_nextCallDate = models.DateTimeField(blank=True, null=True)
+    callrecording = models.URLField(max_length=500,blank=True,null=True)
 
     def __str__(self):
         return self.by.name + ' ' + self.lead.personName

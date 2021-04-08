@@ -143,7 +143,8 @@ class GiveDemoFeedBackApi(APIView):
                                     demo_rating=data['demo_rating'],
                                     extra_notes=data['extra_notes'],
                                     demo_feedback=data['demo_feedback'],
-                                    price_quoted=data['price_quoted'])
+                                    price_quoted=data['price_quoted'],
+                                    callrecording=data['audioUrl'])
         if DemoNextDate == 'None':
             demofeedback.demo_nextCallDate = None
             DemoNextDate = None
@@ -161,7 +162,7 @@ class GiveDemoFeedBackApi(APIView):
 
 class GetMyAssignedLeadsAPI(APIView):
     def get(self,request):
-        assignedLeadss = Lead.objects.filter(feeback_lead__nextCall=self.request.user.salesexecutive).order_by('-feeback_lead__time')
+        assignedLeadss = Lead.objects.filter(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-feeback_lead__time')
         serializer = LeadSerializer(assignedLeadss,many=True)
         return Response(serializer.data)    
         
@@ -251,6 +252,8 @@ class AddSuccessfullyLeadsAPI(APIView):
     def post(self,request):
         data = request.data
         lead = Lead.objects.get(id=data['comfirmlead'])
+        lead.lead_status = 'successfully_lead'
+        lead.save()
         SuccessfullyLead.objects.create(by=self.request.user.salesexecutive,lead=lead,priceQuoted=data['decidedPrice'],extra_requirement=data['extrarequirments'],datetime=datetime.datetime.now())
         return Response('Successfully added')
 
@@ -259,6 +262,59 @@ class SpecificPersonSuccessfullyLeadsAPI(APIView):
         successfullyleads = SuccessfullyLead.objects.filter(by=self.request.user.salesexecutive).order_by('datetime')
         successfullLeadsSerializer = SuccessfullyLeadSerializer(successfullyleads,many=True)
         return Response({'Successfully leads':successfullLeadsSerializer.data})
+    def post(self,request):
+        from_date = request.data['Fromdate']
+        to_date = request.data['Todate']
+        successfullyleads = SuccessfullyLead.objects.filter(by=self.request.user.salesexecutive,lead__date__gte=from_date,lead__date__lte=to_date).order_by('datetime')
+        successfullLeadsSerializer = SuccessfullyLeadSerializer(successfullyleads,many=True)
+        return Response({'datewise successfully leads':successfullLeadsSerializer.data})
+
+class ApplyFilterAndSeacrhAPI(APIView):
+    def get(self,request):
+        return Response({'FilterAndSearch_html'})
+    
+    def post(self,request):
+        from datetime import datetime, timedelta
+        last_month = datetime.today() - timedelta(days=30)
+        data = request.data
+        searching_value = data['searchingvalue']
+        if searching_value != 'None':
+            leads = Lead.objects.filter(Q(Q(Q(personName__icontains=searching_value) | Q(contactPhone__icontains=searching_value) | Q(email__icontains=searching_value)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').filter(date__gte=last_month).distinct()
+        else: 
+            from_date = data['Fromdate']
+            To_data = data['Todate']
+            selectedvale = data['feedbackesfilter']
+            selectedrating = data['filterByRating']
+            if selectedrating == 'None':
+                selectedrating = []
+            else:
+                selectedrating = selectedrating.strip('][').split(',')
+
+            if from_date != 'None' and selectedvale != 'None':
+                selectedvale = selectedvale.strip('][').split(',')
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
+            elif from_date != 'None' and data['filterByRating'] != 'None':
+                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
+            elif from_date != 'None':
+                leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
+            else:
+                selectedvale = selectedvale.strip('][').split(',')
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
+        
+        leadsSerializer = LeadSerializer(leads,many=True)
+        context = {'filteredLeads':leadsSerializer.data}
+        return Response(context)
+
+class SortingApplyAPI(APIView):
+    def post(self,request):
+        sorting_type = request.data['sorting_type']
+        if sorting_type == 'latest':
+            leads = Lead.objects.filter(Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
+        else:
+            leads = Lead.objects.filter(Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('date').distinct()
+        leadsSerializer = LeadSerializer(leads,many=True)
+        context = {'SortedLeads':leadsSerializer.data}
+        return Response(context)
 
 class LogoutUserApi(APIView):
     def get(self,request):

@@ -209,7 +209,7 @@ def GetFeedbackesLeadWiseUsingAjexView(request):
     return JsonResponse(list(feedbackes),safe=False)
 
 def GetMyAssignedLeadsView(request):
-    assignedLeadss = Lead.objects.filter(Q(feeback_lead__nextCall=request.user.salesexecutive) or Q(demo_lead__demo_nextCall=request.user.salesexecutive)).order_by('-feeback_lead__time')
+    assignedLeadss = Lead.objects.filter(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-feeback_lead__time')
     return render(request,'sales/AssignedLeads.html',{'assignedLeadss':assignedLeadss})
 
 def MessagesInboxView(request):
@@ -288,20 +288,24 @@ class ApplyFilterAndSeacrhView(View):
             selectedrating = request.POST.getlist('filterByRating')
             from_date = request.POST.get('Fromdate')
             To_data = request.POST.get('Todate')
+
             if from_date and selectedvale:
                 leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
+            elif from_date and selectedrating:
+                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
             elif from_date:
                 leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
             else:
                 leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
+        
         context = {'filteredLeads':leads,'searching_value':searching_value}
         return render(request,'sales/LeadFilterAndSearch.html',context)
 
 def SortingApplyView(request,sorting_type):
     if sorting_type == 'latest':
-        leads = Lead.objects.filter(Q(assignedTo=request.user.salesexecutive) | Q(feeback_lead__nextCall=request.user.salesexecutive)).order_by('-date').distinct()
+        leads = Lead.objects.filter(Q(Q(assignedTo=request.user.salesexecutive) | Q(feeback_lead__nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
     else:
-        leads = Lead.objects.filter(Q(assignedTo=request.user.salesexecutive) | Q(feeback_lead__nextCall=request.user.salesexecutive)).order_by('date').distinct()
+        leads = Lead.objects.filter(Q(Q(assignedTo=request.user.salesexecutive) | Q(feeback_lead__nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('date').distinct()
     return render(request,'sales/LeadFilterAndSearch.html',{'filteredLeads':leads,'sorting_type':sorting_type})
 
 def logoutview(request):

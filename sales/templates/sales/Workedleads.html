@@ -1,6 +1,7 @@
 {% extends 'sales/base.html'%}
 {% block title %}Worked leads{% endblock title %}
 {% block body %}
+{% load static %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 <style>
@@ -67,7 +68,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-1">
-                    <img src="https://www.kindpng.com/picc/m/111-1114757_man-office-worker-icon-office-worker-emoji-hd.png" class="media-object img-thumbnail" />
+                    <img src="{% static 'images/icon2.png' %}" class="media-object img-thumbnail" />
                 </div>
                 <div class="col-md-11">
                     <div class="row">
