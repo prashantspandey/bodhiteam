@@ -25,6 +25,12 @@ urlpatterns = [
     url(r'get_my_successfully_leads/$', views.SpecificPersonSuccessfullyLeadsAPI.as_view(), name='get_my_successfully_leads'),
     url(r'applyFilterAndSearch/$', views.ApplyFilterAndSeacrhAPI.as_view(), name='applyFilterAndSearch'),
     url(r'applysorting/$', views.SortingApplyAPI.as_view(), name='applysorting'),
+
+    url(r'salesUserProfile/$', views.SalesUserProfileApi.as_view(), name='salesUserProfile'),
+    url(r'salesUser_changePassword/$', views.SalesUserChangePasswordApi.as_view(), name='salesUser_changePassword'),
+    url(r'filterAndSortForAdmin/$', views.FilterAndSortForAdminApi.as_view(), name='filterAndSortForAdmin'),
+    url(r'assignLeadToAnotherUser/$', views.AssignLeadToAnotherUserApi.as_view(), name='assignLeadToAnotherUser'),
+
     url(r'logout/$', views.LogoutUserApi.as_view(), name='logout'),
 
 ]

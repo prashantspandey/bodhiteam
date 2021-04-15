@@ -27,5 +27,7 @@ urlpatterns = [
     path('Get_my_assigned_leads/',views.GetMyAssignedLeadsView,name='Get_my_assigned_leads'),
     path('Get_my_all_notifications/',views.GetMyAllNotificationsView,name='Get_my_all_notifications'),
     path('Specific_person_successfullLeads/',views.SpecificPersonSuccessfullyLeadsView,name='Specific_person_successfullLeads'),
+    path('salesUser_profile/',views.SalesUserProfileView,name='salesUser_profile'),
+    path('salesUser_changePassword/',views.SalesUserChangePasswordView,name='salesUser_changePassword'),
 
 ]

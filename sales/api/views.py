@@ -43,9 +43,15 @@ class GiveLeadFeedBack(APIView):
         nextCallDate = data['nextCallDate']
         demoDate = data['demoDate']
 
-        if nextCallDate == 'None':
-            nextCallDate = None
-        if demoDate == 'None':
+        try:
+            nextCallDate = nextCallDate.strip('"') 
+            nextCallDate = datetime.datetime.strptime(nextCallDate,'%Y-%m-%d %H:%M')
+        except:
+            nextCallDate = None        
+        try:
+            demoDate = demoDate.strip('"') 
+            demoDate = datetime.datetime.strptime(demoDate,'%Y-%m-%d %H:%M')
+        except:
             demoDate = None
         try:
             lead = Lead.objects.get(id=lead_id)
@@ -162,7 +168,7 @@ class GiveDemoFeedBackApi(APIView):
 
 class GetMyAssignedLeadsAPI(APIView):
     def get(self,request):
-        assignedLeadss = Lead.objects.filter(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-feeback_lead__time')
+        assignedLeadss = Lead.objects.filter(Q(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & ~Q(Q(feeback_lead__by=request.user.salesexecutive) | Q(demo_lead__by=request.user.salesexecutive))).order_by('-feeback_lead__time')
         serializer = LeadSerializer(assignedLeadss,many=True)
         return Response(serializer.data)    
         
@@ -278,28 +284,27 @@ class ApplyFilterAndSeacrhAPI(APIView):
         last_month = datetime.today() - timedelta(days=30)
         data = request.data
         searching_value = data['searchingvalue']
-        if searching_value != 'None':
+        if searching_value:
             leads = Lead.objects.filter(Q(Q(Q(personName__icontains=searching_value) | Q(contactPhone__icontains=searching_value) | Q(email__icontains=searching_value)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').filter(date__gte=last_month).distinct()
         else: 
             from_date = data['Fromdate']
             To_data = data['Todate']
-            selectedvale = data['feedbackesfilter']
-            selectedrating = data['filterByRating']
-            if selectedrating == 'None':
-                selectedrating = []
-            else:
-                selectedrating = selectedrating.strip('][').split(',')
+            selectedvale = data['selected_feedback']
+            selectedrating = data['selected_rating']
 
-            if from_date != 'None' and selectedvale != 'None':
+            if selectedrating:
+                selectedrating = selectedrating.strip('][').split(',')
+            
+            if from_date and selectedvale != 'None':
                 selectedvale = selectedvale.strip('][').split(',')
-                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
-            elif from_date != 'None' and data['filterByRating'] != 'None':
-                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
-            elif from_date != 'None':
-                leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
+            elif from_date  and data['selected_rating']:
+                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
+            elif from_date:
+                leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
             else:
                 selectedvale = selectedvale.strip('][').split(',')
-                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
         
         leadsSerializer = LeadSerializer(leads,many=True)
         context = {'filteredLeads':leadsSerializer.data}
@@ -315,6 +320,66 @@ class SortingApplyAPI(APIView):
         leadsSerializer = LeadSerializer(leads,many=True)
         context = {'SortedLeads':leadsSerializer.data}
         return Response(context)
+
+class SalesUserProfileApi(APIView):
+    def get(self,request):
+        # write something here
+        return Response('get function is called')    
+    def post(self,request):
+        data = request.data
+        currentUser = SalesExecutive.objects.get(id=self.request.user.salesexecutive.id)
+        currentUser.name = data['first_name']
+        currentUser.contact = data['mobile'] 
+        currentUser.email = data['email']
+        currentUser.address = data['address'] 
+        currentUser.save()
+        return Response({'status':'updated successfull'})
+
+class SalesUserChangePasswordApi(APIView):    
+    def post(self,request):
+        new_password = request.data['newPassword']
+        if new_password == request.data['confirmPassword']:
+            userobj = User.objects.get(id=request.user.id)
+            userobj.set_password(new_password)
+            userobj.save()
+            return Response({'status':'updated successfull'})
+        else:
+            return Response({'status':'confirm password does not mached your new password '})
+        
+class FilterAndSortForAdminApi(APIView):
+    def get(self,request):
+        all_leads = Lead.objects.all()  
+        leadsSerializer = LeadSerializer(all_leads,many=True)
+        context = {'all_leads':leadsSerializer.data}  
+        return Response(context)
+     
+    def post(self,request):
+        data = request.data
+        selected_feedback_for_filter = data['selected_feedback']
+        selected_fromDate_for_filter = data['selected_fromDate']
+        selected_toDate_for_filter = data['selected_toDate']
+        selected_feedback_for_filter = selected_feedback_for_filter.strip('][').split(',')
+
+        if data['selected_feedback'] and selected_fromDate_for_filter:
+            Filterd_leads = Lead.objects.filter(Q(Q(feeback_lead__feedback__in=selected_feedback_for_filter) | Q(demo_lead__demo_feedback__in=selected_feedback_for_filter)) & Q(date__gte=selected_fromDate_for_filter,date__lte=selected_toDate_for_filter)  ).order_by('-date').distinct()
+        elif selected_fromDate_for_filter:
+            Filterd_leads = Lead.objects.filter(date__gte=selected_fromDate_for_filter,date__lte=selected_toDate_for_filter).order_by('-date')
+        else:
+            Filterd_leads = Lead.objects.filter(Q(feeback_lead__feedback__in=selected_feedback_for_filter) | Q(demo_lead__demo_feedback__in=selected_feedback_for_filter)).order_by('-date').distinct()
+        
+        leadsSerializer = LeadSerializer(Filterd_leads,many=True)
+        context = {'filterd_leads':leadsSerializer.data}  
+        return Response(context)
+
+class AssignLeadToAnotherUserApi(APIView):
+    def post(self,request):
+        data = request.data
+        lead_id = data['lead_id']
+        user_id = data['user_id']
+        lead = Lead.objects.get(id=lead_id)
+        lead.assignedTo = SalesExecutive.objects.get(id=user_id)
+        lead.save()
+        return Response({'status':'update successfully'})
 
 class LogoutUserApi(APIView):
     def get(self,request):

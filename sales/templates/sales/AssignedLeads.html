@@ -80,13 +80,20 @@
                             <a href="/sales/feedback_creating/?lead_id={{i.id}}">
                                 <div class="pull-right">
                                     <label class="label label-success">
-                                        Create new feedback
+                                        Create feedback
+                                    </label>
+                                </div>
+                            </a>
+                            <a href="/sales/demo_creating/?lead_id={{i.id}}">
+                                <div class="pull-right">
+                                    <label class="label label-success" style="margin-right: 20px;">
+                                        Create demo
                                     </label>
                                 </div>
                             </a>
                             <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.id}}">
                                 <div class="pull-right">
-                                    <label class="label label-success" style="margin-right: 20px;">
+                                    <label class="label label-danger" style="margin-right: 20px;">
                                         Check old feedback & demo this lead
                                     </label>
                                 </div>
@@ -101,6 +108,8 @@
                                 href="tel:{{i.contactPhone}}" title="Danger"></a>
                             <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
                                 href="mailto:{{i.email}}" title="Danger"></a>
+                            <a href="https://wa.me/91{{i.contactPhone}}" class="btn btn-success btn-xs whatsapp_float" target="_blank"> <i
+                                class="fa fa-whatsapp whatsapp-icon"></i></a>
                         </div>
                         <div class="col-md-12">Lead made on: {{i.date}} </div>
                     </div>

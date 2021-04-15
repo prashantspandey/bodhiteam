@@ -130,94 +130,109 @@
             <div class="col-md-3">
               <h2 class="grid-title"><i class="fa fa-filter"></i> Filters</h2>
               <hr>
-              <form action="/sales/apply_filter_AndSearch/" method="POST" id="filterformid" name="filterform">
-                {% csrf_token %}
-                <h4>By Feedbackes:</h4>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Invalid Number" class="icheck"> Invalid
-                    Number</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Call not recieved" class="icheck"> Call
-                    not recieved</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Not Responding" class="icheck"> Not
-                    Responding</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Not Interested" class="icheck"> Not
-                    Interested</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Not Reachable" class="icheck"> Not
-                    Reachable</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Interested" class="icheck">
-                    Interested</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Will update when needed" class="icheck">
-                    Will update when
-                    needed</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Call back" class="icheck"> Call
-                    back</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="call busy" class="icheck"> call
-                    busy</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="switched off" class="icheck"> switched
-                    off</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="using other application" class="icheck">
-                    using other
-                    application</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="cut call" class="icheck"> cut
-                    call</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="feedbackesfilter" value="Incoming call not available"
-                      class="icheck"> Incoming call not
-                    available</label>
-                </div>
-                <h4>By Rating:</h4>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="filterByRating" value="1" class="icheck"> 1 * </label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="filterByRating" value="2" class="icheck"> 2 *</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="filterByRating" value="3" class="icheck"> 3 *
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="filterByRating" value="4" class="icheck"> 4 *
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" name="filterByRating" value="5" class="icheck"> 5 *
-                  </label>
-                </div>
-                <h4>By date:</h4>
-                From
-                <div class="input-group date form_date">
-                  <input type="datetime-local" name="Fromdate" class="form-control">
-                </div>
-                To
-                <div class="input-group date form_date">
-                  <input type="datetime-local" name="Todate" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary" onclick="validateAndSend()">Show result</button>
-              </form>
+              <div style="overflow-y: scroll; height: 600px;">
+                <form action="/sales/apply_filter_AndSearch/" method="POST" id="filterformid" name="filterform">
+                  {% csrf_token %}
+                  <div>
+                    <h4>By Feedbackes:</h4>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Invalid Number" class="icheck">
+                        Invalid
+                        Number</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Call not recieved" class="icheck">
+                        Call
+                        not recieved</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Not Responding" class="icheck"> Not
+                        Responding</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Not Interested" class="icheck"> Not
+                        Interested</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Not Reachable" class="icheck"> Not
+                        Reachable</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Interested" class="icheck">
+                        Interested</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Will update when needed"
+                          class="icheck">
+                        Will update when
+                        needed</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Call back" class="icheck"> Call
+                        back</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="call busy" class="icheck"> call
+                        busy</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="switched off" class="icheck">
+                        switched
+                        off</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="using other application"
+                          class="icheck">
+                        using other
+                        application</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="cut call" class="icheck"> cut
+                        call</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="feedbackesfilter" value="Incoming call not available"
+                          class="icheck"> Incoming call not
+                        available</label>
+                    </div>
+
+                  </div>
+                  <div>
+                    <h4>By Rating:</h4>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="filterByRating" value="1" class="icheck"> 1 * </label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="filterByRating" value="2" class="icheck"> 2 *</label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="filterByRating" value="3" class="icheck"> 3 *
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="filterByRating" value="4" class="icheck"> 4 *
+                      </label>
+                    </div>
+                    <div class="checkbox">
+                      <label><input type="checkbox" name="filterByRating" value="5" class="icheck"> 5 *
+                      </label>
+                    </div>
+
+                  </div>
+                  <div>
+                    <h4>By date:</h4>
+                    From
+                    <div class="input-group date form_date">
+                      <input type="datetime-local" name="Fromdate" class="form-control">
+                    </div>
+                    To
+                    <div class="input-group date form_date">
+                      <input type="datetime-local" name="Todate" class="form-control">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary" onclick="validateAndSend()">Show result</button>
+                </form>
+              </div>
             </div>
             <!-- END FILTERS code here -->
 
@@ -228,8 +243,8 @@
               <form action="/sales/apply_filter_AndSearch/" method="POST">
                 {% csrf_token %}
                 <div class="input-group">
-                  <input type="text" class="form-control" name="searchingvalue" placeholder="search by leadName,email,contact.."
-                    required>
+                  <input type="text" class="form-control" name="searchingvalue"
+                    placeholder="search by leadName,email,contact.." required>
                   <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
                   </span>
@@ -238,20 +253,20 @@
               {% if searching_value %}
               <p>all results to matching "{{searching_value}}"</p>
               {% endif %}
-              
+
               <!-- BEGIN Sort code  -->
               <div class="row">
                 <div class="col-sm-6">
                   <div class="btn-group">
                     {% if sorting_type %}
-                    <button type="button" id="sorting_btn" class="btn btn-default dropdown-toggle"
+                    <button type="button" style="width: 100px;" id="sorting_btn" class="btn btn-default dropdown-toggle"
                       data-toggle="dropdown">
-                      {{sorting_type}} <span class="caret"></span>
+                      <strong>{{sorting_type}}</strong><span style="margin-left: 10px;" class="caret"></span>
                     </button>
                     {% else %}
-                    <button type="button" id="sorting_btn" class="btn btn-default dropdown-toggle"
+                    <button type="button" style="width: 100px;" id="sorting_btn" class="btn btn-default dropdown-toggle"
                       data-toggle="dropdown">
-                      Sort by <span class="caret"></span>
+                      Sort by <span style="margin-left: 5px;" class="caret"></span>
                     </button>
                     {% endif %}
                     <ul class="dropdown-menu" role="menu">
@@ -260,7 +275,7 @@
                     </ul>
                   </div>
                 </div>
-                
+
                 <!-- <div class="col-md-6 text-right">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default active"><i class="fa fa-list"></i></button>
@@ -281,8 +296,7 @@
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-md-1">
-                        <img
-                          src="{% static 'images/icon4.png' %}" class="media-object img-thumbnail" />
+                        <img src="{% static 'images/icon4.png' %}" class="media-object img-thumbnail" />
                       </div>
                       <div class="col-md-11">
                         <div class="row">
@@ -291,6 +305,13 @@
                               <div class="pull-right">
                                 <label class="label label-success">
                                   Create Feedback
+                                </label>
+                              </div>
+                            </a>
+                            <a href="/sales/demo_creating/?lead_id={{i.id}}">
+                              <div class="pull-right">
+                                <label class="label label-success" style="margin-right: 20px;">
+                                  Create demo
                                 </label>
                               </div>
                             </a>
@@ -311,8 +332,17 @@
                               href="tel:{{i.contactPhone}}" title="Danger"></a>
                             <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
                               href="mailto:{{i.email}}" title="Danger"></a>
+                            <a href="https://wa.me/91{{i.contactPhone}}" class="btn btn-success btn-xs whatsapp_float"
+                              target="_blank"> <i class="fa fa-whatsapp whatsapp-icon"></i></a>
                           </div>
-                          <div class="col-md-12">Lead made on: {{i.date}} </div>
+                          <div class="col-md-12">Lead made on: {{i.date}}</div>
+                          {% for feedback in feedback_list %}
+                          {% for k in feedback %}
+                          {% if i.id == k.lead_id %}
+                          <p class="col-md-12"><strong>typeFeedBack: </strong>{{k.typeFeedBack}} <strong>extra notes: </strong> {{k.notes}}</p>
+                          {% endif %}
+                          {% endfor %}
+                          {% endfor %}
                         </div>
                       </div>
                     </div>

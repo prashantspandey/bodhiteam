@@ -209,7 +209,7 @@ def GetFeedbackesLeadWiseUsingAjexView(request):
     return JsonResponse(list(feedbackes),safe=False)
 
 def GetMyAssignedLeadsView(request):
-    assignedLeadss = Lead.objects.filter(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-feeback_lead__time')
+    assignedLeadss = Lead.objects.filter(Q(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & ~Q(Q(feeback_lead__by=request.user.salesexecutive) | Q(demo_lead__by=request.user.salesexecutive))).order_by('-feeback_lead__time')    
     return render(request,'sales/AssignedLeads.html',{'assignedLeadss':assignedLeadss})
 
 def MessagesInboxView(request):
@@ -279,26 +279,30 @@ class ApplyFilterAndSeacrhView(View):
     
     def post(self,request):
         from datetime import datetime, timedelta
-        last_month = datetime.today() - timedelta(days=30)
+        last_month = datetime.today() - timedelta(days=60)
         searching_value = request.POST.get('searchingvalue')
+        selectedvale = request.POST.getlist('feedbackesfilter')
+        selectedrating = request.POST.getlist('filterByRating')
         if searching_value:
             leads = Lead.objects.filter(Q(Q(Q(personName__icontains=searching_value) | Q(contactPhone__icontains=searching_value) | Q(email__icontains=searching_value)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').filter(date__gte=last_month).distinct()
         else:
-            selectedvale = request.POST.getlist('feedbackesfilter')
-            selectedrating = request.POST.getlist('filterByRating')
             from_date = request.POST.get('Fromdate')
             To_data = request.POST.get('Todate')
-
+            
             if from_date and selectedvale:
-                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).order_by('-date').distinct()
             elif from_date and selectedrating:
-                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
+                leads = Lead.objects.filter(Q( Q(Q(Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating)) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=from_date,date__lte=To_data)).distinct()
             elif from_date:
-                leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
+                leads = Lead.objects.filter(Q(Q(date__gte=from_date,date__lte=To_data) & Q(Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive) | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('-date').distinct()
             else:
-                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive))) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
-        
-        context = {'filteredLeads':leads,'searching_value':searching_value}
+                leads = Lead.objects.filter(Q(Q(Q(Q(feeback_lead__feedback__in=selectedvale) | Q(demo_lead__demo_feedback__in=selectedvale) | Q(feeback_lead__rating__in=selectedrating) | Q(demo_lead__demo_rating__in=selectedrating) ) & (Q(assignedTo=self.request.user.salesexecutive) | Q(feeback_lead__nextCall=self.request.user.salesexecutive)  | Q(demo_lead__demo_nextCall=self.request.user.salesexecutive) )) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & Q(date__gte=last_month)).order_by('-date').distinct()
+
+        feedback_list = []
+        for i in leads:
+            feedback = i.feeback_lead.filter(Q(feedback__in=selectedvale) | Q(rating__in=selectedrating))
+            feedback_list.append(feedback)        
+        context = {'filteredLeads':leads,'searching_value':searching_value,'feedback_list':feedback_list}
         return render(request,'sales/LeadFilterAndSearch.html',context)
 
 def SortingApplyView(request,sorting_type):
@@ -308,6 +312,38 @@ def SortingApplyView(request,sorting_type):
         leads = Lead.objects.filter(Q(Q(assignedTo=request.user.salesexecutive) | Q(feeback_lead__nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).order_by('date').distinct()
     return render(request,'sales/LeadFilterAndSearch.html',{'filteredLeads':leads,'sorting_type':sorting_type})
 
+def SalesUserProfileView(request):
+    if request.method == 'GET':
+        currentUser = SalesExecutive.objects.get(executiveUser=request.user.id)
+        new_leads_length = currentUser.lead_assign.filter(lead_status='is_successfull_lead').count()
+        worked_leads_length = currentUser.lead_assign.filter(lead_status='worked_lead').count()
+        successfully_leads_length = currentUser.successfull_lead_user.count()
+        assignedleads = Lead.objects.filter(Q(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & ~Q(Q(feeback_lead__by=request.user.salesexecutive) | Q(demo_lead__by=request.user.salesexecutive))).count()
+        context = {'assignedleads':assignedleads,'NewleadsLenght':new_leads_length,'WorkedLeadsLenght':worked_leads_length,'successfully_leads_length':successfully_leads_length}
+        return render(request,'sales/salesUserProfile.html',context)
+    else:
+        currentUser = SalesExecutive.objects.get(id=request.user.salesexecutive.id)
+        currentUser.name = request.POST.get('first_name')
+        currentUser.contact = request.POST.get('mobile') 
+        currentUser.email = request.POST.get('email')
+        currentUser.address = request.POST.get('address') 
+        currentUser.save()
+        messages.success(request,'updated successfull')
+        return redirect('/sales/salesUser_profile')
+
+def SalesUserChangePasswordView(request):
+    if request.method == 'POST':
+        new_password = request.POST.get('newPassword')
+        if new_password == request.POST.get('confirmPassword'):
+            userobj = User.objects.get(id=request.user.id)
+            userobj.set_password(new_password)
+            userobj.save()
+            messages.success(request,'password update successfully')
+            return redirect('/')
+        else:
+            messages.error(request,'confirm password does not mached your new password ')
+            return redirect('/sales/salesUser_profile')
+    
 def logoutview(request):
     try:
         request.user.auth_token.delete()

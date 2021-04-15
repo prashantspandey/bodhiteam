@@ -1,0 +1,227 @@
+{% extends 'sales/base.html'%}
+{% block title %}user profile{% endblock title %}
+{% load humanize %}
+{% block body %}
+{% load static %}
+<div class="container bootstrap snippets bootdey">
+  <div class="row">
+    <div class="col-sm-10">
+      <h1>{{user.username}} {{user.salesexecutive.typeExecutive}}</h1>
+    </div>
+    <div class="col-sm-2">
+      <a class="pull-right"><img style="height: 150px; width: 150px;" title="profile image" class="img-circle img-responsive"
+          src="{{user.salesexecutive.photo}}"></a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3">
+      <!--left col-->
+
+      <ul class="list-group">
+        <li class="list-group-item text-muted">Profile</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span>
+          {{user.salesexecutive.joiningDate}}</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Last login</strong></span>
+          {{user.last_login|naturalday}}</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Real name</strong></span>
+          {{user.salesexecutive.name}}</li>
+
+      </ul>
+
+      <ul class="list-group">
+        <li class="list-group-item text-muted">Status <i class="fa fa-dashboard fa-1x"></i></li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>New leads</strong></span> {{NewleadsLenght}}</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Worked leads</strong></span> {{WorkedLeadsLenght}}</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Assigned leads</strong></span> {{assignedleads}}</li>
+        <li class="list-group-item text-right"><span class="pull-left"><strong>Successfully leads</strong></span> {{successfully_leads_length}}
+        </li>
+      </ul>
+      <div class="panel panel-default">
+        <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
+        <div class="panel-body"><a href="https://bootdey.com">https://bootdey.com</a></div>
+      </div>
+    </div>
+    <!--/col-3-->
+    <div class="col-sm-9">
+
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#info" data-toggle="tab">Info..</a></li>
+        <!-- <li><a href="#messages" data-toggle="tab">Messages</a></li> -->
+        <li><a href="#settings" data-toggle="tab">Settings</a></li>
+        <li><a href="#changepassword" data-toggle="tab">Change Password</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="info">
+          <form class="form" method="post">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label for="phone">
+                    <h4>Username</h4>
+                  </label>
+                  <input type="text" class="form-control" value="{{user.username}}" readonly>
+                </div>
+              </div>
+              <div class="col-xs-6">
+                <label for="first_name">
+                  <h4>Name</h4>
+                </label>
+                <input type="text" class="form-control" readonly value="{{user.salesexecutive.name}}" id="first_name">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="last_name">
+                  <h4>Type Executive</h4>
+                </label>
+                <input type="text" class="form-control" value="{{user.salesexecutive.typeExecutive}}" readonly>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="mobile">
+                  <h4>Mobile</h4>
+                </label>
+                <input type="text" class="form-control" readonly value="+91 {{user.salesexecutive.contact}}">
+              </div>
+            </div>
+            <div class="form-group">
+
+              <div class="col-xs-6">
+                <label for="email">
+                  <h4>Email</h4>
+                </label>
+                <input type="email" class="form-control" readonly value="{{user.salesexecutive.email}}">
+              </div>
+            </div>
+            <div class="form-group">
+
+              <div class="col-xs-6">
+                <label for="email">
+                  <h4>Address</h4>
+                </label>
+                <input type="email" class="form-control" readonly value="{{user.salesexecutive.address}}">
+              </div>
+            </div>
+          </form>
+          <!--/table-resp-->
+          <hr>
+        </div>
+        <!--/tab-pane-->
+        <!-- <div class="tab-pane" id="messages">
+          <h2></h2>
+          <ul class="list-group">
+            <li class="list-group-item text-muted">Inbox</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest
+                summary report from the..</a> 2.13.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on
+                your account since that was..</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis
+                vitae, condimentum justo...</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis
+                vitae, condimentum justo...</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis
+                vitae, condimentum justo...</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis
+                vitae, condimentum justo...</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A
+                lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+            <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis
+                vitae, condimentum justo...</a> 2.11.2014</li>
+
+          </ul>
+        </div> -->
+        <!--/tab-pane-->
+        <div class="tab-pane" id="settings">
+          <hr>
+          <form class="form" action="/sales/salesUser_profile/" method="post" id="userUpdateForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="first_name">
+                  <h4>Name</h4>
+                </label>
+                <input type="text" class="form-control" name="first_name" placeholder="enter name"
+                  title="enter your first name if any.">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="mobile">
+                  <h4>Mobile</h4>
+                </label>
+                <input type="number" class="form-control" name="mobile" placeholder="enter mobile number"
+                  title="enter your mobile number if any.">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="email">
+                  <h4>Email</h4>
+                </label>
+                <input type="email" class="form-control" name="email" placeholder="you@email.com"
+                  title="enter your email.">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="email">
+                  <h4>Address</h4>
+                </label>
+                <input type="text" class="form-control" name="address" placeholder="somewhere" title="enter a location">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-12">
+                <br>
+                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i>
+                  Save</button>
+                <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="tab-pane" id="changepassword">
+          <hr>
+          <form class="form" action="/sales/salesUser_changePassword/" method="POST" id="changePasswordForm">
+            {% csrf_token %}
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="first_name">
+                  <h4>New Password</h4>
+                </label>
+                <input type="password" class="form-control" required name="newPassword" placeholder="enter new password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-6">
+                <label for="mobile">
+                  <h4>Confirm Password</h4>
+                </label>
+                <input type="password" class="form-control" required name="confirmPassword" placeholder="enter confirm password">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-12">
+                <br>
+                <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i>
+                  Save</button>
+                <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+      <!--/tab-pane-->
+    </div>
+    <!--/tab-content-->
+
+  </div>
+  <!--/col-9-->
+</div>
+<!--/row-->
+{% endblock body %}

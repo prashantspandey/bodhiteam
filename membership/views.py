@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 from django.db.models import Prefetch
 from django.db.models import Q
 # Create your views here.
-
 def IndexView(request):
     if request.user.is_authenticated:
         try:
@@ -18,7 +17,7 @@ def IndexView(request):
             allmessagelength = currentUser[0].reciever.filter(massagRead=False).count()
             allNotificationslength = currentUser[0].demofeedbackuser_notification.count()
             successfully_leads_length = currentUser[0].successfull_lead_user.count()
-            assignedleads = Lead.objects.filter(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))).count()
+            assignedleads = Lead.objects.filter(Q(Q(Q(feeback_lead__nextCall=request.user.salesexecutive) | Q(demo_lead__demo_nextCall=request.user.salesexecutive)) & Q(Q(lead_status='worked_lead') | Q(lead_status='is_successfull_lead'))) & ~Q(Q(feeback_lead__by=request.user.salesexecutive) | Q(demo_lead__by=request.user.salesexecutive))).count()
             
             # here we are check notifications of feedback & demo or messages 
             user_notification = Notification.objects.filter(notification_user=request.user.salesexecutive,is_FirstTime=True)    

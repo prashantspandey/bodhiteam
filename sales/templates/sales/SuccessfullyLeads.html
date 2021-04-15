@@ -95,7 +95,7 @@
                         <div class="col-md-12">
                             <a href="/sales/GetFeedbackesAsnDemos_Specificlead_wise/?lead_id={{i.lead.id}}">
                                 <div class="pull-right">
-                                    <label class="label label-success" style="margin-right: 20px;">
+                                    <label class="label label-danger" style="margin-right: 20px;">
                                         Check old feedback & demo this lead
                                     </label>
                                 </div>
@@ -111,6 +111,8 @@
                                 href="tel:{{i.lead.contactPhone}}" title="Danger"></a>
                             <a data-placement="top" class="btn btn-info btn-xs glyphicon glyphicon-envelope"
                                 href="mailto:{{i.lead.email}}" title="Danger"></a>
+                            <a href="https://wa.me/91{{i.lead.contactPhone}}" class="btn btn-success btn-xs whatsapp_float" target="_blank"> <i
+                                class="fa fa-whatsapp whatsapp-icon"></i></a>
                         </div>
                         <div class="col-md-12">Lead made on: {{i.lead.date}} <span style="margin-left: 40px;">Lead
                                 successfull on: {{i.datetime}}</span></div>

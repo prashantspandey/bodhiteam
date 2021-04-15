@@ -13,6 +13,10 @@ class FeedBackSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DemoFeedbackSerializer(serializers.ModelSerializer):
+    by = serializers.SerializerMethodField()
+    def get_by(self, obj):
+        return str(obj.by)
+            
     class Meta:
         model = DemoFeedback
         fields = '__all__'
