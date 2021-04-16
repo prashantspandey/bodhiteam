@@ -381,6 +381,12 @@ class AssignLeadToAnotherUserApi(APIView):
         lead.save()
         return Response({'status':'update successfully'})
 
+class DeleteLeadByAdminApi(APIView):
+    def post(self,request):
+        lead_id = request.data['lead_id']
+        lead = Lead.objects.get(id=lead_id).delete()    
+        return Response({'status':'delete successfullt'})
+
 class LogoutUserApi(APIView):
     def get(self,request):
         try:

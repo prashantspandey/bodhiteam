@@ -13,15 +13,17 @@ class Login(APIView):
         password = data['password']
         typeUser = data['typeUser']
         try:
-            user = authenticate(username=username,password=password)
-            #django_login(request,user)
+            user = authenticate(username=username,password=password)           
             token,created = Token.objects.get_or_create(user=user)
             if typeUser == 'sales':
                 finalUser = SalesExecutive.objects.get(executiveUser=user)
+                context = {'status':'Success','token':token.key,'username':username,'name':finalUser.name,'typeUser':typeUser}
             elif typeUser == 'tech':
                 finalUser = TechPerson.objects.get(executiveUser=user)
-            context =\
-                    {'status':'Success','token':token.key,'username':username,'name':finalUser.name,'typeUser':typeUser}
+                context = {'status':'Success','token':token.key,'username':username,'name':finalUser.name,'typeUser':typeUser}
+            elif typeUser == 'admin':
+                finalUser = User.objects.get(is_superuser=True,username=user)
+                context = {'status':'Success','token':token.key,'username':username,'name':finalUser.username,'typeUser':typeUser}
         except Exception as e:
             context = {'status':'Failed','message':str(e)}
         return Response(context)

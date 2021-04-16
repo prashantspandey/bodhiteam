@@ -3,6 +3,9 @@ from sales.models import *
 from membership.models import SalesExecutive
 
 class LeadSerializer(serializers.ModelSerializer):
+    assignedTo = serializers.SerializerMethodField()
+    def get_assignedTo(self, obj):
+        return str(obj.assignedTo)
     class Meta:
         model = Lead
         fields = '__all__'
