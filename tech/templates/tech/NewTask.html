@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
     integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <style>
     /* body {
@@ -238,11 +240,17 @@
 
 <body>
   {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-    <li class=" {{ message.tags }} "> {{ message }} </li>
-    {% endfor %}
-  </ul>
+  <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
+    <div class="div"
+      style="margin: 0; position: absolute; top: 50%; left: 50%; -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>{{ message.tags }}!</strong> {{ message }}.
+      </div>
+      {% endfor %}
+    </div>
+  </div>
   {% endif %}
   <header>
     <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
@@ -252,9 +260,7 @@
       <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_new_leads">New Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">Worked Leads</a>
-          <a class="nav-item nav-link tagnameclr" href="/sales/Get_my_worked_leads">My Demo's</a>
+          <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask">New Tasks</a>
           <a class="nav-item nav-link tagnameclr">My Profile</a>
           <a href="/sales/logout">
             <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
@@ -266,10 +272,10 @@
     </nav>
   </header>
   <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">New Task</h1>
-  
+
   <div class="container">
     <div class="col-md-12 col-12 col-sm-12">
-     {% for task in newTasks %}
+      {% for task in newTasks %}
       <div class="card">
         <div class="card-header">
           <h4>Task Details</h4><br>
@@ -293,18 +299,18 @@
                   <td>{{task.taskEnd_date}}</td>
                   <td>{{task.is_task_ongoing}}</td>
                   <td>
-                    <a href="/tech/edit_task/?task_id={{task.id}}" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title=""
-                      data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="/tech/edit_task/?task_id={{task.id}}" class="btn btn-primary btn-action mr-1"
+                      data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a>
                   </td>
-                </tr>       
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
-        
+
       </div>
-    {% endfor %}
-      
+      {% endfor %}
+
     </div>
   </div>
 </body>

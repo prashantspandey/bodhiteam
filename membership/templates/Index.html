@@ -43,10 +43,10 @@
 </head>
 
 <body>
+    {% if request.user.salesexecutive %}
     <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcome
         {{user.salesexecutive.name}} {{user.salesexecutive.typeExecutive}}</h1>
     <h3 style="text-align: center; font-family: serif ;">Bodhi AI </h3>
-    {% if request.user.salesexecutive %}
     <div class="container-fluid px-2">
         <section id="minimal-statistics" style="margin-top: 10px;">
             <div class="row">
@@ -356,11 +356,57 @@
         </section>
     </div>
     {% else %}
-    <h1 style="text-align: center;">You Are a tech user </h1>
+    <h1 style="text-align: center; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;">Welcome
+        {{user.techperson.name}} {{user.techperson.typeTech}}</h1>
+    <h3 style="text-align: center; font-family: serif ;">Bodhi AI </h3>
     <a href="/sales/logout"><button
-        style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a>
+            style="margin-left: 720px; border-radius: 0.5ch; width: 100px; background: rgb(216, 213, 213);">Logout</button></a>
+    <div class="container-fluid px-2">
+        <section id="minimal-statistics" style="margin-top: 10px;">
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/tech/Get_Mynewtask/">
+                        <div class="card" style="background: rgb(215, 182, 247);">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="align-self-center">
+                                            <i class="icon-list primary font-large-2 float-left"></i>
+                                        </div>
+                                        <div class="media-body text-right">
+                                            <h3>{{NewleadsLenght}}</h3>
+                                            <span>New Tasks</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- <div class="col-xl-3 col-sm-6 col-12">
+                    <a href="/sales/Specific_person_successfullLeads/">
+                        <div class="card" style="background: rgb(252, 228, 241)">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                            <h3 class="success">{{successfully_leads_length}}</h3>
+                                            <span>Successfull Leads</span>
+                                        </div>
+                                        <div class="align-self-center">
+                                            <i class="icon-check success font-large-2 float-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div> -->
+            </div>
+        </section>
+    </div>
     {% endif %}
-    
+
     {% if messages %}
     <div class="container" style="height: 200px; position: fixed;top:500px; left: 200px; right: 200px;">
         <div class="div"

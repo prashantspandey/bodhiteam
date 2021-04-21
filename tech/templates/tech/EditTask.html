@@ -6,6 +6,22 @@
   <title>Feedback</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <style>
+    #intro-example {
+      height: 400px;
+    }
+
+    .tagnameclr {
+      color: white;
+      font-size: 3ch;
+      margin-left: 50px;
+    }
+
+    @media (min-width: 992px) {
+      #intro-example {
+        height: 600px;
+      }
+    }
+
     .maincls {
       background-color: wheat;
       border-radius: 5ch;
@@ -25,6 +41,25 @@
     }
   </style>
 </head>
+<header>
+  <nav class="navbar navbar-dark bg-primary" style="background-color: 2e6da4">
+    <a class="navbar-brand tagnameclr"
+      style="font-size: 260%; color: black; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"
+      href="/">Bodhi Ai</a>
+    <div class="collapse navbar-collapse" style="margin-top: 8px;" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active tagnameclr" href="/">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link tagnameclr" href="/tech/Get_Mynewtask">New Tasks</a>
+        <a class="nav-item nav-link tagnameclr">My Profile</a>
+        <a href="/sales/logout">
+          <button class="tagnameclr" style="background-color:whitesmoke; color: black;border-radius: 1ch; ">
+            Logout
+          </button>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
 
 <body>
   <h1 style="text-align: center; color: black;">Edit Task</h1>
@@ -44,7 +79,7 @@
           </div>
           <div class="form-group col-md-6">
             <label for="inputPassword4">Task_Startdate</label>
-            <input type="text" class="form-control" value="{{get_task_for_edit.taskStart_date}}" name="price_quoted"
+            <input type="datetime" class="form-control" value="{{get_task_for_edit.taskStart_date}}" name="price_quoted"
               required>
           </div>
           <div class="form-group col-md-6">
@@ -67,7 +102,7 @@
         {% if request.GET.task_id %}
         <input type="hidden" name="task_id" value="{{request.GET.task_id}}">
         {% endif %}
-        <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit DemoFeedback</button>
+        <button type="submit" id="feedbackbtnid" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>

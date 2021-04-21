@@ -17,19 +17,11 @@ class GetMyNewLeads(APIView):
 
 class GetMyNewLeadsDateWise(APIView):
     def post(self,request,*args,**kwargs):
-        my_profile = self.request.user.salesexecutive
-        data = request.data
-        date= data['date']
-        date = str(date.split('.')[0])
-        date = datetime.datetime.strptime(date,'%Y-%m-%d %H:%M:%S')
-        main_date = date.date()
-        leads = Lead.objects.filter(assignedTo =my_profile,date__date=main_date).order_by('-date')
-        leads_list = []
-        for lead in leads:
-            lead_dict =\
-            {'name':lead.personName,'instituteName':lead.instituteName,'contactPhone':lead.contactPhone,'email':lead.email,'numberStudents':lead.numberStudents,'location':lead.location,'notes':lead.notes,'source':lead.source,'assignedTo':lead.assignedTo.name}
-            leads_list.append(lead_dict)
-        context = {'leads':leads_list,'date':str(main_date)}
+        date = request.data['date']
+        date = datetime.datetime.strptime(date,'%Y-%m-%d')
+        date_wise_leads = Lead.objects.filter(assignedTo=self.request.user.salesexecutive,date__date=date.date()).order_by('-date')
+        leadsSerializer = LeadSerializer(date_wise_leads,many=True)
+        context = {'leads':leadsSerializer.data,'date':str(main_date)}
         return Response(context)
 
 class GiveLeadFeedBack(APIView):
@@ -360,9 +352,9 @@ class FilterAndSortForAdminApi(APIView):
         selected_toDate_for_filter = data['selected_toDate']
         selected_feedback_for_filter = selected_feedback_for_filter.strip('][').split(',')
 
-        if data['selected_feedback'] and selected_fromDate_for_filter:
+        if data['selected_feedback'] and selected_fromDate_for_filter != 'null':
             Filterd_leads = Lead.objects.filter(Q(Q(feeback_lead__feedback__in=selected_feedback_for_filter) | Q(demo_lead__demo_feedback__in=selected_feedback_for_filter)) & Q(date__gte=selected_fromDate_for_filter,date__lte=selected_toDate_for_filter)  ).order_by('-date').distinct()
-        elif selected_fromDate_for_filter:
+        elif selected_fromDate_for_filter != 'null':
             Filterd_leads = Lead.objects.filter(date__gte=selected_fromDate_for_filter,date__lte=selected_toDate_for_filter).order_by('-date')
         else:
             Filterd_leads = Lead.objects.filter(Q(feeback_lead__feedback__in=selected_feedback_for_filter) | Q(demo_lead__demo_feedback__in=selected_feedback_for_filter)).order_by('-date').distinct()
